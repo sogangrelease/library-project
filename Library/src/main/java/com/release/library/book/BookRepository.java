@@ -1,8 +1,11 @@
-package com.Release.Library.Book;
+package com.release.library.book;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-public interface BookRepository extends JpaRepository<Book,Integer> {
+import java.util.List;
+
+public interface BookRepository extends JpaRepository<Book,Long> {
+
+    //카테고리로 검색
+    List<Book> findByCategory(String category);
 }

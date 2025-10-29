@@ -1,4 +1,4 @@
-package com.Release.Library;
+package com.release.library;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
