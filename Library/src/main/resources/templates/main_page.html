@@ -1,10 +1,281 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Release Library</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      background: black;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    .search-container {
+      flex: 1;
+      max-width: 400px;
+      margin: 0 40px;
+      position: relative;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 10px 40px 10px 16px;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+      font-size: 14px;
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #666;
+    }
+
+    .header-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .my-page-btn, .logout-btn {
+      padding: 8px 20px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      background: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .my-page-btn:hover, .logout-btn:hover {
+      background: #f0f0f0;
+    }
+
+    .main-content {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .bookshelf {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .bookshelf-header {
+      background: #ffd700;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bookshelf-title {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .expand-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .books-container {
+      padding: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+      min-height: 400px;
+    }
+
+    .book-item {
+      aspect-ratio: 3/4;
+      background: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .book-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .book-item.loaned {
+      filter: grayscale(100%);
+      opacity: 0.6;
+    }
+
+    .book-cover {
+      width: 100%;
+      height: 80%;
+      object-fit: cover;
+      background: #d0d0d0;
+    }
+
+    .book-title {
+      padding: 8px;
+      font-size: 12px;
+      text-align: center;
+      background: white;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      word-break: keep-all;
+      line-height: 1.2;
+    }
+
+    @media (max-width: 768px) {
+      .books-container {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 15px;
+        padding: 20px;
+      }
+
+      .search-container {
+        margin: 0 20px;
+      }
+    }
+  </style>
 </head>
 <body>
-$END$
+<div class="header">
+  <div class="logo-section">
+    <div class="logo">R</div>
+  </div>
+
+  <div class="search-container">
+    <input type="text" class="search-box" placeholder="Search" id="searchInput">
+    <span class="search-icon">🔍</span>
+  </div>
+
+  <div class="header-buttons">
+    <form th:action="@{/member/logout}" method="post" style="display:inline;">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+      <button type="submit" class="logout-btn">Logout</button>
+    </form>
+    <button class="my-page-btn">My Page</button>
+  </div>
+</div>
+
+<div class="main-content">
+  <div class="bookshelf">
+    <div class="bookshelf-header">
+      <span class="bookshelf-title">전체 도서</span>
+      <button class="expand-btn">+</button>
+    </div>
+    <div class="books-container" id="booksContainer">
+      <!-- 책들이 여기에 동적으로 추가됩니다 -->
+    </div>
+  </div>
+</div>
+
+<script>
+  // 샘플 데이터 (실제로는 백엔드 API에서 가져와야 합니다)
+  const books = [
+    { id: 1, title: '책 제목 1', coverUrl: null, isLoaned: false },
+    { id: 2, title: '책 제목 2', coverUrl: null, isLoaned: false },
+    { id: 3, title: '대여중인 책', coverUrl: null, isLoaned: true },
+    { id: 4, title: '책 제목 4', coverUrl: null, isLoaned: false },
+    { id: 5, title: '책 제목 5', coverUrl: null, isLoaned: false },
+    { id: 6, title: '책 제목 6', coverUrl: null, isLoaned: false },
+    { id: 7, title: '대여중인 책 2', coverUrl: null, isLoaned: true },
+    { id: 8, title: '책 제목 8', coverUrl: null, isLoaned: false }
+  ];
+
+  function renderBooks() {
+    const container = document.getElementById('booksContainer');
+    container.innerHTML = '';
+
+    if (books.length === 0) {
+      // 책이 없으면 빈 칸들 표시
+      for (let i = 0; i < 12; i++) {
+        container.innerHTML += `
+                    <div class="book-item">
+                        <div class="book-cover"></div>
+                        <div class="book-title"></div>
+                    </div>
+                `;
+      }
+    } else {
+      books.forEach(book => {
+        const loanedClass = book.isLoaned ? 'loaned' : '';
+        container.innerHTML += `
+                    <div class="book-item ${loanedClass}" onclick="viewBook(${book.id})">
+                        <div class="book-cover" style="${book.coverUrl ? `background-image: url(${book.coverUrl}); background-size: cover;` : ''}"></div>
+                        <div class="book-title">${book.title}</div>
+                    </div>
+                `;
+      });
+    }
+  }
+
+  function viewBook(bookId) {
+    alert(`책 ID ${bookId} 상세 페이지로 이동`);
+  }
+
+  // 로그아웃 확인
+  const logoutForm = document.getElementById('logoutForm');
+  if (logoutForm) {
+    logoutForm.addEventListener('submit', function(e) {
+      if (!confirm('로그아웃 하시겠습니까?')) {
+        e.preventDefault();
+      }
+    });
+  }
+
+  // 검색 기능
+  document.getElementById('searchInput').addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    // 실제로는 백엔드 API 호출
+    console.log('검색:', searchTerm);
+  });
+
+  // 페이지 로드 시 책 렌더링
+  renderBooks();
+</script>
 </body>
 </html>

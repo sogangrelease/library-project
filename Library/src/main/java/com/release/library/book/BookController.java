@@ -46,7 +46,7 @@ public class BookController {
     public String addBook(@RequestParam("Book") Book book) {
 
         this.bookService.create(book.getTitleMain(),book.getCategory(),book.getLanguage(),
-                                book.getDescription(),book.getIndex(),book.getAuthor());
+                book.getDescription(),book.getIndex(),book.getAuthor());
 
         //관리자 페이지로 다시 리턴
         return "redirect:/admin/page";

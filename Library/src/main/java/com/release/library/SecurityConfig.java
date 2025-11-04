@@ -24,6 +24,14 @@ public class SecurityConfig {
                         (formLogin) -> formLogin
                                 .loginPage("/member/login")
                                 .defaultSuccessUrl("/main")
+                                .loginProcessingUrl("/member/login")
+                                .usernameParameter("studentId")
+                                .passwordParameter("password")
+                                .defaultSuccessUrl("/main", true)
+                                .failureUrl("/member/login?error")
+                )
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/member/create")
                 )
                 .logout(
                         (logout) -> logout
@@ -33,8 +41,8 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(
                         (authorizeHttpRequests) ->  authorizeHttpRequests
-                                //.requestMatchers("/todotitle/create").hasAuthority("ROLE_ADMIN")
-                                //.requestMatchers("/todotitle/detail/**").authenticated()
+                                //.requestMatchers("/book/add").hasAuthority("ROLE_ADMIN")
+                                //.requestMatchers("/**").authenticated()
                                 .anyRequest().permitAll()
                 )
         ;

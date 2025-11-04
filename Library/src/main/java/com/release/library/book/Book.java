@@ -17,8 +17,12 @@ import java.util.UUID;
 public class Book {
 
     @Id
-    @Column(name = "book_id", nullable = false, updatable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "book_id", updatable = false, nullable = false)
+    private Long id;
+
+    @Column(name = "cover_url", length = 512)
+    private String coverUrl;
 
     @Column(name = "title_main", nullable = false, length = 300)
     private String titleMain;
@@ -32,7 +36,7 @@ public class Book {
     @Column(name="description",length = 500)
     private String description;
 
-    @Column(name="index",length = 300)
+    @Column(name="index_text",length = 300)
     private String index;
 
     @Column(name="author",length = 100)
