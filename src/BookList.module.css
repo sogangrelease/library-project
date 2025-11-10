@@ -1,0 +1,11 @@
+.bookList {
+  padding: 16px;
+  position: relative;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid #000;
+  margin: 20px 0;
+}
+

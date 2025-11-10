@@ -1,0 +1,67 @@
+.bookItem {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 32px;
+}
+
+.bookCover {
+  width: 150px;
+  flex-shrink: 0;
+  aspect-ratio: 2 / 3;
+}
+
+.bookCover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: #e0e0e0;
+}
+
+.bookDetails {
+  flex: 1;
+  text-align: left;
+}
+
+.bookTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #212529;
+  margin: 0 0 8px 0;
+}
+
+.bookInfo,
+.bookCategory {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin: 4px 0;
+}
+
+.bookBorrowButton {
+  border: 0.5px solid #000000;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  width: 100px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  margin-top: 24px;
+  flex-shrink: 0;
+}
+
+.bookBorrowButton:not(:disabled) {
+  background-color: #F7CA51;
+  color: #333;
+}
+
+.bookBorrowButton:not(:disabled):hover {
+  background-color: #f5b92e;
+}
+
+.bookBorrowButton:disabled {
+  background-color: #EFEFEF;
+  color: #888;
+  cursor: not-allowed;
+}

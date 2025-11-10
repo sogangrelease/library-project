@@ -1,0 +1,15 @@
+.searchPage {
+    position: relative;
+    width: 100%;
+    max-width: 900px; 
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.releaseLogo {
+    width: 40px;
+    position: absolute;
+    bottom: 100%;
+}
