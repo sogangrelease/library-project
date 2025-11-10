@@ -7,9 +7,14 @@ function MyPage() {
 	const account = accountOnServer;
 	const books = booksOnServer.map(book =>
 	<li key = {book.id}>
-    	<p>{book.title}</p>
-	    <p>반납 예정일</p>
-	    <p>{book.due}</p>
+		<div className="bookimage">
+		<	img src="example_book.png" alt="Cover image of book" height={180} />
+		</div>
+		<div className="bookinfo">
+    		<p>{book.title}</p>
+	    	<p>반납 예정일</p>
+	    	<p>{book.due}</p>
+		</div>
 	</li>
     );
     return (
