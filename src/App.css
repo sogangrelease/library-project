@@ -1,42 +1,183 @@
-#root {
-  max-width: 1280px;
+/* src/App.css */
+
+/* 전체 레이아웃 */
+.app-container {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 20px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* 1. 헤더 영역 */
+.app-header {
+  display: flex;
+  justify-content: center; /* 검색창을 중앙으로 */
+  align-items: center;
+  padding: 20px 0;
+  margin-bottom: 30px; /* 로고와 겹치지 않게 충분한 마진 */
+  position: relative; /* My Page 링크의 기준점 */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.search-bar {
+  display: flex;
+  width: 100%;
+  max-width: 450px; 
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.search-bar input {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 20px 0 0 20px; 
+  padding: 10px 10px 10px 20px; 
 }
 
-.card {
-  padding: 2em;
+.search-bar button {
+  padding: 0 15px; /* 아이콘 패딩 조정 */
+  border: 1px solid #ccc;
+  border-left: none;
+  background-color: #ffffff; 
+  color: #000000; 
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  
+  /* SVG 아이콘을 버튼 중앙에 배치 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.read-the-docs {
+/* My Page 링크 */
+.my-page-link {
+  position: absolute;
+  right: 0; /* 헤더의 오른쪽 끝에 배치 */
+  top: 50%; /* 헤더의 세로 중앙 */
+  transform: translateY(-50%); /* 세로 중앙 정렬 */
+
+  text-decoration: none;
+  color: #333;
+  background-color: #ffffff; 
+  padding: 8px 15px;
+  border: 1px solid #7e7e7ebe;
+  border-radius: 20px;
+}
+
+/* 2. 메인 컨텐츠 (중앙 흰색 박스) */
+.main-content {
+  background-color: #ffffff;
+  padding: 50px; 
+  border: 1px solid #7e7e7ebe;
+  border-radius: 8px; 
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: relative; /* 로고의 위치 기준점 */
+}
+
+/* 로고를 감싸는 컨테이너 (위치 조정) */
+.logo-container {
+  position: absolute;
+  top: 0; /* main-content의 상단 테두리 */
+  left: 10px; /* main-content의 padding과 동일하게 */
+  
+  /* 로고의 아래쪽이 테두리에 닿도록 
+    로고의 높이(100%)만큼 위로 올립니다.
+  */
+  transform: translateY(-100%); 
+  
+  z-index: 10; 
+}
+
+/* 로고 이미지 스타일 */
+.custom-header-logo {
+  height: 30px; 
+  width: auto; 
+  padding: 0 5px; /* 선을 가릴 수 있도록 약간의 여백 */
+  display: block; /* transform을 올바르게 적용하기 위해 */
+}
+
+
+/* 2-1. 책 상세 정보 */
+.book-details-section {
+  display: flex;
+  gap: 30px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  /* 로고와 겹치지 않도록 콘텐츠 시작점에 마진을 줍니다 */
+  margin-top: 10px; 
+}
+
+/* ... 이하 스타일은 이전과 동일 ... */
+
+.book-cover {
+  width: 200px;
+  height: 300px;
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.book-info {
+  flex-grow: 1;
+}
+
+.book-info h1 {
+  margin-top: 0;
+}
+
+.book-info p {
+  line-height: 1.6;
+}
+
+.loan-button {
+  padding: 12px 25px; 
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px; 
+  cursor: pointer;
+  margin-top: 20px;
+  min-width: 120px; 
+}
+
+.loan-button.available {
+  background-color: #fdd835;
+  color: #333;
+}
+
+.loan-button.unavailable {
+  background-color: #e0e0e0;
   color: #888;
+  cursor: not-allowed;
+}
+
+/* 2-2. 탭 섹션 */
+.tab-nav {
+  display: flex;
+  border-bottom: 2px solid #ccc;
+}
+
+.tab-nav button {
+  background-color: transparent;
+  border: none;
+  padding: 15px 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #555;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.tab-nav button:hover {
+  color: #000;
+}
+
+.tab-nav button.active {
+  font-weight: bold;
+  color: #000;
+  border-bottom: 2px solid #000;
+}
+
+.tab-content {
+  padding: 20px 0;
+  min-height: 150px;
 }
