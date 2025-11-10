@@ -11,7 +11,7 @@ function MyPage() {
 		<	img src="example_book.png" alt="Cover image of book" height={180} />
 		</div>
 		<div className="bookinfo">
-    		<p>{book.title}</p>
+    		<p><b>{book.title}</b></p>
 	    	<p>반납 예정일</p>
 	    	<p>{book.due}</p>
 		</div>
