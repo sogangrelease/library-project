@@ -1,0 +1,61 @@
+header {
+    text-align: left;
+    padding-left: 3.5%;
+    background-color: rgb(247, 210, 90);
+    border-color: rgb(191, 191, 191);
+    margin: 0 0 0 0;
+}
+
+header > p {
+    margin: 3.5% 0;
+    color: black;
+}
+
+.box {
+    border: 2px solid rgb(75 70 74);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+
+.container {
+    display: flex;
+}
+
+.container > * {
+    margin: 0 10px;
+    flex: 1;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    padding: 10%;
+}
+
+input {
+    font: .9em sans-serif;
+    padding-inline: initial;
+    text-align: start;
+    padding: 3%;
+    text-decoration-color:rgb(247, 210, 90);
+    background-color: transparent;
+    border-color: transparent;
+    border-radius: 5%;
+    margin: 0 0 0 0;
+}
+
+input:disabled {
+    color:rgb(247, 210, 90);
+}
+
+.input {
+    border-color: rgb(191, 191, 191);
+    border-radius: 10%;
+    border-width: 5%;
+    padding: 0%;
+    align-items: stretch;
+}
