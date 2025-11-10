@@ -22,4 +22,8 @@ public class Member {
 
     @Column(name = "password_hash", nullable = false, columnDefinition = "text")
     private String passwordHash;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "member_role", nullable = false)
+    private MemberRole role;
 }

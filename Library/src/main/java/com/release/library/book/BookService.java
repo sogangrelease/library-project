@@ -37,10 +37,11 @@ public class BookService {
     }
 
     //새로운 책 등록
-    public void create(String titleMain,String category,String language,
+    public void create(String coverUrl, String titleMain,String category,String language,
                        String description,String index,String author)
     {
         Book newBook = new Book();
+        newBook.setCoverUrl(coverUrl);
         newBook.setTitleMain(titleMain);
         newBook.setCategory(category);
         newBook.setLanguage(language);
