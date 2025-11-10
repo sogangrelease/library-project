@@ -7,18 +7,17 @@ header {
 }
 
 header > p {
-    margin: 3.5% 0;
+    margin: 2% 0;
     color: black;
 }
 
 .box {
     border: 2px solid rgb(75 70 74);
-    padding: 10px;
     display: flex;
     flex-direction: column;
     width: 40vw;
     margin: 0 0 0 0;
-    padding: 0 0 0 0;
+    padding: 0;
 }
 
 .container {
@@ -30,10 +29,14 @@ header > p {
     flex: 1;
 }
 
+.content {
+    padding: 15%
+}
+
 form {
     display: flex;
     flex-direction: column;
-    padding: 10%;
+    padding-bottom: 15%;
 }
 
 input {
@@ -41,21 +44,31 @@ input {
     padding-inline: initial;
     text-align: start;
     padding: 3%;
-    text-decoration-color:rgb(247, 210, 90);
+    color:rgb(247, 210, 90);
     background-color: transparent;
-    border-color: transparent;
-    border-radius: 5%;
-    margin: 0 0 0 0;
+    border-color: rgb(191, 191, 191);
+    border-radius: 5px;
+    border-style: solid;
+    margin: 2% 0;
+    opacity: 1; /* to get disabled text colored */
 }
 
 input:disabled {
-    color:rgb(247, 210, 90);
+    color: rgb(247, 210, 90);
+    opacity: 1;
+    --webkit-text-fill-color: rgb(247, 210, 90);
 }
 
 .input {
     border-color: rgb(191, 191, 191);
-    border-radius: 10%;
-    border-width: 5%;
+    border-radius: 5px;
+    border-width: 10px;
     padding: 0%;
     align-items: stretch;
+}
+
+button {
+    background-color: rgb(247, 210, 90);
+    color: black;
+    border-radius: 20px;
 }
