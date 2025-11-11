@@ -32,8 +32,8 @@ public class Borrow {
             foreignKey = @ForeignKey(name = "fk_borrow_member"))
     private Member member;
 
-    @Column(name = "checkout_at", nullable = false)
-    private LocalDateTime checkoutAt;
+    @Column(name = "return_at", nullable = false)
+    private LocalDateTime returnAt;
 
 
 }

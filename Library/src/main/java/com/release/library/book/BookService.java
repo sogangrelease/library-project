@@ -4,6 +4,7 @@ import com.release.library.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,5 +51,22 @@ public class BookService {
         newBook.setAuthor(author);
 
         this.bookRepository.save(newBook);
+    }
+
+    public List<Book> searchBooks(String title, String category){
+        if(title.isEmpty() && category.isEmpty()) { //제목 카테고리 모두 선택 안하고 그냥 검색시 전체 리스트 반환
+            List<Book> bookList = this.bookRepository.findAll();
+            return bookList;
+        }
+        else if(category.isEmpty()){ // 제목은 입력하고 카테고리만 선택 안할 시 제목 부분포함 리턴
+            List <Book> bookList = this.bookRepository.findByTitleMainContains(title);
+            return bookList;
+        }
+        else{ //둘 다 입력해줬다면 제목은 부분일치, 카테고리는 완전 일치로 검색
+            List <Book> bookList = this.bookRepository.findByTiteMaincontainsAndCategory(title,category);
+            return bookList;
+        }
+
+
     }
 }

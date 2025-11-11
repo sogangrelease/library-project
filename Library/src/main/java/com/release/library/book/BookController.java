@@ -2,6 +2,7 @@ package com.release.library.book;
 
 import com.release.library.DataNotFoundException;
 import com.release.library.dto.BookRequestDto;
+import com.release.library.dto.BookSearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity; // ResponseEntity 사용을 위해 추가
 import org.springframework.web.bind.annotation.*; // @RestController, @RequestBody 사용을 위해 추가
@@ -60,8 +61,19 @@ public class BookController {
                 bookDto.getAuthor()
         );
 
-        // 성공 메시지를 JSON 형태로 반환 (클라이언트는 리디렉션하지 않음)
+        // 성공 메시지를 JSON 형태로 반환
         return ResponseEntity.ok(Collections.singletonMap("message", "Book added successfully"));
     }
+
+    //5. 책 검색
+    @PostMapping("/search")
+    public ResponseEntity<List<Book>> searchBooks(@RequestBody BookSearchDto bookSearchDto) {
+        String title = bookSearchDto.getTitle();
+        String category = bookSearchDto.getCategory();
+        List<Book> bookList = this.bookService.searchBooks(title,category);
+
+        return ResponseEntity.ok(bookList);
+    }
+
 
 }
