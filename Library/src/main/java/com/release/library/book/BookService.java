@@ -63,7 +63,7 @@ public class BookService {
             return bookList;
         }
         else{ //둘 다 입력해줬다면 제목은 부분일치, 카테고리는 완전 일치로 검색
-            List <Book> bookList = this.bookRepository.findByTiteMaincontainsAndCategory(title,category);
+            List <Book> bookList = this.bookRepository.findByTitleMainContainsAndCategory(title,category);
             return bookList;
         }
 

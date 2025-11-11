@@ -13,5 +13,5 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     List<Book> findByTitleMainContains(String title);
 
     //제목 부분일치 , 카테고리 일치 모두 만족
-    List<Book> findByTiteMaincontainsAndCategory(String title, String category);
+    List<Book> findByTitleMainContainsAndCategory(String title, String category);
 }

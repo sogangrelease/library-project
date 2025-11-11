@@ -23,6 +23,7 @@ public class BorrowController {
     private final BookService bookService;
 
     //대출
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/borrow/{id}")
     public ResponseEntity<String> borrow(@PathVariable("id") Long id, Principal principal) {
         //유저 찾기
