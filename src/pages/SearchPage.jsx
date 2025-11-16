@@ -1,7 +1,7 @@
-import releaseLogo from './assets/release-black-small.webp';
+import releaseLogo from '../assets/release-black-small.webp';
 import styles from './SearchPage.module.css';
-import SearchQuery from './SearchQuery';
-import BookList from './BookList';
+import SearchQuery from '../components/search-query/SearchQuery';
+import BookList from '../components/book-list/BookList';
 
 const SearchPage = () => {
     return (
