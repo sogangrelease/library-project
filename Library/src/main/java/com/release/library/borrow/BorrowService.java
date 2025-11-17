@@ -2,6 +2,7 @@ package com.release.library.borrow;
 
 import com.release.library.DataNotFoundException;
 import com.release.library.book.Book;
+import com.release.library.dto.BorrowListDto;
 import com.release.library.member.Member;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -50,7 +52,18 @@ public class BorrowService {
     }
 
     //대출 전체 조회
-    public List<Borrow> getBorrowList(){
-        return this.borrowRepository.findAll();
+    public List<BorrowListDto> getBorrowList() {
+        List<Borrow> borrowList = this.borrowRepository.findAll();
+        return borrowList.stream()
+                .map(borrow -> {
+                    BorrowListDto dto = new BorrowListDto();
+                    dto.setBorrowId(borrow.getId());
+                    dto.setTitleMain(borrow.getBook().getTitleMain());
+                    dto.setMemberId(borrow.getMember().getId());
+                    dto.setMemberName(borrow.getMember().getName());
+                    dto.setReturnAt(borrow.getReturnAt());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 }

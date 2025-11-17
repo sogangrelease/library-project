@@ -2,6 +2,7 @@ package com.release.library.borrow;
 
 import com.release.library.book.Book;
 import com.release.library.book.BookService;
+import com.release.library.dto.BorrowListDto;
 import com.release.library.member.Member;
 import com.release.library.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -55,8 +56,8 @@ public class BorrowController {
     //관리자 페이지에서 전체 조회할 거라 관리자만 사용 가능하게 분리
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/borrow/list")
-    public ResponseEntity<List<Borrow>> getBorrowList(){
-        List<Borrow> borrowList = this.borrowService.getBorrowList();
+    public ResponseEntity<List<BorrowListDto>> getBorrowList(){
+        List<BorrowListDto> borrowList = this.borrowService.getBorrowList();
         return ResponseEntity.ok(borrowList);
     }
 }
