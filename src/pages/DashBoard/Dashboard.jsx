@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Dashboard.module.css';
 import { Link } from 'react-router-dom';
-import releaseLogo from '../assets/release-black-small.webp';
+import releaseLogo from '@/assets/release-black-small.webp';
 
 const BookCard = () => <div className={styles.bookCardPlaceholder}></div>;
 
