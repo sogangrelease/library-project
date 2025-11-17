@@ -1,4 +1,4 @@
-header {
+.header {
     text-align: left;
     padding-left: 3.5%;
     background-color: rgb(247, 210, 90);
@@ -6,40 +6,38 @@ header {
     margin: 0 0 0 0;
 }
 
-header > p {
+.headerTitle {
     margin: 2% 0;
     color: rgb(50, 50, 50);
 }
 
 .box {
-    border: 2px solid rgb(191, 191, 191)/*rgb(75 70 74)*/;
+    border: 2px solid rgb(191, 191, 191);
     display: flex;
     flex-direction: column;
     width: 40vw;
-    margin: 0 0 0 0;
+    margin: 0 10px;
     padding: 0;
+    flex: 1;
 }
 
 .container {
     display: flex;
-}
-
-.container > * {
-    margin: 0 10px;
-    flex: 1;
+    background-color: #ffffff;
+    color: rgb(90, 90, 90);
 }
 
 .content {
     padding: 15%
 }
 
-form {
+.form {
     display: flex;
     flex-direction: column;
     padding-bottom: 15%;
 }
 
-input {
+.input {
     font: .9em sans-serif;
     padding-inline: initial;
     text-align: start;
@@ -50,39 +48,30 @@ input {
     border-radius: 5px;
     border-style: solid;
     margin: 2% 0;
-    opacity: 1; /* to get disabled text colored */
+    opacity: 1;
 }
 
-input:disabled {
+.input:disabled {
     color: rgb(247, 210, 90);
     opacity: 1;
     --webkit-text-fill-color: rgb(247, 210, 90);
 }
 
-input::placeholder {
+.input::placeholder {
     color: rgb(247, 210, 90);
 }
 
-.input {
-    border-color: rgb(191, 191, 191);
-    border-radius: 5px;
-    border-width: 10px;
-    padding: 0%;
-    align-items: stretch;
-}
-
-button {
+.button {
     background-color: rgb(247, 210, 90);
     color: rgb(36, 36, 36);
     border-radius: 20px;
 }
 
-ul {
+.bookList {
     padding: 0;
 }
 
-
-li {
+.bookItem {
     display: flex;
 }
 
@@ -92,9 +81,4 @@ li {
 
 .bookinfo {
     flex: 7;
-}
-
-body {
-    background-color: #ffffff;
-    color: rgb(90, 90, 90);
 }
