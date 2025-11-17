@@ -1,5 +1,5 @@
 import React from 'react';
-import BookItem from '@/components/book-item/BookItem';
+import BookItem from '@/components/BookItem';
 import styles from './BookList.module.css';
 
 const books = [

@@ -1,7 +1,7 @@
 import releaseLogo from '@/assets/release-black-small.webp';
 import styles from './SearchPage.module.css';
-import SearchQuery from '@/components/search-query/SearchQuery';
-import BookList from '@/components/book-list/BookList';
+import SearchQuery from '@/components/SearchQuery';
+import BookList from '@/components/BookList';
 import { useSearchParams } from 'react-router-dom'
 
 const SearchPage = () => {
