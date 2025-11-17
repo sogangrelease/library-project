@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './BookDetail.module.css';
 import { Link } from 'react-router-dom';
-import releaseLogo from '../assets/release-black-small.webp';
+import releaseLogo from '@/assets/release-black-small.webp';
 
 function BookDetail() { 
   const [isAvailable, setIsAvailable] = useState(true);

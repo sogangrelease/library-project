@@ -1,5 +1,5 @@
 import styles from './BookSlider.module.css';
-import BookImage from '../book-image/BookImage';
+import BookImage from '@/components/book-image/BookImage';
 
 const BookSlider = ({ subject, books }) => {
     return (

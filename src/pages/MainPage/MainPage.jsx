@@ -1,7 +1,7 @@
-import BookSlider from '../components/book-slider/BookSlider';
-import BookImage from '../components/book-image/BookImage';
+import BookSlider from '@/components/book-slider/BookSlider';
+import BookImage from '@/components/book-image/BookImage';
 import styles from './MainPage.module.css';
-import releaseLogo from '../assets/release-black-small.webp';
+import releaseLogo from '@/assets/release-black-small.webp';
 
 const books = [
   { 

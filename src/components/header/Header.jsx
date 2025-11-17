@@ -1,6 +1,6 @@
-import SearchBar from '../search-bar/SearchBar';
-import MyPageButton from '../my-page-button/MyPageButton';
-import LogOutButton from '../log-out-button/LogOutButton';
+import SearchBar from '@/components/search-bar/SearchBar';
+import MyPageButton from '@/components/my-page-button/MyPageButton';
+import LogOutButton from '@/components/log-out-button/LogOutButton';
 import styles from './Header.module.css';
 
 const Header = () => {
