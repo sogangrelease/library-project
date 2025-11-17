@@ -3,11 +3,13 @@ package com.release.library.borrow;
 import com.release.library.DataNotFoundException;
 import com.release.library.book.Book;
 import com.release.library.member.Member;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -30,18 +32,25 @@ public class BorrowService {
         this.borrowRepository.save(borrow);
     }
 
+    //아이디로 특정 대출 정보 가져오기
     public Borrow getBorrow(Long id){
         Optional<Borrow> borrow = this.borrowRepository.findById(id);
         if(borrow.isPresent()){
             return borrow.get(); //대여 정보를 찾으면 리턴
         }
         else{
-            throw new DataNotFoundException( "대여 정보를 찾을 수 없음" ); //찾지 못하면 에러 리턴
+            throw new DataNotFoundException( "대출 정보를 찾을 수 없음" ); //찾지 못하면 에러 리턴
         }
     }
 
     //책 반납
+    @Transactional
     public void returnBook(Borrow borrow) {
         this.borrowRepository.delete(borrow);
+    }
+
+    //대출 전체 조회
+    public List<Borrow> getBorrowList(){
+        return this.borrowRepository.findAll();
     }
 }

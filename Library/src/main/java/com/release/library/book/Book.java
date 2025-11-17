@@ -1,5 +1,6 @@
 package com.release.library.book;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.release.library.borrow.Borrow;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -41,7 +42,6 @@ public class Book {
 
     @Column(name="author",length = 100)
     private String author;
-
 
     @OneToOne(mappedBy = "book", fetch = FetchType.LAZY, optional = true)
     private Borrow borrow;

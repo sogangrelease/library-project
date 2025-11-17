@@ -20,6 +20,12 @@ public class Member {
     @Column(name = "student_id", nullable = false, unique = true, length = 20)
     private String studentId;
 
+    @Column(name = "name", nullable = false, length = 20)
+    private String name;
+
+    @Column(name = "phone_number", nullable = false, length = 20)
+    private String phoneNumber;
+
     @Column(name = "password_hash", nullable = false, columnDefinition = "text")
     private String passwordHash;
 

@@ -8,8 +8,6 @@ import jakarta.validation.constraints.NotEmpty;
 @Setter
 public class BookRequestDto {
 
-    private String coverUrl;
-
     @NotEmpty(message = "제목은 필수 항목입니다.")
     private String titleMain;
 
@@ -20,6 +18,4 @@ public class BookRequestDto {
     private String description;
     private String index;
     private String author;
-
-    // ID, createdAt 등 DB 전용 필드는 포함하지 않습니다.
 }

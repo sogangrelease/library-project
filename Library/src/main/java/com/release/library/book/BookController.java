@@ -4,10 +4,13 @@ import com.release.library.DataNotFoundException;
 import com.release.library.dto.BookRequestDto;
 import com.release.library.dto.BookSearchDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity; // ResponseEntity 사용을 위해 추가
 import org.springframework.web.bind.annotation.*; // @RestController, @RequestBody 사용을 위해 추가
 import org.springframework.security.access.prepost.PreAuthorize; // 관리자 권한 확인을 위해 추가 (필요 시)
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Collections;
@@ -48,11 +51,15 @@ public class BookController {
 
     // 4. 책 등록 (관리자 권한)
     @PreAuthorize("hasRole('ADMIN')") // 관리자 권한 필수 설정
-    @PostMapping
-    public ResponseEntity<Map<String, String>> addBook(@RequestBody BookRequestDto bookDto) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Map<String, String>> addBook(@RequestPart("book") BookRequestDto bookDto,
+                                                        @RequestPart("bookCover") MultipartFile bookCover) throws IOException
+    {
+        //사진 파일을 받아오기
+        String coverUrl = this.bookService.saveCoverImage(bookCover);
 
         this.bookService.create(
-                bookDto.getCoverUrl(),
+                coverUrl,
                 bookDto.getTitleMain(),
                 bookDto.getCategory(),
                 bookDto.getLanguage(),

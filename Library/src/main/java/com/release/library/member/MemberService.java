@@ -27,7 +27,7 @@ public class MemberService {
 
 
     // 비밀번호 보안 처리, 권한 설정 후 데이터베이스에 저장
-    public void create(String studentId, String password) {
+    public void create(String studentId, String password,String phoneNumber,String name) {
         // 중복 검사는 Controller 또는 이 메서드 초기에 추가하는 것이 좋습니다.
         if (memberRepository.findByStudentId(studentId).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 학번입니다.");
@@ -36,10 +36,13 @@ public class MemberService {
         Member member = new Member();
         member.setStudentId(studentId);
 
-        // ★ PasswordEncoder 빈 사용
+        // PasswordEncoder 빈 사용
         member.setPasswordHash(passwordEncoder.encode(password));
 
-        // ★ 권한 설정 로직 추가
+        //이름 전화번호 모두 저장해주기
+        member.setPhoneNumber(phoneNumber);
+        member.setName(name);
+        // 권한 설정 로직 추가
         if ("admin".equals(studentId)) {
             member.setRole(MemberRole.ADMIN);
         } else {

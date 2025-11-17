@@ -63,7 +63,9 @@ public class MemberController {
     @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody MemberCreateDto memberCreateDto) {
         this.memberService.create(memberCreateDto.getStudentId(),
-                memberCreateDto.getPassword());
+                                  memberCreateDto.getPassword(),
+                                  memberCreateDto.getPhoneNumber(),
+                                  memberCreateDto.getName());
         //성공 메시지를 포함한 200 OK 응답
         return ResponseEntity.ok("Account created successfully");
     }
