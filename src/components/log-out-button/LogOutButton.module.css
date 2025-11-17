@@ -1,0 +1,14 @@
+.logOutButton {
+    background-color: transparent;
+    border: none;
+    color: #636363;
+    border: 1px solid #636363;
+    padding: 20px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 30px;
+}

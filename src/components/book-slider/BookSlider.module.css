@@ -1,0 +1,25 @@
+.bookSlider {
+    display: flex;
+    border: 1px solid #636363;
+    flex-direction: column;
+    max-width: 600px;
+}
+
+.sliderSubject {
+    font-size: 1em;
+    padding: 9px;
+    background-color: #f7d15a;
+    border-bottom: 1px solid #636363;
+}
+
+.sliderContent {
+    display: flex;
+    justify-items: center;
+    overflow-x: auto;
+    padding: 39px;
+    gap: 24px;
+}
+
+.sliderContent::-webkit-scrollbar {
+    display: none;
+}
