@@ -1,6 +1,7 @@
 package com.release.library.book;
 
 import com.release.library.DataNotFoundException;
+import com.release.library.dto.BookListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -20,9 +22,23 @@ public class BookService {
 
     private final BookRepository bookRepository;
     //모든 책 찾기
-    public List<Book> getAllBooks() {
-
-        return this.bookRepository.findAll();
+    public List<BookListDto> getAllBooks() {
+        List<Book> bookList = this.bookRepository.findAll();
+        return bookList.stream()
+                .map(book -> {
+                    BookListDto dto = new BookListDto();
+                    dto.setId(book.getId());
+                    dto.setCoverUrl(book.getCoverUrl());
+                    dto.setTitleMain(book.getTitleMain());
+                    dto.setCategory(book.getCategory());
+                    dto.setLanguage(book.getLanguage());
+                    dto.setDescription(book.getDescription());
+                    dto.setIndex(book.getIndex());
+                    dto.setAuthor(book.getAuthor());
+                    dto.setLoaned(book.isLoaned()); // 대출여부만 포함
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
     //해당 책 한 권 찾기

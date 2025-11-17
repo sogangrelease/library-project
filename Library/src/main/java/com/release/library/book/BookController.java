@@ -1,6 +1,7 @@
 package com.release.library.book;
 
 import com.release.library.DataNotFoundException;
+import com.release.library.dto.BookListDto;
 import com.release.library.dto.BookRequestDto;
 import com.release.library.dto.BookSearchDto;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,8 @@ public class BookController {
 
     // 1. 메인 페이지 로딩 (모든 책 목록 반환)
     @GetMapping
-    public ResponseEntity<List<Book>> getAllBooks() {
-        List<Book> bookList = this.bookService.getAllBooks();
+    public ResponseEntity<List<BookListDto>> getAllBooks() {
+        List<BookListDto> bookList = this.bookService.getAllBooks();
         return ResponseEntity.ok(bookList);
     }
 
