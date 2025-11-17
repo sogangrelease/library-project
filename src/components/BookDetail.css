@@ -1,20 +1,18 @@
-/* src/App.css */
-
-/* 전체 레이아웃 */
+/* 전체 */
 .app-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* 1. 헤더 영역 */
+/* 1. 헤더 */
 .app-header {
   display: flex;
-  justify-content: center; /* 검색창을 중앙으로 */
+  justify-content: center; /* 검색창 중앙 */
   align-items: center;
   padding: 20px 0;
-  margin-bottom: 30px; /* 로고와 겹치지 않게 충분한 마진 */
-  position: relative; /* My Page 링크의 기준점 */
+  margin-bottom: 30px;
+  position: relative; /* My Page 링크 기준점 */
 }
 
 .search-bar {
@@ -32,7 +30,7 @@
 }
 
 .search-bar button {
-  padding: 0 15px; /* 아이콘 패딩 조정 */
+  padding: 0 15px; 
   border: 1px solid #ccc;
   border-left: none;
   background-color: #ffffff; 
@@ -40,7 +38,7 @@
   border-radius: 0 20px 20px 0;
   cursor: pointer;
   
-  /* SVG 아이콘을 버튼 중앙에 배치 */
+  /* SVG 아이콘 버튼 중앙 배치 */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,9 +47,9 @@
 /* My Page 링크 */
 .my-page-link {
   position: absolute;
-  right: 0; /* 헤더의 오른쪽 끝에 배치 */
-  top: 50%; /* 헤더의 세로 중앙 */
-  transform: translateY(-50%); /* 세로 중앙 정렬 */
+  right: 0; 
+  top: 50%; 
+  transform: translateY(-50%); 
 
   text-decoration: none;
   color: #333;
@@ -68,29 +66,26 @@
   border: 1px solid #7e7e7ebe;
   border-radius: 8px; 
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  position: relative; /* 로고의 위치 기준점 */
+  position: relative;
 }
 
-/* 로고를 감싸는 컨테이너 (위치 조정) */
+/* 로고 컨테이너 */
 .logo-container {
   position: absolute;
-  top: 0; /* main-content의 상단 테두리 */
-  left: 10px; /* main-content의 padding과 동일하게 */
+  top: 0; /* main-content 상단 테두리 */
+  left: 10px; 
   
-  /* 로고의 아래쪽이 테두리에 닿도록 
-    로고의 높이(100%)만큼 위로 올립니다.
-  */
   transform: translateY(-100%); 
   
   z-index: 10; 
 }
 
-/* 로고 이미지 스타일 */
+/* 로고 이미지 */
 .custom-header-logo {
   height: 30px; 
   width: auto; 
-  padding: 0 5px; /* 선을 가릴 수 있도록 약간의 여백 */
-  display: block; /* transform을 올바르게 적용하기 위해 */
+  padding: 0 5px; 
+  display: block; 
 }
 
 
@@ -101,11 +96,8 @@
   border-bottom: 1px solid #eee;
   padding-bottom: 30px;
   margin-bottom: 30px;
-  /* 로고와 겹치지 않도록 콘텐츠 시작점에 마진을 줍니다 */
   margin-top: 10px; 
 }
-
-/* ... 이하 스타일은 이전과 동일 ... */
 
 .book-cover {
   width: 200px;
@@ -150,7 +142,7 @@
   cursor: not-allowed;
 }
 
-/* 2-2. 탭 섹션 */
+/* 탭 섹션 */
 .tab-nav {
   display: flex;
   border-bottom: 2px solid #ccc;

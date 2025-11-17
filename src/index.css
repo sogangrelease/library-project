@@ -1,4 +1,3 @@
-/* src/index.css */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -6,22 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f4f4f4; /* 와이어프레임과 유사한 배경색 */
+  background-color: #f4f4f4;
 }
 
 * {
-  box-sizing: border-box; /* 레이아웃 작업을 더 쉽게 만듭니다 */
-}/* src/index.css */
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #f4f4f4; /* 와이어프레임과 유사한 배경색 */
-}
-
-* {
-  box-sizing: border-box; /* 레이아웃 작업을 더 쉽게 만듭니다 */
+  box-sizing: border-box;
 }
