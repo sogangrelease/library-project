@@ -1,5 +1,6 @@
 package com.release.library.borrow;
 
+import com.release.library.DataNotFoundException;
 import com.release.library.book.Book;
 import com.release.library.book.BookService;
 import com.release.library.dto.BorrowListDto;
@@ -38,7 +39,12 @@ public class BorrowController {
                     .body("현재 이용 중인 책이므로 대출이 불가능합니다.");
         }
 
-        this.borrowService.create(member,book);
+        //책 두권이상이면 오류 메시지
+        try {
+            this.borrowService.create(member, book);
+        }catch(DataNotFoundException e){
+            return ResponseEntity.status(422).body(e.getMessage());
+        }
         //해당 책 상세정보 페이지로 돌아가기.(프론트에서 할 일)
         return ResponseEntity.ok("대출 성공");
     }

@@ -22,6 +22,11 @@ public class BorrowService {
 
     //책 추가
     public void create(Member member, Book book){
+        if(this.borrowRepository.countByMember(member)>=2){
+            throw new DataNotFoundException("두권 이상 대여 중입니다.");
+        }
+
+
         Borrow borrow = new Borrow();
         borrow.setMember(member);
         borrow.setBook(book);
