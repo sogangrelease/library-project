@@ -73,9 +73,25 @@ public class BookService {
     }
 
     // 카테고리 별 책 찾기
-    public List<Book> searchByCategory(String category) {
+    public List<BookDto> searchByCategory(String category) {
 
-        return this.bookRepository.findByCategory(category);
+        List<Book> bookList = this.bookRepository.findByCategory(category);
+
+        return bookList.stream()
+                .map(book -> {
+                    BookDto dto = new BookDto();
+                    dto.setId(book.getId());
+                    dto.setCoverUrl(book.getCoverUrl());
+                    dto.setTitleMain(book.getTitleMain());
+                    dto.setCategory(book.getCategory());
+                    dto.setLanguage(book.getLanguage());
+                    dto.setDescription(book.getDescription());
+                    dto.setIndex(book.getIndex());
+                    dto.setAuthor(book.getAuthor());
+                    dto.setLoaned(book.isLoaned()); // 대출여부만 포함
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
 
@@ -128,21 +144,47 @@ public class BookService {
         this.bookRepository.save(newBook);
     }
 
-    //제목과 카테고리  동시 검색
-    public List<Book> searchBooks(String title, String category){
-        if(title.isEmpty() && category.isEmpty()) { //제목 카테고리 모두 선택 안하고 그냥 검색시 전체 리스트 반환
-            List<Book> bookList = this.bookRepository.findAll();
-            return bookList;
+    // 제목과 카테고리 동시 검색 (Null 및 빈 문자열 안전성 강화)
+    public List<BookDto> searchBooks(String title, String category) {
+        // null이 들어올 경우를 대비해 trim() 및 isBlank()를 사용하여 안전하게 처리
+        final String safeTitle = (title != null) ? title.trim() : "";
+        final String safeCategory = (category != null) ? category.trim() : "";
+
+        List<Book> bookList;
+
+        // 1. 제목/카테고리 모두 비어있을 때 (공백이나 null 포함)
+        if (safeTitle.isBlank() && safeCategory.isBlank()) {
+            // 전체 리스트 반환
+            bookList = this.bookRepository.findAll();
         }
-        else if(category.isEmpty()){ // 제목은 입력하고 카테고리만 선택 안할 시 제목 부분포함 리턴
-            List <Book> bookList = this.bookRepository.findByTitleMainContains(title);
-            return bookList;
+        // 2. 카테고리만 비어있을 때 (제목은 입력됨)
+        else if (safeCategory.isBlank()) {
+            // 제목 부분 포함 검색 (title에 대한 메서드가 있다면 사용)
+            // 가정: bookRepository.findByTitleMainContains(safeTitle)
+            bookList = this.bookRepository.findByTitleMainContains(safeTitle);
         }
-        else{ //둘 다 입력해줬다면 제목은 부분일치, 카테고리는 완전 일치로 검색
-            List <Book> bookList = this.bookRepository.findByTitleMainContainsAndCategory(title,category);
-            return bookList;
+        // 3. 둘 다 입력되었을 때
+        else {
+            // 제목 부분일치 AND 카테고리 완전 일치 검색
+            // 가정: bookRepository.findByTitleMainContainsAndCategory(safeTitle, safeCategory)
+            bookList = this.bookRepository.findByTitleMainContainsAndCategory(safeTitle, safeCategory);
         }
 
-
+        // Book 엔티티 리스트를 BookDto 리스트로 변환하여 반환
+        return bookList.stream()
+                .map(book -> {
+                    BookDto dto = new BookDto();
+                    dto.setId(book.getId());
+                    dto.setCoverUrl(book.getCoverUrl());
+                    dto.setTitleMain(book.getTitleMain());
+                    dto.setCategory(book.getCategory());
+                    dto.setLanguage(book.getLanguage());
+                    dto.setDescription(book.getDescription());
+                    dto.setIndex(book.getIndex());
+                    dto.setAuthor(book.getAuthor());
+                    dto.setLoaned(book.isLoaned()); // 대출여부만 포함
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 }

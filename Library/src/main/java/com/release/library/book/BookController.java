@@ -45,8 +45,8 @@ public class BookController {
 
     // 3. 카테고리 검색
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<Book>> searchByCategory(@PathVariable String category) {
-        List<Book> bookList = this.bookService.searchByCategory(category);
+    public ResponseEntity<List<BookDto>> searchByCategory(@PathVariable String category) {
+        List<BookDto> bookList = this.bookService.searchByCategory(category);
         return ResponseEntity.ok(bookList); // 검색된 목록 JSON 반환
     }
 
@@ -75,10 +75,10 @@ public class BookController {
 
     //5. 책 검색
     @PostMapping("/search")
-    public ResponseEntity<List<Book>> searchBooks(@RequestBody BookSearchDto bookSearchDto) {
+    public ResponseEntity<List<BookDto>> searchBooks(@RequestBody BookSearchDto bookSearchDto) {
         String title = bookSearchDto.getTitle();
         String category = bookSearchDto.getCategory();
-        List<Book> bookList = this.bookService.searchBooks(title,category);
+        List<BookDto> bookList = this.bookService.searchBooks(title,category);
 
         return ResponseEntity.ok(bookList);
     }
