@@ -1,7 +1,7 @@
 package com.release.library.book;
 
 import com.release.library.DataNotFoundException;
-import com.release.library.dto.BookListDto;
+import com.release.library.dto.BookDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,11 +22,11 @@ public class BookService {
 
     private final BookRepository bookRepository;
     //모든 책 찾기
-    public List<BookListDto> getAllBooks() {
+    public List<BookDto> getAllBooks() {
         List<Book> bookList = this.bookRepository.findAll();
         return bookList.stream()
                 .map(book -> {
-                    BookListDto dto = new BookListDto();
+                    BookDto dto = new BookDto();
                     dto.setId(book.getId());
                     dto.setCoverUrl(book.getCoverUrl());
                     dto.setTitleMain(book.getTitleMain());
@@ -50,6 +50,25 @@ public class BookService {
         }
         else{
             throw new DataNotFoundException("Todotitle Not Found");
+        }
+    }
+
+    public BookDto getBookDto(Long id) {
+        Optional<Book> book =  this.bookRepository.findById(id);
+        if(book.isPresent()) {
+            BookDto dto = new BookDto();
+            dto.setId(book.get().getId());
+            dto.setCoverUrl(book.get().getCoverUrl());
+            dto.setTitleMain(book.get().getTitleMain());
+            dto.setCategory(book.get().getCategory());
+            dto.setLanguage(book.get().getLanguage());
+            dto.setDescription(book.get().getDescription());
+            dto.setIndex(book.get().getIndex());
+            dto.setAuthor(book.get().getAuthor());
+            dto.setLoaned(book.get().isLoaned());
+            return dto;
+        }else{
+            throw new DataNotFoundException("Book Not Found");
         }
     }
 

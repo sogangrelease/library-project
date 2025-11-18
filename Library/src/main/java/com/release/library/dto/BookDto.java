@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class BookListDto {
+public class BookDto {
     private Long id;
     private String coverUrl;
     private String titleMain;

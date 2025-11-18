@@ -1,7 +1,7 @@
 package com.release.library.book;
 
 import com.release.library.DataNotFoundException;
-import com.release.library.dto.BookListDto;
+import com.release.library.dto.BookDto;
 import com.release.library.dto.BookRequestDto;
 import com.release.library.dto.BookSearchDto;
 import lombok.RequiredArgsConstructor;
@@ -25,16 +25,16 @@ public class BookController {
 
     // 1. 메인 페이지 로딩 (모든 책 목록 반환)
     @GetMapping
-    public ResponseEntity<List<BookListDto>> getAllBooks() {
-        List<BookListDto> bookList = this.bookService.getAllBooks();
+    public ResponseEntity<List<BookDto>> getAllBooks() {
+        List<BookDto> bookList = this.bookService.getAllBooks();
         return ResponseEntity.ok(bookList);
     }
 
     // 2. 책 상세 정보
     @GetMapping("/{id}")
-    public ResponseEntity<Book> detailPage(@PathVariable Long id) {
+    public ResponseEntity<BookDto> detailPage(@PathVariable Long id) {
         try {
-            Book book = this.bookService.getBook(id);
+            BookDto book = this.bookService.getBookDto(id);
             // 성공적으로 책 객체를 JSON으로 반환
             return ResponseEntity.ok(book);
         } catch (DataNotFoundException e) {

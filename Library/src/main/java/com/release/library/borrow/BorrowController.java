@@ -3,6 +3,7 @@ package com.release.library.borrow;
 import com.release.library.DataNotFoundException;
 import com.release.library.book.Book;
 import com.release.library.book.BookService;
+import com.release.library.dto.BookDto;
 import com.release.library.dto.BorrowListDto;
 import com.release.library.member.Member;
 import com.release.library.member.MemberService;
