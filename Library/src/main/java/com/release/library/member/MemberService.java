@@ -65,6 +65,9 @@ public class MemberService {
         this.memberRepository.save(member);
     }
 
+    //멤버 리스트
+    //memberID 값과 비밀번호는 필요없음
+    //->memberListDto만들어서 필요한 정보만 담아줌.
     public List<MemberListDto> getMemberList(){
         List<Member> members = memberRepository.findAll();
 
