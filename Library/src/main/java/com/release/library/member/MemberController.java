@@ -1,12 +1,15 @@
 package com.release.library.member;
 
+import com.release.library.DataNotFoundException;
 import com.release.library.dto.MemberCreateDto;
+import com.release.library.dto.MemberListDto;
 import com.release.library.dto.PasswordChangeDto;
 import com.release.library.security.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 
@@ -88,4 +92,30 @@ public class MemberController {
         return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요");
     }
 
+
+    //멤버 리스트 조회
+    //관리자만 가능
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/list")
+    public ResponseEntity<List<MemberListDto>> memberList(){
+        List<MemberListDto> memberList = this.memberService.getMemberList();
+        return ResponseEntity.ok(memberList);
+    }
+
+    //계정삭제
+    //관리자만 가능
+    //여기서 id는 memberId
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<String> deleteMember(@PathVariable("id") String id){
+        try{
+            Member member = this.memberService.getMember(id);
+            this.memberService.deleteMemeber(member);
+        }catch(DataNotFoundException e){
+            return ResponseEntity.status(422).body(e.getMessage());
+        }
+
+
+        return ResponseEntity.ok("계정이 삭제되었습니다.");
+    }
 }

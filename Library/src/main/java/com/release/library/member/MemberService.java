@@ -1,11 +1,15 @@
 package com.release.library.member;
 
 import com.release.library.DataNotFoundException;
+import com.release.library.dto.MemberListDto;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder; // ★ PasswordEncoder 임포트
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -59,5 +63,26 @@ public class MemberService {
         member.setPasswordHash(passwordEncoder.encode(newpw));
         //데이터베이스에 저장
         this.memberRepository.save(member);
+    }
+
+    public List<MemberListDto> getMemberList(){
+        List<Member> members = memberRepository.findAll();
+
+        return members.stream()
+                .map(member -> {
+                    MemberListDto dto = new MemberListDto();
+                    dto.setStudentId(member.getStudentId());
+                    dto.setName(member.getName());
+                    dto.setPhoneNumber(member.getPhoneNumber());
+                    dto.setRole(member.getRole());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    //멤버 삭제
+    @Transactional
+    public void deleteMemeber(Member member){
+        memberRepository.delete(member);
     }
 }
