@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import styles from './MyPage.module.css'; 
+import releaseLogo from '@/assets/release-black-small.webp';
 
 function MyPage() {
     const accountOnServer = {이름: '홍길동', 학번: '202312345', 전화번호: '010-1234-5678'};
@@ -23,19 +23,20 @@ function MyPage() {
     </li>
     );
     return (
-    <>
+    <div className={styles.pageOutline}>
+        <img src={releaseLogo} alt="Release logo" className={styles.releaseLogo} />
         <div className={styles.container}>
             <div className={styles.box}>
-                <header className={styles.header}>
-                    <p className={styles.headerTitle}>대출 현황</p>
+                <header className={styles.barHeader}>
+                    <p className={styles.barHeaderTitle}>대출 현황</p>
                 </header>
                 <div className={styles.content}>
                     <ul className={styles.bookList}>{books}</ul>
                 </div>
             </div>
             <div className={styles.box}>
-                <header className={styles.header}>
-                    <p className={styles.headerTitle}>정보 수정</p>
+                <header className={styles.barHeader}>
+                    <p className={styles.barHeaderTitle}>정보 수정</p>
                 </header>
                 <div className={styles.content}>
                     <form className={styles.form}>
@@ -52,7 +53,7 @@ function MyPage() {
                 </div>
             </div>
         </div>
-    </>
+    </div>
     );
 }
 
