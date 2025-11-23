@@ -1,8 +1,9 @@
 import styles from './MyPage.module.css'; 
+import { Link } from 'react-router-dom';
 import releaseLogo from '@/assets/release-black-small.webp';
 
 function MyPage() {
-    const accountOnServer = {이름: '홍길동', 학번: '202312345', 전화번호: '010-1234-5678'};
+    const accountOnServer = {이름: '홍길동', 학번: '20231234', 전화번호: '010-1234-5678'};
     const booksOnServer = [
         {id: 1, title: 'JavaScript 기초', due: '2024-07-15'},
         {id: 2, title: 'React 입문', due: '2024-07-20'},
@@ -24,7 +25,9 @@ function MyPage() {
     );
     return (
     <div className={styles.pageOutline}>
-        <img src={releaseLogo} alt="Release logo" className={styles.releaseLogo} />
+        <Link to="/" className={styles.logoButton}>
+            <img src={releaseLogo} alt="Release logo" className={styles.releaseLogo} />
+        </Link>
         <div className={styles.container}>
             <div className={styles.box}>
                 <header className={styles.barHeader}>
