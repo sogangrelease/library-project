@@ -67,4 +67,14 @@ public class BorrowController {
         List<BorrowListDto> borrowList = this.borrowService.getBorrowList();
         return ResponseEntity.ok(borrowList);
     }
+
+    //해당 유저의 대여 내역 조회
+    //마이페이지에서 조회
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/my/borrow/list")
+    public ResponseEntity<List<BorrowListDto>> getMyBorrowList(Principal principal){
+        Member member = this.memberService.getMember(principal.getName());
+        List<BorrowListDto> borrowList = this.borrowService.getMyBorrowList(member);
+        return ResponseEntity.ok(borrowList);
+    }
 }

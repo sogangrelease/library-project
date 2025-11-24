@@ -71,4 +71,20 @@ public class BorrowService {
                 })
                 .collect(Collectors.toList());
     }
+
+    //유저의 대여 목록 리턴
+    public List<BorrowListDto> getMyBorrowList(Member member){
+        List<Borrow> borrowList  = this.borrowRepository.findByMember(member);
+        return borrowList.stream()
+                .map(borrow -> {
+                    BorrowListDto dto = new BorrowListDto();
+                    dto.setBorrowId(borrow.getId());
+                    dto.setTitleMain(borrow.getBook().getTitleMain());
+                    dto.setMemberId(borrow.getMember().getId());
+                    dto.setMemberName(borrow.getMember().getName());
+                    dto.setReturnAt(borrow.getReturnAt());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
 }
