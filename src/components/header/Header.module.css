@@ -11,7 +11,7 @@
 }
 
 .centerSection {
-    flex: 2;
+    flex: 3;
     display: flex;
     justify-content: center;
     align-items: center;

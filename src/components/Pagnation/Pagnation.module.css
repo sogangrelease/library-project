@@ -1,0 +1,23 @@
+.pagnationDiv {
+    display: flex;
+    justify-content: center;
+    margin: 12px 0;
+}
+
+.pageBtn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    color: #636363;
+    border-radius: 50%;
+}
+
+.active {
+    background-color: #F7D15A;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    color: #636363;
+    border-radius: 50%;
+}
