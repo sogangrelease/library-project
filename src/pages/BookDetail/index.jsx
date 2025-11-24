@@ -1,27 +1,62 @@
 import React, { useState } from 'react';
 import styles from './BookDetail.module.css';
-import { Link } from 'react-router-dom';
 import releaseLogo from '@/assets/release-black-small.webp';
 
 function BookDetail() { 
   const [isAvailable, setIsAvailable] = useState(true);
-  const [activeTab, setActiveTab] = useState('details');
+
+  const bookInfo = {
+    id: 1,
+    title: "책 제목",
+    author: "저자명",
+    publisher: "출판사, 발행년도",
+    category: "카테고리명",
+    language: "언어",
+    // 책 표지 이미지 URL
+    coverImage: null, 
+    // 목차 리스트 (배열)
+    toc: [
+      "1장: 서론",
+      "2장: 본론",
+      "3장: 본론",
+      "4장: 결론",
+      "부록: "
+    ],
+    // 상세 설명
+    description: `이 책은 1890년 영국에서부터 시작되어...
+    
+    줄거리 및 서평 작성
+    백엔드에서 받아온 텍스트 삽입.`
+  };
 
   return (
     <div className={styles.appContainer}>
+      
+      {/* 메인 컨텐츠 박스 */}
       <main className={styles.mainContent}>
-        <div className={styles.logoContainer}>
-          <img src={releaseLogo} alt="Custom Logo" className={styles.customHeaderLogo} />
-        </div>
+        
+        {/* 로고 */}
+        <img src={releaseLogo} alt="Release Logo" className={styles.customHeaderLogo} />
 
+        {/* 1. 상단 책 정보 섹션 */}
         <section className={styles.bookDetailsSection}>
-          <div className={styles.bookCover}></div>
+          {/* 책 표지: 이미지가 있으면 img 태그, 없으면 기존 회색 박스 유지 */}
+          {bookInfo.coverImage ? (
+            <img 
+              src={bookInfo.coverImage} 
+              alt={bookInfo.title} 
+              className={styles.bookCover} // 사이즈 CSS 유지
+            />
+          ) : (
+            <div className={styles.bookCover}></div>
+          )}
+          
           <div className={styles.bookInfo}>
-            <h1 className={styles.bookTitle}>Book Title</h1>
-            <p className={styles.bookInfoText}><strong>저자:</strong> 저자명</p>
-            <p className={styles.bookInfoText}><strong>발행사항:</strong> 출판사, 발행연도</p>
-            <p className={styles.bookInfoText}><strong>카테고리:</strong> 카테고리명</p>
-            <p className={styles.bookInfoText}><strong>언어:</strong> 언어</p>
+            <h1 className={styles.bookTitle}>{bookInfo.title}</h1>
+            <p className={styles.bookInfoText}>저자 : {bookInfo.author}</p>
+            <p className={styles.bookInfoText}>발행사항 : {bookInfo.publisher}</p>
+            <p className={styles.bookInfoText}>카테고리 : {bookInfo.category}</p>
+            <p className={styles.bookInfoText}>언어 : {bookInfo.language}</p>
             
             <button
               className={`${styles.loanButton} ${isAvailable ? styles.available : styles.unavailable}`}
@@ -30,6 +65,7 @@ function BookDetail() {
                 if(isAvailable) {
                   alert('대출이 완료되었습니다.');
                   setIsAvailable(false);
+                  // 백엔드 대출 요청 API
                 }
               }}
             >
@@ -38,37 +74,31 @@ function BookDetail() {
           </div>
         </section>
 
-        <section className={styles.tabSection}>
-          <nav className={styles.tabNav}>
-            <button
-              className={`${styles.tabButton} ${activeTab === 'details' ? styles.active : ''}`}
-              onClick={() => setActiveTab('details')}
-            >
-              상세 설명
-            </button>
-            <button
-              className={`${styles.tabButton} ${activeTab === 'toc' ? styles.active : ''}`}
-              onClick={() => setActiveTab('toc')}
-            >
-              목차
-            </button>
-          </nav>
-          <div className={styles.tabContent}>
-            {activeTab === 'details' ? (
-              <div>
-                <p className={styles.tabInfoText}>책 상세 설명...</p>
-              </div>
-            ) : (
-              <div>
-                <ul className={styles.tocList}>
-                  <li className={styles.tocItem}>1장: 첫 번째</li>
-                  <li className={styles.tocItem}>2장: 두 번째</li>
-                  <li className={styles.tocItem}>3장: 세 번째</li>
-                </ul>
-              </div>
-            )}
+        {/* 2. 하단 분할 섹션 */}
+        <section className={styles.splitSection}>
+          
+          {/* 왼쪽: 목차 */}
+          <div className={styles.tocContainer}>
+            <span className={styles.sectionTitle}>목차</span>
+            <ul className={styles.listContent}>
+              {/* 목차 배열을 map으로 반복 */}
+              {bookInfo.toc.map((item, index) => (
+                <li key={index} className={styles.listItem}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          {/* 오른쪽: 상세설명 */}
+          <div className={styles.detailsContainer}>
+            <span className={styles.sectionTitle}>상세 설명</span>
+            <div className={styles.detailText}>
+              <p style={{ whiteSpace: 'pre-line' }}>
+                {bookInfo.description}
+              </p>
+            </div>
           </div>
         </section>
+
       </main>
     </div>
   );
