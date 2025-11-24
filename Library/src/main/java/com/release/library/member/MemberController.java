@@ -5,7 +5,6 @@ import com.release.library.dto.MemberCreateDto;
 import com.release.library.dto.MemberListDto;
 import com.release.library.dto.PasswordChangeDto;
 import com.release.library.security.JwtUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +12,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -28,6 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController // ★ 중요: 모든 메서드가 JSON/API 응답을 하므로 @RestController로 변경
 @RequestMapping("/member")
+@CrossOrigin(origins = "http://localhost:5173")
 public class MemberController {
     private final MemberService memberService;
     private final AuthenticationManager authenticationManager; // 주입
