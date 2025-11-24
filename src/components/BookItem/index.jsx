@@ -9,9 +9,7 @@ const BookItem = ({ book }) => {
         </div>
         <div className={styles.bookDetails}>
             <h2 className={styles.bookTitle}>{book.title}</h2>
-            <p className={styles.bookInfo}>발행사항: {book.author}, {book.publisher}</p>
-            <p className={styles.bookCategory}>카테고리: {book.category}</p>
-            <button className={styles.bookBorrowButton} disabled={!book.isAvailable}>{book.isAvailable ? '대출' : '대출 불가'}</button>
+            <p className={styles.bookAuthor}>{book.author}</p>
         </div>
     </div>
   );

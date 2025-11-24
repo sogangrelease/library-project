@@ -14,6 +14,7 @@
     display: grid;
     position: relative;
     grid-template-columns: 1fr 1fr;
+    align-content: start;
 }
 
 .loanStatusContent {
@@ -43,10 +44,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 30px;
+    padding: 21px;
 }
 
 .loanItemDetails {
-    margin: 0;
     text-align: center;
 }
+
+.loanItemDetails > p {
+    margin: 0;
+}
+
