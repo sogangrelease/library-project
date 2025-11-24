@@ -42,9 +42,9 @@ function Login() {
     };
 
     return <div>
-        <input className={styles.input} type='text' value={id} onChange={setId(event.target.value)} placeholder='아이디' name='아이디' prefix='아이디' required/>
-        <input className={styles.input} type='password' value={pw} onChange={setPw(event.target.value)} placeholder='비밀번호' name='비밀번호' required />
-        <button className={styles.button} type='button' name='로그인' onClick={submit(id, pw)}>로그인</button>
+        <input className={styles.input} type='text' value={id} onChange={() => setId(event.target.value)} placeholder='아이디' name='아이디' prefix='아이디' required/>
+        <input className={styles.input} type='password' value={pw} onChange={() => setPw(event.target.value)} placeholder='비밀번호' name='비밀번호' required />
+        <button className={styles.button} type='button' name='로그인' onClick={() => submit(id, pw)}>로그인</button>
     </div>;
 }
 
