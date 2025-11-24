@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+const API_BASE_URL = ""
+
 export const useFetch = (url) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -8,7 +10,7 @@ export const useFetch = (url) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(url);
+                const response = await fetch(`${API_BASE_URL}${url}`);
                 if (!response.ok) {
                     throw new Error('Error');
                 }
