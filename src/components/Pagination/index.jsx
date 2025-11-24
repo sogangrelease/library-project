@@ -1,7 +1,7 @@
-import styles from './Pagnation.module.css'
+import styles from './Pagination.module.css'
 
-const Pagnation = ({ currentPage, totalPages, maxPageButtons, onPageChange }) => {
-    const getPagnationArray = () => {
+const Pagination = ({ currentPage, totalPages, maxPageButtons, onPageChange }) => {
+    const getPaginationArray = () => {
         if (totalPages <= maxPageButtons) {
             return Array.from({ length: totalPages }, (_, i) => i + 1);
         }
@@ -18,22 +18,22 @@ const Pagnation = ({ currentPage, totalPages, maxPageButtons, onPageChange }) =>
             start = Math.max(1, totalPages - maxPageButtons + 1);
         }
 
-        const pagnationArray = [];
+        const paginationArray = [];
         for (let i = start; i <= end; i++) {
-            pagnationArray.push(i);
+            paginationArray.push(i);
         }
 
-        return pagnationArray;
+        return paginationArray;
     };
 
-    const pagnationArray = getPagnationArray();
+    const paginationArray = getPaginationArray();
 
     if (totalPages === 0) return null;
 
     return (
-        <div className={styles.pagnationDiv}>
+        <div className={styles.paginationDiv}>
             <button onClick={() => onPageChange(currentPage - 1)} className={styles.pageBtn}>&lt;</button>
-            {pagnationArray.map((n, i) =>(
+            {paginationArray.map((n, i) =>(
                 <button key={i}onClick={() => onPageChange(n)} className={n == currentPage ? styles.active : styles.pageBtn}>{n}</button>
             ))}
             <button onClick={() => onPageChange(currentPage + 1)} className={styles.pageBtn}>&gt;</button>
@@ -41,4 +41,4 @@ const Pagnation = ({ currentPage, totalPages, maxPageButtons, onPageChange }) =>
     );
 }
 
-export default Pagnation;
+export default Pagination;

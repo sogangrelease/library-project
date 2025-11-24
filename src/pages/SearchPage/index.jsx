@@ -3,7 +3,7 @@ import releaseLogo from '@/assets/release-black-small.webp';
 import styles from './SearchPage.module.css';
 import SearchQuery from '@/components/SearchQuery';
 import BookList from '@/components/BookList';
-import Pagnation from '@/components/Pagnation';
+import Pagination from '@/components/Pagination';
 
 import { useSearchParams } from 'react-router-dom';
 
@@ -250,7 +250,7 @@ const SearchPage = () => {
             <img src={releaseLogo} alt="Release logo" className={styles.releaseLogo} />
             <SearchQuery keyword={keyword} category={category}/>
             <BookList books={slicedBooks}/>
-            <Pagnation currentPage={pageNumber} totalPages={totalPages} maxPageButtons={5} onPageChange={handlePageChange}/>
+            <Pagination currentPage={pageNumber} totalPages={totalPages} maxPageButtons={5} onPageChange={handlePageChange}/>
         </div>
     );
 };
