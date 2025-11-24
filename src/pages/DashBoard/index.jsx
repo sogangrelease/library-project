@@ -155,7 +155,7 @@ const DashBoard = () => {
           />
 
            {/* (3) 반납 예정 도서 */}
-           <BookSection 
+          <BookSection 
             title="반납 예정 도서" 
             headerStyle={styles.headerYellow} 
             books={scheduledBooks} 
@@ -180,7 +180,7 @@ const DashBoard = () => {
           </div>
 
           <div className={styles.bottomArrowContainer}>
-             <IoArrowDownCircleOutline className={styles.downArrow}/>
+            <IoArrowDownCircleOutline className={styles.downArrow}/>
           </div>
         </div>
 
