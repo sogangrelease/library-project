@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 function Login() {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    const [id, setId] = useState(null);
-    const [pw, setPw] = useState(null);
+    const [id, setId] = useState("");
+    const [pw, setPw] = useState("");
 
     const API_BASE_URL = "";
 
