@@ -9,15 +9,21 @@ function Login() {
     const [id, setId] = useState("");
     const [pw, setPw] = useState("");
 
-    const API_BASE_URL = "";
+    const API_BASE_URL = "http://localhost:8080";
 
     const submit = (id, pw) =>{
     setIsLoading(true);
     try {
-      const response = axios.post(`${API_BASE_URL}/member/authenticate`, {
-        "studentId":`${id}`,
-        "password":`${pw}`
-      });
+      axios({
+	      method: "post",
+	      url: `${API_BASE_URL}/member/authenticate`,
+	      data: {
+	        "studentId":`${id}`,
+          "password":`${pw}`
+	      }
+	    }
+      ).then(function (response) {
+	      
 
       /*
       alert({
@@ -28,6 +34,9 @@ function Login() {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userEmail", response.data.email);
       navigate("/");
+	  }).catch(function() {
+      
+    })
     } catch {
         /*
       alert({
