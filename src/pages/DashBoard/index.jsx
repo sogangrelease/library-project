@@ -1,39 +1,31 @@
 import React, { useRef, useState, useEffect } from 'react';
+import axios from 'axios';
 import styles from './DashBoard.module.css';
 import { IoArrowBackCircleOutline, IoArrowForwardCircleOutline, IoArrowDownCircleOutline } from "react-icons/io5";
 import releaseLogo from '../../assets/release-black-small.webp'; 
 
-// 도서 섹션 컴포넌트 (스크롤 포함)
 const BookSection = ({ title, headerStyle, books }) => {
   const listRef = useRef(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
 
-  // 스크롤 상태 체크
   const checkScroll = () => {
     if (listRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = listRef.current;
-      
-      // 왼쪽 화살표: 스크롤이 0보다 크면 보임
       setShowLeft(scrollLeft > 0);
-      
-      // 오른쪽 화살표: 스크롤 가능한 영역이 남았으면 보임 (오차범위 1px)
       setShowRight(scrollLeft + clientWidth < scrollWidth - 1);
     }
   };
 
-  // 초기 로딩 및 데이터 변경 시 스크롤 상태 확인
   useEffect(() => {
     checkScroll();
-    // 창 크기 변해도 화살표 유무 다시 체크
     window.addEventListener('resize', checkScroll);
     return () => window.removeEventListener('resize', checkScroll);
   }, [books]);
 
-  // 좌우 이동 함수
   const scroll = (direction) => {
     if (listRef.current) {
-      const scrollAmount = 300; // 한 번에 이동할 픽셀 수 (책 2~3권 너비)
+      const scrollAmount = 300;
       listRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth'
@@ -41,20 +33,19 @@ const BookSection = ({ title, headerStyle, books }) => {
     }
   };
 
-  // 책 렌더링 헬퍼
   const renderBookItem = (book) => {
-    if (book.coverImage) {
+    if (book.coverUrl) {
       return (
         <img 
-          key={book.id} 
-          src={book.coverImage} 
+          key={book.id || Math.random()} 
+          src={book.coverUrl} 
           alt={book.title} 
           className={styles.bookPlaceholder} 
           style={{ objectFit: 'cover' }}
         />
       );
     }
-    return <div key={book.id} className={styles.bookPlaceholder} />;
+    return <div key={book.id || Math.random()} className={styles.bookPlaceholder} />;
   };
 
   return (
@@ -65,7 +56,6 @@ const BookSection = ({ title, headerStyle, books }) => {
       </div>
       
       <div className={styles.carouselContainer}>
-        {/* 왼쪽 화살표: showLeft가 true일 때만 보임 */}
         <button 
           className={`${styles.arrowBtn} ${!showLeft ? styles.hidden : ''}`} 
           onClick={() => scroll('left')}
@@ -73,21 +63,10 @@ const BookSection = ({ title, headerStyle, books }) => {
           <IoArrowBackCircleOutline />
         </button>
         
-        {/* 도서 리스트 (스크롤 영역) */}
-        <div 
-          className={styles.bookList} 
-          ref={listRef} 
-          onScroll={checkScroll} // 스크롤 할 때마다 화살표 상태 체크
-        >
-          {/* 데이터가 없으면 아무것도 안 나옴 (빈 화면) */}
-          {books && books.length > 0 ? (
-            books.map((book) => renderBookItem(book))
-          ) : (
-            null
-          )}
+        <div className={styles.bookList} ref={listRef} onScroll={checkScroll}>
+          {books && books.length > 0 ? books.map(renderBookItem) : null}
         </div>
 
-        {/* 오른쪽 화살표: showRight가 true일 때만 보임 */}
         <button 
           className={`${styles.arrowBtn} ${!showRight ? styles.hidden : ''}`} 
           onClick={() => scroll('right')}
@@ -101,34 +80,96 @@ const BookSection = ({ title, headerStyle, books }) => {
 
 // 메인 대시보드 컴포넌트
 const DashBoard = () => {
-  
-  // 테스트 위한 더미 데이터
-  const overdueBooks = [
-    { id: 1, title: '책1', coverImage: null },
-    { id: 2, title: '책2', coverImage: null }, 
-    { id: 3, title: '책3', coverImage: null },
-    { id: 4, title: '책4', coverImage: null },
-    { id: 5, title: '책5', coverImage: null }, // 스크롤 테스트용 추가
-    { id: 6, title: '책6', coverImage: null },
-  ];
+  const [overdueBooks, setOverdueBooks] = useState([]);
+  const [returnTodayBooks, setReturnTodayBooks] = useState([]);
+  const [scheduledBooks, setScheduledBooks] = useState([]);
+  const [overdueUsers, setOverdueUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const returnTodayBooks = [
-    { id: 7, title: '책7', coverImage: null },
-    { id: 8, title: '책8', coverImage: null },
-    { id: 9, title: '책9', coverImage: null },
-  ];
+  // 오늘 날짜
+  const todayStr = new Date().toISOString().slice(0, 10).replace(/-/g, '.');
 
-  const scheduledBooks = [
-    // 비어있으면 화살표도 안 나오고 책도 안 나옴
-  ];
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const headers = { Authorization: `Bearer ${token}` };
 
-  const overdueUsers = [
-    { id: 1, name: '김00', book: '대출한 책 제목', date: '2000.00.00' },
-    { id: 2, name: '이00', book: '리액트 프로그래밍', date: '2025.11.01' },
-    { id: 3, name: '박00', book: '데이터베이스 개론', date: '2025.10.15' },
-    { id: 4, name: '최00', book: '알고리즘 인터뷰', date: '2025.12.01' },
-    { id: 5, name: '정00', book: '클린 코드', date: '2025.09.20' },
-  ];
+        // 1. 전체 책 목록 가져오기 (표지 이미지를 얻기 위함) 
+        const booksResponse = await axios.get('/api/books', { headers });
+        const allBooks = booksResponse.data;
+
+        // 2. 전체 대출 내역 가져오기 (관리자 전용) 
+        const borrowsResponse = await axios.post('/borrow/list', {}, { headers });
+        const allBorrows = borrowsResponse.data;
+
+        // --- 데이터 분류 로직 ---
+        const now = new Date();
+        // 시간을 00:00:00으로 맞춰 날짜만 비교
+        const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const tomorrowStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+
+        const tempOverdue = [];
+        const tempToday = [];
+        const tempScheduled = [];
+        const tempUsers = [];
+
+        allBorrows.forEach(borrow => {
+          // 해당 대출건의 책 정보 찾기 (표지 이미지를 위해)
+          // API 명세상 BorrowListDto에는 책 ID가 없고 titleMain만 있음. 제목으로 매칭
+          const bookInfo = allBooks.find(b => b.titleMain === borrow.titleMain);
+          const coverUrl = bookInfo ? bookInfo.coverUrl : null;
+          
+          const returnDate = new Date(borrow.returnAt);
+          
+          // 데이터 객체 생성
+          const item = {
+            id: borrow.borrowId,
+            title: borrow.titleMain,
+            coverUrl: coverUrl,
+            memberName: borrow.memberName,
+            returnDateStr: returnDate.toISOString().slice(0, 10).replace(/-/g, '.')
+          };
+
+          // 날짜 비교 로직
+          if (returnDate < todayStart) {
+            // 1) 연체 (반납일이 오늘보다 이전)
+            tempOverdue.push(item);
+            
+            // 연체자 리스트에도 추가
+            tempUsers.push({
+              id: borrow.borrowId,
+              name: borrow.memberName,
+              book: borrow.titleMain,
+              date: item.returnDateStr
+            });
+
+          } else if (returnDate >= todayStart && returnDate < tomorrowStart) {
+            // 2) 오늘 반납 (반납일이 오늘)
+            tempToday.push(item);
+          } else {
+            // 3) 반납 예정 (미래)
+            tempScheduled.push(item);
+          }
+        });
+
+        setOverdueBooks(tempOverdue);
+        setReturnTodayBooks(tempToday);
+        setScheduledBooks(tempScheduled);
+        setOverdueUsers(tempUsers);
+        setLoading(false);
+
+      } catch (error) {
+        console.error("데이터를 불러오지 못했습니다.", error);
+        // 에러 발생 시 더미데이터 혹은 빈 배열 유지
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
+  if (loading) return <div className={styles.container}><p style={{paddingTop: '200px'}}>Loading...</p></div>;
 
   return (
     <div className={styles.container}>
@@ -140,21 +181,21 @@ const DashBoard = () => {
         {/* === [왼쪽 컬럼] === */}
         <div className={styles.leftColumn}>
           
-          {/* (1) 연체 도서 (BookSection 컴포넌트 사용) */}
+          {/* 연체 도서 */}
           <BookSection 
             title="연체 도서" 
             headerStyle={styles.headerRed} 
             books={overdueBooks} 
           />
 
-          {/* (2) 반납 예정일 */}
+          {/* 반납 예정일 (오늘 날짜 동적 표시) */}
           <BookSection 
-            title="반납 예정일 2000.00.00" 
+            title={`반납 예정일 ${todayStr}`} 
             headerStyle={styles.headerOrange} 
             books={returnTodayBooks} 
           />
 
-           {/* (3) 반납 예정 도서 */}
+           {/* 반납 예정 도서 (내일 이후) */}
           <BookSection 
             title="반납 예정 도서" 
             headerStyle={styles.headerYellow} 
@@ -170,13 +211,19 @@ const DashBoard = () => {
           </div>
           
           <div className={styles.userListContainer}>
-            {overdueUsers.map((user) => (
-              <div key={user.id} className={styles.userItem}>
-                <div className={styles.userName}>{user.name}</div>
-                <div className={styles.overdueBookTitle}>{user.book}</div>
-                <div className={styles.returnDate}>반납일 : {user.date}</div>
+            {overdueUsers.length > 0 ? (
+              overdueUsers.map((user) => (
+                <div key={user.id} className={styles.userItem}>
+                  <div className={styles.userName}>{user.name}</div>
+                  <div className={styles.overdueBookTitle}>{user.book}</div>
+                  <div className={styles.returnDate}>반납일 : {user.date}</div>
+                </div>
+              ))
+            ) : (
+              <div style={{padding: '20px', textAlign: 'center', color: '#666'}}>
+                현재 연체자가 없습니다.
               </div>
-            ))}
+            )}
           </div>
 
           <div className={styles.bottomArrowContainer}>
