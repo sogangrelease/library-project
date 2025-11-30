@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './BookSlider.module.css';
 import BookImage from '@/components/BookImage';
 
 const BookSlider = ({ subject, books }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentSubject, setCurrentSubject] = useState(subject);
     const itemsPerPage = 4;
+    const navigate = useNavigate();
 
     useEffect(() => {
         setCurrentIndex(0);
     }, [books]);
+
+    const navTo = (path) => {
+        navigate(path);
+    }
 
     const handleNext = () => {
         if (currentIndex + itemsPerPage >= books.length) return;
@@ -30,7 +37,7 @@ const BookSlider = ({ subject, books }) => {
         <div className={styles.bookSlider}>
             <div className={styles.sliderHeader}>
                 <div className={styles.sliderSubject}>{subject}</div>
-                <button className={styles.moreButton} aria-label="More infomation">+</button>
+                <button className={styles.moreButton} onClick={() => navTo(`/search?category=${currentSubject}&page=1`)}aria-label="More infomation">+</button>
             </div>
 
             <div className={styles.sliderBody}>

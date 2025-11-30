@@ -1,4 +1,5 @@
 import BookSlider from '@/components/BookSlider';
+import { useNavigate } from 'react-router-dom';
 import BookImage from '@/components/BookImage';
 import styles from './MainPage.module.css';
 import releaseLogo from '@/assets/release-black-small.webp';
@@ -106,11 +107,16 @@ const books = [
 ];
 
 const LoanStatusSidebar = () => {
+  const navigate = useNavigate();
+
+  const navTo = (path) => {
+    navigate(path);
+  }
     return (
         <div className={styles.loanStatusContent}>
             <div className={styles.loanHeader}>
                 <span>대출 현황</span>
-                <button>+</button>
+                <button onClick={() => navTo('/mypage')}>+</button>
             </div>
             <div className={styles.loanList}>
                 <LoanItem book={books[0]} />
