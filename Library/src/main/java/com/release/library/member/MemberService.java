@@ -82,6 +82,14 @@ public class MemberService {
                 })
                 .collect(Collectors.toList());
     }
+    public MemberListDto getMemberInfo( Member member){
+        MemberListDto dto = new MemberListDto();
+        dto.setStudentId(member.getStudentId());
+        dto.setName(member.getName());
+        dto.setPhoneNumber(member.getPhoneNumber());
+        dto.setRole(member.getRole());
+        return dto;
+    }
 
     //멤버 삭제
     @Transactional

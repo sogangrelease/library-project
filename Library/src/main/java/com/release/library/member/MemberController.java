@@ -115,4 +115,13 @@ public class MemberController {
         }
         return ResponseEntity.ok("계정이 삭제되었습니다.");
     }
+
+    //계정정보 조회
+    @PostMapping("/getInfo")
+    public ResponseEntity<MemberListDto> getMemberInfo(Principal principal){
+        Member member = this.memberService.getMember(principal.getName());
+        MemberListDto dto = this.memberService.getMemberInfo(member);
+        return ResponseEntity.ok(dto);
+    }
+
 }
