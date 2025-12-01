@@ -52,6 +52,7 @@ function MyPage() {
                 setAccount(response.data);
             })
             .catch(function (error) {
+                console.error('/member/getinfo error');
                 console.error(error);
             });
     
@@ -69,7 +70,7 @@ function MyPage() {
     const books = booksData.map(book =>
     <li key = {book.borrowId} className={styles.bookItem}>
         <div className={styles.bookimage}>
-            <img src="example_book.png" alt="Cover image of book" height={180} />
+            <img src={book.coverUrl} alt="Cover image of book" height={180} />
         </div>
         <div className={styles.bookinfo}>
             <p><b>{book.titleMain}</b></p>
