@@ -47,7 +47,7 @@ function MyPage() {
     };
 
     useEffect(() => {
-        api.post('/member/getinfo')
+        api.post('/member/getInfo')
             .then(function (response) {
                 setAccount(response.data);
             })
