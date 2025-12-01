@@ -26,6 +26,8 @@ function Login() {
       .then(function (response) {
           const token = response.data.token;
           setCookie('token', token, { path: '/' });
+          //localStorage.setItem('token', response.data.token);
+          //localStorage.setCookie('token', response.data.token);
           navigate("/");
       })
       .catch(function (error) {
@@ -39,41 +41,6 @@ function Login() {
       .finally(function () {
           setIsLoading(false);
       });
-<<<<<<< HEAD
-      */
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("userEmail", response.data.email);
-      navigate("/");
-	  }).catch(function(error) {
-      if (error.response.status == 401) {
-        // TODO : "아이디나 비밀번호가 일치하지 않습니다"
-      }
-      else if (error.response) {
-        // TODO: "알 수 없는 오류가 발생했습니다."
-        // Error code: error.response.status
-        // Error message: error.response.data
-      }
-      else if (error.request) {
-        // TODO: "서버가 오프라인 상태입니다. 대체 이 문구를 어떻게 보고 계신 거죠?"
-      }
-      else {
-        // TODO: "알 수 없는 오류가 발생했습니다."
-        // Error message: error.message
-      }
-    })
-    } catch {
-        /*
-      alert({
-        variant: "destructive",
-        title: "로그인 실패",
-        description: "로그인에 실패했습니다.",
-      });
-      */
-    } finally {
-      setIsLoading(false);
-    }
-=======
->>>>>>> 538ecabc3c37a230a95c3bc437ca7e13f80a79d1
     };
 
     return <div>
