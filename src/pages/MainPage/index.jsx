@@ -181,16 +181,29 @@ const CategorySection = ({ category }) => {
 };
 
 const MainPage = () => {
+    const [books, setBooks] = useState([]);
+
+    useEffect(() => {
+        api.post('/api/books')
+            .then(function (response) {
+                setBooks(response.data);
+            })
+            .catch(function (error) {
+                console.error('/api/books error');
+                console.error(error);
+            });
+    }, []);
+
     return (
         <div className={styles.mainPage}>
             <div className={styles.sliderGrid}>
                 <img src={releaseLogo} alt="Release logo" className={styles.releaseLogo} />
-                <CategorySection category="subject1"/>
-                <CategorySection category="subject2"/>
-                <CategorySection category="subject3"/>
-                <CategorySection category="subject4"/>
-                <CategorySection category="subject5"/>
-                <CategorySection category="subject6"/>
+                <BookSlider subject="subject1" books={books.slice(0,10)} />
+                <BookSlider subject="subject1" books={books.slice(10,20)} />
+                <BookSlider subject="subject1" books={books.slice(20,30)} />
+                <BookSlider subject="subject1" books={books.slice(30,40)} />
+                <BookSlider subject="subject1" books={books.slice(40,50)} />
+                <BookSlider subject="subject1" books={books.slice(50,60)} />
             </div>
             <aside className={styles.loanStatusSidebar}>
                 <LoanStatusSidebar />
