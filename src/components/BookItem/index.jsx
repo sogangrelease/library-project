@@ -8,7 +8,7 @@ const BookItem = ({ book }) => {
             <img src={book.coverUrl || `https://placehold.co/200x300/e0e0e0/909090?text=${book.title}`} alt={`${book.title} cover`} />
         </div>
         <div className={styles.bookDetails}>
-            <h2 className={styles.bookTitle}>{book.title}</h2>
+            <h2 className={styles.bookTitle}>{book.titleMain}</h2>
             <p className={styles.bookAuthor}>{book.author}</p>
         </div>
     </div>
