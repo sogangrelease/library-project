@@ -5,7 +5,7 @@ import styles from './searchBar.module.css';
 
 const SearchBar = ({ categories }) => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [selectedCategory, setSelectedCategory] = useState('');
     const navigate = useNavigate();
 
     const navTo = (path) => {
@@ -23,7 +23,7 @@ const SearchBar = ({ categories }) => {
                 value={selectedCategory}
                 onChange={handleCategoryChange}
             >
-                <option value='all'>모든 카테고리</option>
+                <option value=''>모든 카테고리</option>
                 {categories.map((category) => (
                     <option key={category} value={category}>{String(category)}</option>
                 ))}

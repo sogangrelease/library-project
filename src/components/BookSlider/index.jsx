@@ -62,7 +62,7 @@ const BookSlider = ({ subject, books }) => {
                                 <div className={styles.bookWrapper}>
                                     <BookImage 
                                         src={book.coverUrl} 
-                                        alt={book.title} 
+                                        alt={book.titleMain} 
                                     />
                                 </div>
                             </div>
