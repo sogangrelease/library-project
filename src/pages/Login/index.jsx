@@ -3,6 +3,7 @@ import api from '@/api/axios.js';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import releaseLogo from '@/assets/release-black-small.webp';
 
 function Login() {
     const navigate = useNavigate();
@@ -43,10 +44,16 @@ function Login() {
       });
     };
 
-    return <div>
+    return <div className={styles.container}>
+      <div className={styles.column}>
+        <div className={styles.logo}>
+          <img src={releaseLogo} alt="Release logo" className={styles.releaseLogo} />
+          <h1 className={styles.name}>Release Library</h1>
+        </div>
         <input className={styles.input} type='text' value={id} onChange={() => setId(event.target.value)} placeholder='아이디' name='아이디' prefix='아이디' required/>
         <input className={styles.input} type='password' value={pw} onChange={() => setPw(event.target.value)} placeholder='비밀번호' name='비밀번호' required />
         <button className={styles.button} type='button' name='로그인' onClick={() => submit(id, pw)}>로그인</button>
+      </div>
     </div>;
 }
 

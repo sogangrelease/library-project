@@ -11,46 +11,36 @@
     color: rgb(50, 50, 50);
 }
 
+.container {
+    display: grid;
+    justify-content: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    width: min(30em, 90vw);
+    margin: 25vh 10vw;
+    padding: 0;
+}
+
+.logo {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 60px 1fr;
+}
+
 .releaseLogo {
     width: 40px;
-    position:  relative;
-    left: 10px;
+    position: relative;
+    margin-left: 20px;
     bottom: 100%;
+    top: 35%
 }
 
-.logoButton {
-  display: block; 
-  margin: 0px;
-  padding: 0px;
-  line-height: 0;
-}
-
-.box {
-    border: 1px solid #636363;
-    display: flex;
-    flex-direction: column;
-    width: 40vw;
-    margin: 0 10px;
-    padding: 0;
-    flex: 1;
-}
-
-.pageOutline {
-    display: flex;
-    flex-direction: column;
-}
-
-.container {
-    display: flex;
-    background-color: #ffffff;
-    color: rgb(90, 90, 90);
-}
-
-.content {
-    padding: 15%;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
+.name {
+    margin-left: 10%;
+    margin-bottom: 1%;
 }
 
 .form {
@@ -60,17 +50,17 @@
 }
 
 .input {
-    font: .9em;
+    font-size: 1em;
     padding-inline: initial;
     text-align: start;
     padding: 4%;
     color:rgb(247, 210, 90);
     background-color: transparent;
     border-color: #636363;
-    border-radius: 10px;
+    border-radius: 16px;
     border-style: solid;
     border-width: 1px;
-    margin: 2% 0;
+    margin-bottom: 2vh;
     opacity: 1;
 }
 
@@ -85,26 +75,10 @@
 }
 
 .button {
+    font-size: 1em;
     background-color: rgb(247, 210, 90);
     color: rgb(36, 36, 36);
-    border-radius: 20px;
+    border-radius: 16px;
     border-width: 1px;
-    padding: 5px;
-}
-
-.bookList {
-    padding: 0;
-}
-
-.bookItem {
-    display: flex;
-}
-
-.bookimage {
-    flex: 1;
-}
-
-.bookinfo {
-    flex: 7;
-    margin-left: 5%;
+    padding: 1.2vh;
 }
