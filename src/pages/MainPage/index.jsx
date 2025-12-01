@@ -151,10 +151,10 @@ const LoanStatusSidebar = () => {
 const LoanItem = ({ book }) => {
     return (
         <div className={styles.loanItem}>
-            <BookImage src={book.coverUrl} alt={book.title}/>
+            <BookImage src={book.coverUrl} alt={book.titleMain}/>
             <div className={styles.loanItemDetails}>
                 <p>반납예정일</p>
-                <p>2026.01.10</p>
+                <p>{book.returnAt}</p>
             </div>
         </div>
     );
