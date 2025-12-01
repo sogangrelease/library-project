@@ -19,7 +19,7 @@ const SearchBar = ({ categories }) => {
     return (
         <div className={styles.searchBar}>
             <select
-                class={styles.categorySelectDropDown}
+                className={styles.categorySelectDropDown}
                 value={selectedCategory}
                 onChange={handleCategoryChange}
             >
