@@ -1,25 +1,38 @@
 import styles from './MyPage.module.css'; 
+import { useEffect } from 'react'; 
+import api from '@/api/axios';
 import { Link } from 'react-router-dom';
 import releaseLogo from '@/assets/release-black-small.webp';
 
 function MyPage() {
-    const accountOnServer = {이름: '홍길동', 학번: '20231234', 전화번호: '010-1234-5678'};
-    const booksOnServer = [
-        {id: 1, title: 'JavaScript 기초', due: '2024-07-15'},
-        {id: 2, title: 'React 입문', due: '2024-07-20'},
-        {id: 3, title: '웹 개발 완전 정복', due: '2024-07-25'}
+    let accountOnServer = {이름: '홍길동', 학번: '20231234', 전화번호: '010-1234-5678'};
+    let booksOnServer = [
+        {borrowId: 1, titleMain: 'JavaScript 기초', returnAt: '2024-07-15'},
+        {borrowId: 2, titleMain: 'React 입문', returnAt: '2024-07-20'},
+        {borrowId: 3, titleMain: '웹 개발 완전 정복', returnAt: '2024-07-25'}
     ];
+
+    useEffect(() => {
+        api.post('/my/borrow/list')
+        .then(function (response) {
+            booksOnServer = response.data;
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+    }, []);
+    
 
     const account = accountOnServer;
     const books = booksOnServer.map(book =>
-    <li key = {book.id} className={styles.bookItem}>
+    <li key = {book.borrowId} className={styles.bookItem}>
         <div className={styles.bookimage}>
             <img src="example_book.png" alt="Cover image of book" height={180} />
         </div>
         <div className={styles.bookinfo}>
-            <p><b>{book.title}</b></p>
+            <p><b>{book.titleMain}</b></p>
             <p>반납 예정일</p>
-            <p>{book.due}</p>
+            <p>{book.returnAt}</p>
         </div>
     </li>
     );
