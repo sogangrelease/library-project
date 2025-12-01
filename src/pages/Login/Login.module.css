@@ -27,15 +27,15 @@
 .logo {
     display: grid;
     justify-content: center;
-    grid-template-columns: 60px 1fr;
+    grid-template-columns: 70px 1fr;
 }
 
 .releaseLogo {
-    width: 40px;
+    width: 50px;
     position: relative;
     margin-left: 20px;
     bottom: 100%;
-    top: 35%
+    top: 19%
 }
 
 .name {
