@@ -164,7 +164,7 @@ const CategorySection = ({ category }) => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    api.get(`/api/books/category/${category}`)
+    api.post(`/api/books/category/${category}`)
       .then(function (response) {
         setBooks(response.data)
       })
