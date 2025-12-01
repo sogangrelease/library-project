@@ -3,6 +3,7 @@ package com.release.library.borrow;
 import com.release.library.DataNotFoundException;
 import com.release.library.book.Book;
 import com.release.library.dto.BorrowListDto;
+import com.release.library.dto.MyBorrowListDto;
 import com.release.library.member.Member;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -73,16 +74,17 @@ public class BorrowService {
     }
 
     //유저의 대여 목록 리턴
-    public List<BorrowListDto> getMyBorrowList(Member member){
+    public List<MyBorrowListDto> getMyBorrowList(Member member){
         List<Borrow> borrowList  = this.borrowRepository.findByMember(member);
         return borrowList.stream()
                 .map(borrow -> {
-                    BorrowListDto dto = new BorrowListDto();
+                    MyBorrowListDto dto = new MyBorrowListDto();
                     dto.setBorrowId(borrow.getId());
                     dto.setTitleMain(borrow.getBook().getTitleMain());
                     dto.setMemberId(borrow.getMember().getId());
                     dto.setMemberName(borrow.getMember().getName());
                     dto.setReturnAt(borrow.getReturnAt());
+                    dto.setCoverUrl(borrow.getBook().getCoverUrl());
                     return dto;
                 })
                 .collect(Collectors.toList());

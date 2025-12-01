@@ -5,6 +5,7 @@ import com.release.library.book.Book;
 import com.release.library.book.BookService;
 import com.release.library.dto.BookDto;
 import com.release.library.dto.BorrowListDto;
+import com.release.library.dto.MyBorrowListDto;
 import com.release.library.member.Member;
 import com.release.library.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -74,9 +75,9 @@ public class BorrowController {
     //마이페이지에서 조회
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/my/borrow/list")
-    public ResponseEntity<List<BorrowListDto>> getMyBorrowList(Principal principal){
+    public ResponseEntity<List<MyBorrowListDto>> getMyBorrowList(Principal principal){
         Member member = this.memberService.getMember(principal.getName());
-        List<BorrowListDto> borrowList = this.borrowService.getMyBorrowList(member);
+        List<MyBorrowListDto> borrowList = this.borrowService.getMyBorrowList(member);
         return ResponseEntity.ok(borrowList);
     }
 }

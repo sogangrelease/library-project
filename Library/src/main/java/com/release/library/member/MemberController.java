@@ -50,6 +50,7 @@ public class MemberController {
             final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             final String jwt = jwtUtil.generateToken(userDetails);
 
+            System.out.println("로그인 성공");
             // 클라이언트에게 토큰을 JSON 형태로 반환
             // React는 이 토큰을 받아 LocalStorage 등에 저장하고, 이후 요청 시 사용
             return ResponseEntity.ok(Collections.singletonMap("token", jwt));
@@ -112,8 +113,6 @@ public class MemberController {
         }catch(DataNotFoundException e){
             return ResponseEntity.status(422).body(e.getMessage());
         }
-
-
         return ResponseEntity.ok("계정이 삭제되었습니다.");
     }
 }
