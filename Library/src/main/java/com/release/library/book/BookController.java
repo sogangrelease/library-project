@@ -25,14 +25,15 @@ public class BookController {
     private final BookService bookService;
 
     // 1. 메인 페이지 로딩 (모든 책 목록 반환)
-    @GetMapping
+    @PostMapping
     public ResponseEntity<List<BookDto>> getAllBooks() {
         List<BookDto> bookList = this.bookService.getAllBooks();
+        System.out.println("책 조회 성공");
         return ResponseEntity.ok(bookList);
     }
 
     // 2. 책 상세 정보
-    @GetMapping("/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<BookDto> detailPage(@PathVariable Long id) {
         try {
             BookDto book = this.bookService.getBookDto(id);
@@ -45,7 +46,7 @@ public class BookController {
     }
 
     // 3. 카테고리 검색
-    @GetMapping("/category/{category}")
+    @PostMapping("/category/{category}")
     public ResponseEntity<List<BookDto>> searchByCategory(@PathVariable String category) {
         List<BookDto> bookList = this.bookService.searchByCategory(category);
         return ResponseEntity.ok(bookList); // 검색된 목록 JSON 반환

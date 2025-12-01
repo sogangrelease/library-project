@@ -23,7 +23,7 @@ import java.util.Map;
 
 
 @RequiredArgsConstructor
-@RestController // ★ 중요: 모든 메서드가 JSON/API 응답을 하므로 @RestController로 변경
+@RestController
 @RequestMapping("/member")
 @CrossOrigin(origins = "http://localhost:5173")
 public class MemberController {
