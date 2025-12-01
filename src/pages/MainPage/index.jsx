@@ -136,7 +136,7 @@ const LoanStatusSidebar = () => {
             <div className={styles.loanList}>
                 {myLoans.length > 0 ? (
                     myLoans.map((loan) => (
-                        <LoanItem key={loan.borrowId} loan={loan} />
+                        <LoanItem key={loan.borrowId} book={loan} />
                     ))
                 ) : (
                     <div style={{ padding: '20px', textAlign: 'center', color: '#999', fontSize: '14px' }}>
