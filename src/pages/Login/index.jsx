@@ -34,8 +34,22 @@ function Login() {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userEmail", response.data.email);
       navigate("/");
-	  }).catch(function() {
-      
+	  }).catch(function(error) {
+      if (error.response.status == 401) {
+        // TODO : "아이디나 비밀번호가 일치하지 않습니다"
+      }
+      else if (error.response) {
+        // TODO: "알 수 없는 오류가 발생했습니다."
+        // Error code: error.response.status
+        // Error message: error.response.data
+      }
+      else if (error.request) {
+        // TODO: "서버가 오프라인 상태입니다. 대체 이 문구를 어떻게 보고 계신 거죠?"
+      }
+      else {
+        // TODO: "알 수 없는 오류가 발생했습니다."
+        // Error message: error.message
+      }
     })
     } catch {
         /*
