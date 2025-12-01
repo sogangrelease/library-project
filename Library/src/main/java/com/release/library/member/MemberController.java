@@ -2,7 +2,7 @@ package com.release.library.member;
 
 import com.release.library.DataNotFoundException;
 import com.release.library.dto.MemberCreateDto;
-import com.release.library.dto.MemberListDto;
+import com.release.library.dto.MemberDto;
 import com.release.library.dto.PasswordChangeDto;
 import com.release.library.security.JwtUtil;
 import jakarta.validation.Valid;
@@ -96,8 +96,8 @@ public class MemberController {
     //관리자만 가능
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/list")
-    public ResponseEntity<List<MemberListDto>> memberList(){
-        List<MemberListDto> memberList = this.memberService.getMemberList();
+    public ResponseEntity<List<MemberDto>> memberList(){
+        List<MemberDto> memberList = this.memberService.getMemberList();
         return ResponseEntity.ok(memberList);
     }
 
@@ -118,9 +118,9 @@ public class MemberController {
 
     //계정정보 조회
     @PostMapping("/getInfo")
-    public ResponseEntity<MemberListDto> getMemberInfo(Principal principal){
+    public ResponseEntity<MemberDto> getMemberInfo(Principal principal){
         Member member = this.memberService.getMember(principal.getName());
-        MemberListDto dto = this.memberService.getMemberInfo(member);
+        MemberDto dto = this.memberService.getMemberInfo(member);
         return ResponseEntity.ok(dto);
     }
 

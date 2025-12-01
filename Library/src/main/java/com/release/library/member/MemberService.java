@@ -1,7 +1,7 @@
 package com.release.library.member;
 
 import com.release.library.DataNotFoundException;
-import com.release.library.dto.MemberListDto;
+import com.release.library.dto.MemberDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder; // ★ PasswordEncoder 임포트
@@ -68,12 +68,12 @@ public class MemberService {
     //멤버 리스트
     //memberID 값과 비밀번호는 필요없음
     //->memberListDto만들어서 필요한 정보만 담아줌.
-    public List<MemberListDto> getMemberList(){
+    public List<MemberDto> getMemberList(){
         List<Member> members = memberRepository.findAll();
 
         return members.stream()
                 .map(member -> {
-                    MemberListDto dto = new MemberListDto();
+                    MemberDto dto = new MemberDto();
                     dto.setStudentId(member.getStudentId());
                     dto.setName(member.getName());
                     dto.setPhoneNumber(member.getPhoneNumber());
@@ -82,8 +82,8 @@ public class MemberService {
                 })
                 .collect(Collectors.toList());
     }
-    public MemberListDto getMemberInfo( Member member){
-        MemberListDto dto = new MemberListDto();
+    public MemberDto getMemberInfo(Member member){
+        MemberDto dto = new MemberDto();
         dto.setStudentId(member.getStudentId());
         dto.setName(member.getName());
         dto.setPhoneNumber(member.getPhoneNumber());
