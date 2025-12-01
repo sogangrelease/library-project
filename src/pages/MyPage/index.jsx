@@ -54,15 +54,15 @@ function MyPage() {
             .catch(function (error) {
                 console.error('/member/getinfo error');
                 console.error(error);
-            });
+        });
     
-        api.post('/borrow/list')
+        api.post('/my/borrow/list')
             .then(function (response) {
                 setBooksData(response.data);
             })
             .catch(function (error) {
                 console.error(error);
-            });
+        });
 
         setIsLoading(false);
     }, []);
