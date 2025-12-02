@@ -12,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -55,7 +52,7 @@ public class BorrowController {
 
     //반납
     @PreAuthorize("hasRole('ADMIN')") //관리자 권한 필요
-    @PostMapping("/return/{id}") //여기서 id는 bookId가 아니라 borrowId
+    @DeleteMapping("/return/{id}") //여기서 id는 bookId가 아니라 borrowId
     public ResponseEntity<String> returnBook(@PathVariable("id") Long id) {
         Borrow borrow = this.borrowService.getBorrow(id);
         this.borrowService.returnBook(borrow);
@@ -65,7 +62,7 @@ public class BorrowController {
     //대여 내역 전체 조회
     //관리자 페이지에서 전체 조회할 거라 관리자만 사용 가능하게 분리
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/borrow/list")
+    @GetMapping("/borrow/list")
     public ResponseEntity<List<BorrowListDto>> getBorrowList(){
         List<BorrowListDto> borrowList = this.borrowService.getBorrowList();
         return ResponseEntity.ok(borrowList);
@@ -74,10 +71,11 @@ public class BorrowController {
     //해당 유저의 대여 내역 조회
     //마이페이지에서 조회
     @PreAuthorize("hasRole('USER')")
-    @PostMapping("/my/borrow/list")
+    @GetMapping("/my/borrow/list")
     public ResponseEntity<List<MyBorrowListDto>> getMyBorrowList(Principal principal){
         Member member = this.memberService.getMember(principal.getName());
         List<MyBorrowListDto> borrowList = this.borrowService.getMyBorrowList(member);
+        System.out.println("개인 대여 내역 조회 성공");
         return ResponseEntity.ok(borrowList);
     }
 }

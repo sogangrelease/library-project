@@ -25,7 +25,7 @@ public class BookController {
     private final BookService bookService;
 
     // 1. 메인 페이지 로딩 (모든 책 목록 반환)
-    @PostMapping
+    @GetMapping
     public ResponseEntity<List<BookDto>> getAllBooks() {
         List<BookDto> bookList = this.bookService.getAllBooks();
         System.out.println("책 조회 성공");
@@ -33,7 +33,7 @@ public class BookController {
     }
 
     // 2. 책 상세 정보
-    @PostMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<BookDto> detailPage(@PathVariable Long id) {
         try {
             BookDto book = this.bookService.getBookDto(id);
@@ -46,7 +46,7 @@ public class BookController {
     }
 
     // 3. 카테고리 검색
-    @PostMapping("/category/{category}")
+    @GetMapping("/category/{category}")
     public ResponseEntity<List<BookDto>> searchByCategory(@PathVariable String category) {
         List<BookDto> bookList = this.bookService.searchByCategory(category);
         return ResponseEntity.ok(bookList); // 검색된 목록 JSON 반환
@@ -76,13 +76,27 @@ public class BookController {
     }
 
     //5. 책 검색
-    @PostMapping("/search")
+    @GetMapping("/search")
     public ResponseEntity<List<BookDto>> searchBooks(@RequestBody BookSearchDto bookSearchDto) {
         String title = bookSearchDto.getTitle();
         String category = bookSearchDto.getCategory();
         List<BookDto> bookList = this.bookService.searchBooks(title,category);
 
         return ResponseEntity.ok(bookList);
+    }
+
+    //6. 책 삭제
+    //책의 bookId로 삭제
+    //관리자만 가능
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteBook(@PathVariable Long id) {
+        try {
+            this.bookService.deleteBook(id);
+            return ResponseEntity.ok("책이 성공적으로 삭제되었습니다.");
+        } catch(DataNotFoundException e){
+            return ResponseEntity.status(422).body(e.getMessage());
+        }
     }
 
 

@@ -45,6 +45,7 @@ public class SecurityConfig {
                         (authorizeHttpRequests) ->  authorizeHttpRequests
                                 // 로그인 API와 계정 생성 API는 인증 없이 접근 허용
                                 .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+                                .requestMatchers("/book-covers/**").permitAll()
                                 .requestMatchers("/member/authenticate", "/member/create").permitAll()
                                 .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 )

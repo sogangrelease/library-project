@@ -2,6 +2,7 @@ package com.release.library.book;
 
 import com.release.library.DataNotFoundException;
 import com.release.library.dto.BookDto;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -123,7 +124,7 @@ public class BookService {
         coverFile.transferTo(filePath.toFile());
 
         // 클라이언트에 반환할 URL, 서비스에 따라 다름 (여기선 상대경로 예시)
-        return "C:/Library/book-covers/" + savedFileName;
+        return "http://localhost:8080/book-covers/" + savedFileName;
     }
 
 
@@ -186,5 +187,18 @@ public class BookService {
                     return dto;
                 })
                 .collect(Collectors.toList());
+    }
+    //책 삭제
+    @Transactional
+    public void deleteBook(Long id) {
+        Book book = this.bookRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("책을 찾을 수 없습니다.")); // 1. 책이 없으면 바로 예외 발생
+
+        if(!book.isLoaned()) { // 2. 책이 있다면 대여 여부 확인
+            this.bookRepository.delete(book);
+        }
+        else{
+            throw new DataNotFoundException("대여중인 책입니다."); // 3. 대여 중이라면 예외 발생
+        }
     }
 }

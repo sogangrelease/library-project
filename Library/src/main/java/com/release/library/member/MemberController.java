@@ -95,7 +95,7 @@ public class MemberController {
     //멤버 리스트 조회
     //관리자만 가능
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/list")
+    @GetMapping("/list")
     public ResponseEntity<List<MemberDto>> memberList(){
         List<MemberDto> memberList = this.memberService.getMemberList();
         return ResponseEntity.ok(memberList);
@@ -105,7 +105,7 @@ public class MemberController {
     //관리자만 가능
     //여기서 id는 memberId
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteMember(@PathVariable("id") String id){
         try{
             Member member = this.memberService.getMember(id);
@@ -117,7 +117,7 @@ public class MemberController {
     }
 
     //계정정보 조회
-    @PostMapping("/getInfo")
+    @GetMapping("/getInfo")
     public ResponseEntity<MemberDto> getMemberInfo(Principal principal){
         Member member = this.memberService.getMember(principal.getName());
         MemberDto dto = this.memberService.getMemberInfo(member);

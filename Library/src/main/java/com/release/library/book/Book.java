@@ -34,10 +34,10 @@ public class Book {
     @Column(name = "language", length = 100)
     private String language;
 
-    @Column(name="description",length = 500)
+    @Column(name="description",length = 2000)
     private String description;
 
-    @Column(name="index_text",length = 300)
+    @Column(name="index_text",length = 2000)
     private String index;
 
     @Column(name="author",length = 100)
