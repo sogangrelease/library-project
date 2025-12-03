@@ -7,8 +7,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    // ... (기존 addCorsMappings 메서드 유지)
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //

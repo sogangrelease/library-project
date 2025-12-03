@@ -47,6 +47,7 @@ public class SecurityConfig {
                                 .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                                 .requestMatchers("/book-covers/**").permitAll()
                                 .requestMatchers("/member/authenticate", "/member/create").permitAll()
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**").permitAll()
                                 .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 )
                 // 5. JWT 필터를 Spring Security의 기본 필터 이전에 추가하여 토큰 검증

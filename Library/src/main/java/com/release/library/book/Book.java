@@ -34,13 +34,13 @@ public class Book {
     @Column(name = "language", length = 100)
     private String language;
 
-    @Column(name="description",length = 2000)
+    @Column(name="description",length = 4000)
     private String description;
 
-    @Column(name="index_text",length = 2000)
+    @Column(name="index_text",length =10000)
     private String index;
 
-    @Column(name="author",length = 100)
+    @Column(name="author",length = 1000)
     private String author;
 
     @OneToOne(mappedBy = "book", fetch = FetchType.LAZY, optional = true)
