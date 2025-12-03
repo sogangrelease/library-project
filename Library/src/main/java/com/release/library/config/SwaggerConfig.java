@@ -1,4 +1,4 @@
-package com.release.library;
+package com.release.library.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

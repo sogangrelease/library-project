@@ -1,7 +1,6 @@
-package com.release.library;
+package com.release.library.config;
 
 import com.release.library.security.JwtAuthenticationFilter;
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import com.release.library.security.JwtAuthenticationFilter;
 
 @Configuration //@Configuration :스프링 환경설정 파일임을 의미하는 어노테이션 => 여기서는 스프링 시큐리티 설정을 위해서 사용
 @EnableWebSecurity //모든 요청 URL이 스프링 시큐리티 프레임워크의 통제를 받도록 하는 어노테이션
