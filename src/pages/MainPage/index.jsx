@@ -184,7 +184,7 @@ const MainPage = () => {
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
-        api.post('/api/books')
+        api.get('/api/books')
             .then(function (response) {
                 setBooks(response.data);
             })
