@@ -12,10 +12,10 @@ function BookDetail() {
 
   // 1. 책 상세 정보 가져오기
   useEffect(() => {
-    console.log("📌 useEffect 실행됨, id:", id);
+    console.log("useEffect 실행됨, id:", id);
     setLoading(true);
 
-    // 강제로 에러 발생시켜서 더미 데이터 테스트
+    // 강제로 에러 발생, 더미 데이터 테스트
     api.get(`/api/books/${id}`)
       .then(response => {
         console.log("✅ 책 상세 정보 조회 성공:", response.data);
@@ -35,8 +35,8 @@ function BookDetail() {
         setIsAvailable(!data.isLoaned);
       })
       .catch(error => {
-        console.error("❌ 에러 발생:", error);
-        console.log("🔄 더미 데이터 설정 시작");
+        console.error("에러 발생:", error);
+        console.log("더미 데이터 설정 시작");
         
         // 더미 데이터
         const dummyData = {
@@ -48,15 +48,15 @@ function BookDetail() {
           language: "한국어",
           coverImage: null,
           toc: ["1장. 서론", "2장. 본론", "3장. 결론"],
-          description: "현재 백엔드 서버와 연결할 수 없어 임시 데이터를 보여주고 있습니다.\n\n서버를 켜면 실제 데이터가 나옵니다."
+          description: "백엔드 서버와 연결할 수 없어 임시 데이터를 보여주고 있습니다.\n\n서버를 켜면 실제 데이터가 나옵니다."
         };
         
-        console.log("📦 설정할 더미 데이터:", dummyData);
+        console.log("설정할 더미 데이터:", dummyData);
         setBookInfo(dummyData);
         setIsAvailable(true);
       })
       .finally(() => {
-        console.log("✔️ finally 실행, loading false로 변경");
+        console.log("finally 실행, loading false로 변경");
         setLoading(false);
       });
   }, [id]);
@@ -65,7 +65,7 @@ function BookDetail() {
   const handleLoan = () => {
     api.post(`/api/borrow/${id}`)
       .then(response => {
-        console.log("✅ 대출 성공:", response.data);
+        console.log("대출 성공:", response.data);
         alert('대출이 완료되었습니다.');
         setIsAvailable(false);
       })
