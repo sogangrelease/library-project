@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import api from '@/api/axios';
 import styles from './DashBoard.module.css';
 import { IoArrowBackCircleOutline, IoArrowForwardCircleOutline, IoArrowDownCircleOutline } from "react-icons/io5";
 import releaseLogo from '../../assets/release-black-small.webp'; 
@@ -80,6 +81,7 @@ const BookSection = ({ title, headerStyle, books }) => {
 
 // 메인 대시보드 컴포넌트
 const DashBoard = () => {
+  const navigate = useNavigate();
   const [overdueBooks, setOverdueBooks] = useState([]);
   const [returnTodayBooks, setReturnTodayBooks] = useState([]);
   const [scheduledBooks, setScheduledBooks] = useState([]);
@@ -90,22 +92,35 @@ const DashBoard = () => {
   const todayStr = new Date().toISOString().slice(0, 10).replace(/-/g, '.');
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const headers = { Authorization: `Bearer ${token}` };
+    setLoading(true);
 
-        // 1. 전체 책 목록 가져오기 (표지 이미지를 얻기 위함) 
-        const booksResponse = await axios.get('/api/books', { headers });
+    // 관리자 권한 확인
+    api.post('/member/getInfo')
+      .then(userResponse => {
+        console.log("✅ 사용자 정보 조회 성공:", userResponse.data);
+        
+        // 관리자가 아니면 메인 페이지로
+        if (userResponse.data.role !== 'ADMIN') {
+          alert('관리자만 접근 가능합니다.');
+          navigate('/');
+          return Promise.reject('NOT_ADMIN');
+        }
+
+        // 전체 책 목록 가져오기
+        return api.post('/api/books');
+      })
+      .then(booksResponse => {
+        console.log("✅ 전체 책 목록 조회 성공:", booksResponse.data);
         const allBooks = booksResponse.data;
 
-        // 2. 전체 대출 내역 가져오기 (관리자 전용) 
-        const borrowsResponse = await axios.post('/borrow/list', {}, { headers });
-        const allBorrows = borrowsResponse.data;
-
-        // --- 데이터 분류 로직 ---
+        // 전체 대출 내역 가져오기 (관리자 전용)
+        return api.post('/borrow/list').then(borrowsResponse => {
+          console.log("✅ 대출 내역 조회 성공:", borrowsResponse.data);
+          return { allBooks, allBorrows: borrowsResponse.data };
+        });
+      })
+      .then(({ allBooks, allBorrows }) => {
         const now = new Date();
-        // 시간을 00:00:00으로 맞춰 날짜만 비교
         const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         const tomorrowStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
 
@@ -115,14 +130,11 @@ const DashBoard = () => {
         const tempUsers = [];
 
         allBorrows.forEach(borrow => {
-          // 해당 대출건의 책 정보 찾기 (표지 이미지를 위해)
-          // API 명세상 BorrowListDto에는 책 ID가 없고 titleMain만 있음. 제목으로 매칭
           const bookInfo = allBooks.find(b => b.titleMain === borrow.titleMain);
           const coverUrl = bookInfo ? bookInfo.coverUrl : null;
           
           const returnDate = new Date(borrow.returnAt);
           
-          // 데이터 객체 생성
           const item = {
             id: borrow.borrowId,
             title: borrow.titleMain,
@@ -131,24 +143,20 @@ const DashBoard = () => {
             returnDateStr: returnDate.toISOString().slice(0, 10).replace(/-/g, '.')
           };
 
-          // 날짜 비교 로직
           if (returnDate < todayStart) {
-            // 1) 연체 (반납일이 오늘보다 이전)
+            // 연체
             tempOverdue.push(item);
-            
-            // 연체자 리스트에도 추가
             tempUsers.push({
               id: borrow.borrowId,
               name: borrow.memberName,
               book: borrow.titleMain,
               date: item.returnDateStr
             });
-
           } else if (returnDate >= todayStart && returnDate < tomorrowStart) {
-            // 2) 오늘 반납 (반납일이 오늘)
+            // 오늘 반납
             tempToday.push(item);
           } else {
-            // 3) 반납 예정 (미래)
+            // 반납 예정
             tempScheduled.push(item);
           }
         });
@@ -157,28 +165,26 @@ const DashBoard = () => {
         setReturnTodayBooks(tempToday);
         setScheduledBooks(tempScheduled);
         setOverdueUsers(tempUsers);
-        setLoading(false);
-
-      } catch (error) {
+      })
+      .catch(error => {
+        if (error === 'NOT_ADMIN') {
+          return;
+        }
         console.error("데이터를 불러오지 못했습니다.", error);
-        // 에러 발생 시 더미데이터 혹은 빈 배열 유지
+      })
+      .finally(() => {
         setLoading(false);
-      }
-    };
-
-    fetchDashboardData();
-  }, []);
+      });
+  }, [navigate]);
 
   if (loading) return <div className={styles.container}><p style={{paddingTop: '200px'}}>Loading...</p></div>;
 
   return (
     <div className={styles.container}>
       <div className={styles.contentGrid}>
-        
-        {/* 로고 */}
         <img src={releaseLogo} alt="Release Logo" className={styles.logoImage} />
 
-        {/* === [왼쪽 컬럼] === */}
+        {/* 왼쪽 컬럼 */}
         <div className={styles.leftColumn}>
           
           {/* 연체 도서 */}
@@ -188,7 +194,7 @@ const DashBoard = () => {
             books={overdueBooks} 
           />
 
-          {/* 반납 예정일 (오늘 날짜 동적 표시) */}
+          {/* 반납 예정일 (오늘 날짜) */}
           <BookSection 
             title={`반납 예정일 ${todayStr}`} 
             headerStyle={styles.headerOrange} 
@@ -204,7 +210,6 @@ const DashBoard = () => {
 
         </div>
 
-        {/* 연체자 */}
         <div className={styles.overdueUserSection}>
           <div className={styles.userHeader}>
             <span className={styles.userHeaderTitle}>연체자</span>
