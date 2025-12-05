@@ -77,9 +77,8 @@ public class BookController {
 
     //5. 책 검색
     @GetMapping("/search")
-    public ResponseEntity<List<BookDto>> searchBooks(@RequestBody BookSearchDto bookSearchDto) {
-        String title = bookSearchDto.getTitle();
-        String category = bookSearchDto.getCategory();
+    public ResponseEntity<List<BookDto>> searchBooks(@RequestParam(value = "title", required = false) String title,
+                                                     @RequestParam(value = "category", required = false) String category) {
         List<BookDto> bookList = this.bookService.searchBooks(title,category);
 
         return ResponseEntity.ok(bookList);

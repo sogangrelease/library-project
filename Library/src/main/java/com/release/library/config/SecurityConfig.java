@@ -50,6 +50,21 @@ public class SecurityConfig {
                 )
                 // 5. JWT 필터를 Spring Security의 기본 필터 이전에 추가하여 토큰 검증
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                //6. 로그아웃
+                .logout(logout -> logout
+                        .logoutUrl("/api/logout") // React 클라이언트가 요청할 엔드포인트 (POST 요청)
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            // 로그아웃 성공 시 서버 세션/쿠키 등을 정리하고 클라이언트에 성공 응답 전송
+                            // JWT 기반에서는 주로 클라이언트의 토큰 삭제를 유도함
+                            response.setStatus(org.springframework.http.HttpStatus.OK.value());
+                            response.getWriter().write("{\"message\": \"Logged out successfully\"}");
+                            response.flushBuffer();
+                        })
+                        // JWT는 세션이 없지만, 혹시 모를 잔재를 위해 설정
+                        .invalidateHttpSession(false)
+                        .deleteCookies("JSESSIONID") // 세션 기반 쿠키가 있다면 삭제
+                        .permitAll()
+                )
         ;
 
 
