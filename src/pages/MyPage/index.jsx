@@ -47,7 +47,7 @@ function MyPage() {
     };
 
     useEffect(() => {
-        api.post('/member/getInfo')
+        api.get('/member/getInfo')
             .then(function (response) {
                 setAccount(response.data);
             })
@@ -56,7 +56,7 @@ function MyPage() {
                 console.error(error);
         });
     
-        api.post('/my/borrow/list')
+        api.get('/my/borrow/list')
             .then(function (response) {
                 setBooksData(response.data);
             })

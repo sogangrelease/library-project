@@ -113,7 +113,7 @@ const LoanStatusSidebar = () => {
   const [myLoans, setMyLoans] = useState([]);
 
   useEffect(() => {
-        api.post('/my/borrow/list')
+        api.get('/my/borrow/list')
            .then(response => {
                console.log("대출 목록 조회 성공:", response.data);
                setMyLoans(response.data);
