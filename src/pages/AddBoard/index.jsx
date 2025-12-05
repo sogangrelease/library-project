@@ -54,7 +54,7 @@ function ShowMemberList() {
         )
     }, []);
     
-    let members = (
+    const members = (
         dataMembers.map(member =>
             <li key = {member.studentId} className={styles.memberItem}>
                 <div className={styles.memberInfo}>
@@ -100,10 +100,10 @@ function ShowBookList() {
         )
     }, []);
     
-    let books = dataBooks.map(book =>
+    const books = dataBooks.map(book =>
         <li key = {book.id} className={styles.bookItem}>
             <div className={styles.bookimage}>
-                <img src="example_book.png" alt="Cover image of book" height={180} />
+                <img src={book.coverUrl || "example_book.png"} alt="Cover image of book" height={180} />
             </div>
             <div className={styles.bookinfo}>
                 <p><b>{book.titleMain}</b></p>
