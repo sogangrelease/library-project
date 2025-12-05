@@ -2,6 +2,7 @@ import styles from './MyPage.module.css';
 import { useState, useEffect } from 'react'; 
 import api from '@/api/axios';
 import { Link, useNavigate } from 'react-router-dom'; // ✅ useNavigate 추가
+import { useCookies } from 'react-cookie';
 import releaseLogo from '@/assets/release-black-small.webp';
 
 function MyPage() {
@@ -16,6 +17,7 @@ function MyPage() {
         newPassword: '',
         confirmPassword: '',
     });
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
     const handlePasswordChange = (e) => {
         const { name, value } = e.target;
@@ -50,7 +52,8 @@ function MyPage() {
                .finally(() => {
                     try {
                         // 1. 클라이언트 토큰 삭제 (JWT 가정)
-                        localStorage.removeItem('authToken'); 
+                        // localStorage.removeItem('authToken');
+                        removeCookie('token', { path: '/' });
                     }
                     catch (error) {
                         console.log(error || "알 수 없는 오류가 발생했습니다.");
