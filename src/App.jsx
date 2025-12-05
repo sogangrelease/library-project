@@ -4,7 +4,7 @@ import MainPage from '@/pages/MainPage';
 import MyPage from '@/pages/MyPage';
 import BookDetail from '@/pages/BookDetail';
 import DashBoard from '@/pages/DashBoard';
-// import AddBoard from '@/pages/AddBoard';
+import AddBoard from '@/pages/AddBoard';
 import Login from '@/pages/Login';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
@@ -20,7 +20,7 @@ const App = () => {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/book" element={<BookDetail />} />
         <Route path="/dashboard" element={<DashBoard />} />
-        {/* <Route path="/addboard" element={<AddBoard />} /> */}
+        <Route path="/addboard" element={<AddBoard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/detail/:id" element={<BookDetail />} />
       </Routes>

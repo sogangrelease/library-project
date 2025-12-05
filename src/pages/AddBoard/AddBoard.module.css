@@ -39,6 +39,9 @@
     background-color: rgb(247, 210, 90);
     border-bottom: 1px solid #636363;
     margin: 0 0 0 0;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
 }
 
 .barHeaderTitle {
@@ -47,6 +50,10 @@
 }
 
 .barHeaderButton {
+    background-color: rgb(247, 210, 90);
+    border: 0px solid #636363;
+    font-size: 1em;
+    margin: 2% 2%;
     color: #636363;
 }
 
@@ -80,4 +87,9 @@
 
 .memberItem {
     display: flex;
+}
+
+.memberInfo {
+    flex: 7;
+    margin-left: 5%;
 }
