@@ -9,6 +9,7 @@ function MyPage() {
     const navigate = useNavigate(); // ✅ navigate 훅 초기화
 
     const [isLoading, setIsLoading] = useState(true);
+    const [isBorrowLoading, setIsBorrowLoading] = useState(true);
     const [account, setAccount] = useState({name: '홍길동', studentId: '20231234', phoneNumber: '010-1234-5678'}); 
     // 실제 데이터가 로드되기 전에 사용할 임시 데이터
     const [booksData, setBooksData] = useState([]); 
@@ -56,7 +57,7 @@ function MyPage() {
                         removeCookie('token', { path: '/' });
                     }
                     catch (error) {
-                        console.log(error || "알 수 없는 오류가 발생했습니다.");
+                        console.error(error || "알 수 없는 오류가 발생했습니다.");
                     }
                     navigate('/login');
                     window.location.reload(); 
@@ -73,16 +74,11 @@ function MyPage() {
     useEffect(() => {
         const fetchUserData = async () => {
             const getInfoPromise = api.get('/member/getInfo');
-            const getBorrowListPromise = api.get('/my/borrow/list');
             
             try {
-                const [infoResponse, borrowResponse] = await Promise.all([
-                    getInfoPromise, 
-                    getBorrowListPromise
-                ]);
+                const infoResponse = await getInfoPromise;
                 
                 setAccount(infoResponse.data);
-                setBooksData(borrowResponse.data);
                 
             } catch (error) {
                 console.error("데이터 로드 중 오류 발생:", error);
@@ -93,6 +89,26 @@ function MyPage() {
         };
 
         fetchUserData();
+    }, []);
+
+    useEffect(() => {
+        const fetchBorrowData = async () => {
+            const getBorrowListPromise = api.get('/my/borrow/list');
+            
+            try {
+                const borrowResponse = await getBorrowListPromise;
+            
+                setBooksData(borrowResponse.data);
+                
+            } catch (error) {
+                console.error("데이터 로드 중 오류 발생:", error);
+                // 필요 시, 인증 정보가 없으면 로그인 페이지로 강제 이동 등의 처리 추가
+            } finally {
+                setIsBorrowLoading(false); 
+            }
+        };
+
+        fetchBorrowData();
     }, []);
 
     // 💡 로딩 상태 처리
@@ -128,7 +144,9 @@ function MyPage() {
                         <p className={styles.barHeaderTitle}>대출 현황</p>
                     </header>
                     <div className={styles.content}>
-                        {books.length > 0 ? (
+                        {isBorrowLoading ? (
+                            <p style={{ textAlign: 'center', padding: '20px' }}>로딩 중..</p>
+                        ) : books.length > 0 ? (
                             <ul className={styles.bookList}>{books}</ul>
                         ) : (
                             <p style={{ textAlign: 'center', padding: '20px' }}>대출 중인 도서가 없습니다.</p>
