@@ -43,14 +43,18 @@ function MyPage() {
             alert("비밀번호가 성공적으로 변경되었습니다. 보안을 위해 다시 로그인해 주세요.");
             
             // ✅ 비밀번호 변경 성공 후 로그아웃 처리
-            
-            // 1. 클라이언트 토큰 삭제 (JWT 가정)
-            localStorage.removeItem('authToken'); 
 
             // 2. 서버에 로그아웃 요청 (세션/인증 정보 무효화)
             // 비동기로 처리하며, 서버 응답과 관계없이 페이지 이동을 보장하기 위해 finally 사용
             api.post('/api/logout')
                .finally(() => {
+                    try {
+                        // 1. 클라이언트 토큰 삭제 (JWT 가정)
+                        localStorage.removeItem('authToken'); 
+                    }
+                    catch (error) {
+                        console.log(error || "알 수 없는 오류가 발생했습니다.");
+                    }
                     navigate('/login');
                     window.location.reload(); 
                });
