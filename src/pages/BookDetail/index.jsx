@@ -63,7 +63,7 @@ function BookDetail() {
 
   // 2. 대출 처리
   const handleLoan = () => {
-    api.post(`/api/borrow/${id}`)
+    api.post(`/borrow/${id}`)
       .then(response => {
         console.log("대출 성공:", response.data);
         alert('대출이 완료되었습니다.');
