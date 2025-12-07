@@ -5,39 +5,37 @@
   min-height: 100vh;
   background-color: #ffffff;
   font-family: "Pretendard", sans-serif;
-  
   display: flex;
   justify-content: center; 
-  /* 상단 여백 */
   padding-top: 40px; 
 }
 
 /* --- 메인 그리드 --- */
 .contentGrid {
   width: 1241px;
-  
   display: grid;
   grid-template-columns: 662px 492px;
   gap: 87px;
   align-items: start;
-
-  /* 로고 이 박스 기준으로 배치 */
   position: relative; 
 }
 
 /* --- 로고 --- */
 .logoImage {
   position: absolute;
-  /* 그리드 시작점보다 42px 위에 위치 (151px - 109px = 42px) */
   top: -42px; 
   left: 0;
-  
   width: 35px;
   height: 42px;
   display: block;
 }
 
-/* 왼쪽: 도서 섹션 공통 디자인 */
+/* === 왼쪽: 도서 섹션 === */
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+}
+
 .bookSection {
   width: 662px;
   height: 260px;
@@ -52,6 +50,7 @@
   border-bottom: none;
 }
 
+/* 섹션 헤더 */
 .sectionHeader {
   height: 36px;
   width: 100%;
@@ -91,17 +90,19 @@
   cursor: pointer;
 }
 
+/* 캐러셀 컨테이너 */
 .carouselContainer {
   flex: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px 0;
+  position: relative;
+  padding: 0 10px;
 }
 
+/* 화살표 버튼 */
 .arrowBtn {
-  background: none;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
   border: none;
   font-size: 28px;
   cursor: pointer;
@@ -111,21 +112,132 @@
   justify-content: center;
   padding: 10px;
   color: #000;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  z-index: 10;
+  transition: opacity 0.2s;
 }
 
+.arrowBtn:first-of-type {
+  left: 5px;
+}
+
+.arrowBtn:last-of-type {
+  right: 5px;
+}
+
+.arrowBtn:hover {
+  opacity: 1;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  cursor: default;
+}
+
+/* 책 리스트 */
 .bookList {
   display: flex;
-  gap: 28px;
+  gap: 15px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 50px;
+  width: 100%;
+  
+  /* 스크롤바 숨기기 */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.bookPlaceholder {
-  width: 111px;
-  height: 148px;
-  background-color: #D9D9D9;
+.bookList::-webkit-scrollbar {
+  display: none;
+}
+
+/* 책 아이템 컨테이너 */
+.bookItemContainer {
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
+  transition: transform 0.2s;
+  width: 120px;
+  flex-shrink: 0;
 }
 
-/* 오른쪽: 연체자 섹션 */
+/* 책 아이템 컨테이너 */
+.bookItemContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 가운데 정렬 */
+  cursor: pointer;
+  transition: transform 0.2s;
+  width: 110px;
+  flex-shrink: 0;
+}
+
+/* 책 아이템 컨테이너 */
+.bookItemContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  width: 110px;
+  flex-shrink: 0;
+}
+
+.bookItemContainer:hover {
+  transform: scale(1.03);
+}
+
+/* 책 표지 */
+.bookPlaceholder {
+  width: 100px !important;
+  height: 150px !important; /* 140px → 150px */
+  object-fit: cover;
+  border-radius: 4px;
+  background-color: #D9D9D9;
+  flex-shrink: 0;
+}
+
+/* 책 정보 */
+.bookInfo {
+  margin-top: 4px; /* 8px → 4px */
+  font-size: 11px;
+  color: #333;
+  width: 110px;
+  text-align: center;
+}
+
+.bookTitle {
+  font-weight: bold;
+  margin: 2px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2; /* 표준 속성 추가 */
+  -webkit-box-orient: vertical;
+  line-height: 1.2;
+  font-size: 13px;
+  word-break: keep-all;
+  min-height: 31px;
+}
+
+.bookMember {
+  margin: 1px 0; /* 3px → 1px */
+  color: #666;
+  font-size: 10px;
+}
+
+.bookReturnDate {
+  margin: 1px 0; /* 3px → 1px */
+  color: #999;
+  font-size: 10px;
+}
+
+/* === 오른쪽: 연체자 섹션 === */
 .overdueUserSection {
   width: 492px;
   height: 780px; 
@@ -193,128 +305,4 @@
   font-size: 24px;
   color: #1E1E1E;
   cursor: pointer;
-}
-
-.bookList {
-  display: flex;
-  gap: 28px;
-  
-  /* 가로 스크롤 및 부드러운 스크롤 */
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  
-  /* 스크롤바 숨기기 (기능은 유지, 디자인상 안 보이게) */
-  -ms-overflow-style: none; /* IE, Edge */
-  scrollbar-width: none; /* Firefox */
-  
-  /* 내부 여백 살짝 줘서 짤림 방지 */
-  padding: 5px;
-  width: 100%; /* 부모 컨테이너 꽉 채우기 */
-}
-
-/* Chrome, Safari, Opera 등에서 스크롤바 숨기기 */
-.bookList::-webkit-scrollbar {
-  display: none;
-}
-
-/*  책 표지/박스 */
-.bookPlaceholder {
-  /* 스크롤 시 사이즈 찌그러지지 않도록 고정 */
-  flex-shrink: 0;
-  
-  width: 111px;
-  height: 148px;
-  background-color: #D9D9D9;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.bookPlaceholder:hover {
-  transform: scale(1.05);
-}
-
-/* 화살표 버튼 */
-.arrowBtn {
-  background: none;
-  border: none;
-  font-size: 28px;
-  cursor: pointer;
-  opacity: 0.7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  color: #000;
-  
-  /* 화살표가 깜빡거릴 때 레이아웃이 흔들리지 않도록 고정 크기 부여 권장 */
-  min-width: 48px;
-  
-  /* 비활성화(숨김) 상태일 때 클릭 방지 */
-  transition: opacity 0.2s;
-}
-
-/* 숨김 처리를 위한 클래스 */
-.hidden {
-  opacity: 0;
-  pointer-events: none; /* 클릭 불가 */
-  cursor: default;
-}
-
-/* 책 아이템 컨테이너 */
-/* 책 아이템 컨테이너 */
-.bookItemContainer {
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  transition: transform 0.2s;
-  min-width: 180px;
-  margin-right: 20px;
-}
-
-.bookItemContainer:hover {
-  transform: scale(1.05);
-}
-
-/* 책 표지 이미지 크기 조정 */
-.bookPlaceholder {
-  width: 180px;
-  height: 250px;
-  flex-shrink: 0;
-}
-
-/* 책 정보 */
-.bookInfo {
-  margin-top: 10px;
-  font-size: 13px;
-  color: #333;
-  width: 180px;
-}
-
-.bookTitle {
-  font-weight: bold;
-  margin: 4px 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 180px;
-}
-
-.bookMember {
-  margin: 2px 0;
-  color: #666;
-  font-size: 12px;
-}
-
-.bookReturnDate {
-  margin: 2px 0;
-  color: #999;
-  font-size: 12px;
-}
-
-/* 책 리스트 스크롤 영역 */
-.bookList {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  padding: 10px 0;
 }
