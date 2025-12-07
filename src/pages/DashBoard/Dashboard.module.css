@@ -261,22 +261,33 @@
 }
 
 /* 책 아이템 컨테이너 */
+/* 책 아이템 컨테이너 */
 .bookItemContainer {
   display: flex;
   flex-direction: column;
   cursor: pointer;
   transition: transform 0.2s;
+  min-width: 180px;
+  margin-right: 20px;
 }
 
 .bookItemContainer:hover {
   transform: scale(1.05);
 }
 
+/* 책 표지 이미지 크기 조정 */
+.bookPlaceholder {
+  width: 180px;
+  height: 250px;
+  flex-shrink: 0;
+}
+
 /* 책 정보 */
 .bookInfo {
-  margin-top: 8px;
-  font-size: 12px;
+  margin-top: 10px;
+  font-size: 13px;
   color: #333;
+  width: 180px;
 }
 
 .bookTitle {
@@ -285,14 +296,25 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  max-width: 180px;
 }
 
 .bookMember {
   margin: 2px 0;
   color: #666;
+  font-size: 12px;
 }
 
 .bookReturnDate {
   margin: 2px 0;
   color: #999;
+  font-size: 12px;
+}
+
+/* 책 리스트 스크롤 영역 */
+.bookList {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px 0;
 }
