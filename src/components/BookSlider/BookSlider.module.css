@@ -55,6 +55,8 @@
     max-width: 25%;
     padding: 0 12px; 
     box-sizing: border-box;
+    cursor: pointer;
+    border: 0;
 }
 
 .bookWrapper {
