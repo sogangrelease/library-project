@@ -127,19 +127,23 @@
 /* 목차 박스 */
 .tocContainer {
   width: 358px;
-  height: 1346px;
+  min-height: 1346px;
   border: 1px solid #636363;
   padding: 30px;
   box-sizing: border-box;
+  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 /* 상세설명 박스 */
 .detailsContainer {
   width: 592px;
-  height: 1346px;
+  min-height: 1346px;
   border: 1px solid #636363;
   padding: 30px;
   box-sizing: border-box;
+  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 .sectionTitle {
