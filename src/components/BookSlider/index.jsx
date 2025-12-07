@@ -58,14 +58,14 @@ const BookSlider = ({ subject, books }) => {
                         style={{ transform: `translateX(${translateX}%)` }}
                     >
                         {books.map((book) => (
-                            <div key={book.id} className={styles.slideItem}>
+                            <button key={book.id} onClick={() => navTo(`/detail/${book.id}`)} className={styles.slideItem}>
                                 <div className={styles.bookWrapper}>
                                     <BookImage 
                                         src={book.coverUrl} 
                                         alt={book.titleMain} 
                                     />
                                 </div>
-                            </div>
+                            </button>
                         ))}
                     </div>
                 </div>
