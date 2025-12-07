@@ -4,6 +4,7 @@ import LogOutButton from '@/components/LogOutButton';
 import styles from './Header.module.css';
 import { useNavigate } from 'react-router-dom'; // navigate 추가
 import { useCookies } from 'react-cookie';
+import { useState, useEffect } from 'react';
 import api from '@/api/axios'; // api 호출을 위해 추가
 
 const categories = [
@@ -16,9 +17,22 @@ const categories = [
 
 const Header = () => {
     const navigate = useNavigate(); // useNavigate 훅 사용
-        const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const [userRole, setUserRole] = useState(null); // 추가
 
-    // ✅ 로그아웃 로직 구현
+        // ✅ 사용자 권한 확인
+    useEffect(() => {
+        api.get('/member/getInfo')
+            .then(response => {
+                console.log("✅ 사용자 정보:", response.data);
+                setUserRole(response.data.role);
+            })
+            .catch(error => {
+                console.error("❌ 사용자 정보 조회 실패:", error);
+            });
+    }, []);
+
+    //  로그아웃 로직 구현
     const handleLogout = async () => {
         try {
             // 1. 서버에 로그아웃 요청 (POST /api/logout)
@@ -51,6 +65,15 @@ const Header = () => {
             </div>
             <div className={styles.rightSection}>
                 <MyPageButton />
+                {/* 관리자만 보이는 버튼 */}
+                {userRole === 'ADMIN' && (
+                    <button 
+                        onClick={() => navigate('/dashboard')}
+                        className={styles.adminButton}
+                    >
+                        관리자 페이지
+                    </button>
+                )}
                 {/* ✅ LogOutButton에 로그아웃 함수를 props로 전달 */}
                 <LogOutButton onLogout={handleLogout} /> 
             </div>

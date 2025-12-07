@@ -2,10 +2,51 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '@/api/axios';
 import styles from './DashBoard.module.css';
-import { IoArrowBackCircleOutline, IoArrowForwardCircleOutline, IoArrowDownCircleOutline } from "react-icons/io5";
+import { IoArrowBackCircleOutline, IoArrowForwardCircleOutline, IoArrowDownCircleOutline, IoClose } from "react-icons/io5";
 import releaseLogo from '../../assets/release-black-small.webp'; 
 
-const BookSection = ({ title, headerStyle, books }) => {
+// 모달 컴포넌트
+const BookDetailModal = ({ book, onClose, onReturn }) => {
+  if (!book) return null;
+
+  const handleReturn = () => {
+    if (window.confirm(`"${book.title}"을(를) 반납하시겠습니까?`)) {
+      onReturn(book.id);
+    }
+  };
+
+  return (
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+        <button className={styles.modalClose} onClick={onClose}>
+          <IoClose />
+        </button>
+        
+        <h2 className={styles.modalTitle}>대출 정보</h2>
+        
+        {book.coverUrl && (
+          <img 
+            src={book.coverUrl} 
+            alt={book.title} 
+            className={styles.modalBookCover}
+          />
+        )}
+        
+        <div className={styles.modalInfo}>
+          <p><strong>제목:</strong> {book.title}</p>
+          <p><strong>빌린 사람:</strong> {book.memberName}</p>
+          <p><strong>반납 예정일:</strong> {book.returnDateStr}</p>
+        </div>
+        
+        <button className={styles.returnButton} onClick={handleReturn}>
+          반납 처리
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const BookSection = ({ title, headerStyle, books, onBookClick }) => {
   const listRef = useRef(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
@@ -35,6 +76,10 @@ const BookSection = ({ title, headerStyle, books }) => {
   };
 
   const renderBookItem = (book) => {
+    const handleClick = () => {
+      if (onBookClick) onBookClick(book);
+    };
+
     if (book.coverUrl) {
       return (
         <img 
@@ -42,11 +87,19 @@ const BookSection = ({ title, headerStyle, books }) => {
           src={book.coverUrl} 
           alt={book.title} 
           className={styles.bookPlaceholder} 
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: 'cover', cursor: 'pointer' }}
+          onClick={handleClick}
         />
       );
     }
-    return <div key={book.id || Math.random()} className={styles.bookPlaceholder} />;
+    return (
+      <div 
+        key={book.id || Math.random()} 
+        className={styles.bookPlaceholder}
+        style={{ cursor: 'pointer' }}
+        onClick={handleClick}
+      />
+    );
   };
 
   return (
@@ -87,39 +140,36 @@ const DashBoard = () => {
   const [scheduledBooks, setScheduledBooks] = useState([]);
   const [overdueUsers, setOverdueUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedBook, setSelectedBook] = useState(null); // 모달용
 
-  // 오늘 날짜
   const todayStr = new Date().toISOString().slice(0, 10).replace(/-/g, '.');
 
-  useEffect(() => {
-    setLoading(true);
+  //  데이터 로드 함수
+  const loadData = () => {
+  setLoading(true);
 
-    // 관리자 권한 확인
-    api.post('/member/getInfo')
-      .then(userResponse => {
-        console.log("✅ 사용자 정보 조회 성공:", userResponse.data);
-        
-        // 관리자가 아니면 메인 페이지로
-        if (userResponse.data.role !== 'ADMIN') {
-          alert('관리자만 접근 가능합니다.');
-          navigate('/');
-          return Promise.reject('NOT_ADMIN');
-        }
+  api.get('/member/getInfo') 
+    .then(userResponse => {
+      console.log(" 사용자 정보 조회 성공:", userResponse.data);
+      
+      if (userResponse.data.role !== 'ADMIN') {
+        alert('관리자만 접근 가능합니다.');
+        navigate('/');
+        return Promise.reject('NOT_ADMIN');
+      }
 
-        // 전체 책 목록 가져오기
-        return api.post('/api/books');
-      })
-      .then(booksResponse => {
-        console.log("✅ 전체 책 목록 조회 성공:", booksResponse.data);
-        const allBooks = booksResponse.data;
+      return api.get('/api/books'); 
+    })
+    .then(booksResponse => {
+      console.log(" 전체 책 목록 조회 성공:", booksResponse.data);
+      const allBooks = booksResponse.data;
 
-        // 전체 대출 내역 가져오기 (관리자 전용)
-        return api.post('/borrow/list').then(borrowsResponse => {
-          console.log("✅ 대출 내역 조회 성공:", borrowsResponse.data);
-          return { allBooks, allBorrows: borrowsResponse.data };
-        });
-      })
-      .then(({ allBooks, allBorrows }) => {
+      return api.get('/borrow/list').then(borrowsResponse => {
+        console.log(" 대출 내역 조회 성공:", borrowsResponse.data);
+        return { allBooks, allBorrows: borrowsResponse.data };
+      });
+    })
+    .then(({ allBooks, allBorrows }) => {
         const now = new Date();
         const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         const tomorrowStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
@@ -144,7 +194,6 @@ const DashBoard = () => {
           };
 
           if (returnDate < todayStart) {
-            // 연체
             tempOverdue.push(item);
             tempUsers.push({
               id: borrow.borrowId,
@@ -153,10 +202,8 @@ const DashBoard = () => {
               date: item.returnDateStr
             });
           } else if (returnDate >= todayStart && returnDate < tomorrowStart) {
-            // 오늘 반납
             tempToday.push(item);
           } else {
-            // 반납 예정
             tempScheduled.push(item);
           }
         });
@@ -167,15 +214,32 @@ const DashBoard = () => {
         setOverdueUsers(tempUsers);
       })
       .catch(error => {
-        if (error === 'NOT_ADMIN') {
-          return;
-        }
+        if (error === 'NOT_ADMIN') return;
         console.error("데이터를 불러오지 못했습니다.", error);
       })
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    loadData();
   }, [navigate]);
+
+  // 반납 처리
+  const handleReturn = (borrowId) => {
+    api.delete(`/return/${borrowId}`)
+      .then(response => {
+        console.log("반납 성공:", response.data);
+        alert("반납이 완료되었습니다.");
+        setSelectedBook(null);
+        loadData(); // 새로고침
+      })
+      .catch(error => {
+        console.error("반납 실패:", error);
+        alert("반납 처리 중 오류가 발생했습니다.");
+      });
+  };
 
   if (loading) return <div className={styles.container}><p style={{paddingTop: '200px'}}>Loading...</p></div>;
 
@@ -184,30 +248,27 @@ const DashBoard = () => {
       <div className={styles.contentGrid}>
         <img src={releaseLogo} alt="Release Logo" className={styles.logoImage} />
 
-        {/* 왼쪽 컬럼 */}
         <div className={styles.leftColumn}>
-          
-          {/* 연체 도서 */}
           <BookSection 
             title="연체 도서" 
             headerStyle={styles.headerRed} 
-            books={overdueBooks} 
+            books={overdueBooks}
+            onBookClick={setSelectedBook}
           />
 
-          {/* 반납 예정일 (오늘 날짜) */}
           <BookSection 
             title={`반납 예정일 ${todayStr}`} 
             headerStyle={styles.headerOrange} 
-            books={returnTodayBooks} 
+            books={returnTodayBooks}
+            onBookClick={setSelectedBook}
           />
 
-           {/* 반납 예정 도서 (내일 이후) */}
           <BookSection 
             title="반납 예정 도서" 
             headerStyle={styles.headerYellow} 
-            books={scheduledBooks} 
+            books={scheduledBooks}
+            onBookClick={setSelectedBook}
           />
-
         </div>
 
         <div className={styles.overdueUserSection}>
@@ -235,8 +296,16 @@ const DashBoard = () => {
             <IoArrowDownCircleOutline className={styles.downArrow}/>
           </div>
         </div>
-
       </div>
+
+      {/* 모달 */}
+      {selectedBook && (
+        <BookDetailModal 
+          book={selectedBook}
+          onClose={() => setSelectedBook(null)}
+          onReturn={handleReturn}
+        />
+      )}
     </div>
   );
 };
