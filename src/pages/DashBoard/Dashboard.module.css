@@ -259,3 +259,40 @@
   pointer-events: none; /* 클릭 불가 */
   cursor: default;
 }
+
+/* 책 아이템 컨테이너 */
+.bookItemContainer {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.bookItemContainer:hover {
+  transform: scale(1.05);
+}
+
+/* 책 정보 */
+.bookInfo {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #333;
+}
+
+.bookTitle {
+  font-weight: bold;
+  margin: 4px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bookMember {
+  margin: 2px 0;
+  color: #666;
+}
+
+.bookReturnDate {
+  margin: 2px 0;
+  color: #999;
+}
