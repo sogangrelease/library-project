@@ -234,12 +234,10 @@ const SearchPage = () => {
     useEffect(() => {
         //  수정된 부분: GET 요청 시, 검색 조건을 'params' 객체에 담아 전달합니다.
         api.get('/api/books/search', {
-            params: {
                 // 백엔드의 @RequestParam(value = "title")과 일치
                 title: keyword, 
                 // 백엔드의 @RequestParam(value = "category")와 일치
                 category: category 
-            }
         })
         .then(function (response) {
             setBooks(response.data);
