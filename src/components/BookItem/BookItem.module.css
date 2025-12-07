@@ -5,6 +5,9 @@
   align-items: center;
   padding: 15px;
   margin: 0;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 .bookCover {

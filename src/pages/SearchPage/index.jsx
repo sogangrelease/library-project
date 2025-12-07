@@ -234,16 +234,17 @@ const SearchPage = () => {
     useEffect(() => {
         //  수정된 부분: GET 요청 시, 검색 조건을 'params' 객체에 담아 전달합니다.
         api.get('/api/books/search', {
-                // 백엔드의 @RequestParam(value = "title")과 일치
-                title: keyword, 
-                // 백엔드의 @RequestParam(value = "category")와 일치
-                category: category 
+            params: {  // 'para' (X) -> 'params' (O)
+                title: keyword,   // 백엔드 DTO의 title 필드와 매칭
+                category: category // 백엔드 DTO의 category 필드와 매칭
+            }
         })
-        .then(function (response) {
+        .then(response => {
             setBooks(response.data);
+            console.log('검색 결과:', response.data);
         })
-        .catch(function (error) {
-            console.error("검색 API 호출 오류:", error);
+        .catch(error => {
+            console.error('검색 실패:', error);
         });
     }, [keyword, category]); // keyword 또는 category가 변경될 때마다 재실행
 
