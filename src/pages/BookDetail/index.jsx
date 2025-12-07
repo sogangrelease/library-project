@@ -32,7 +32,7 @@ function BookDetail() {
           toc: data.index ? data.index.split('\n') : [],
           description: data.description
         });
-        setIsAvailable(!data.isLoaned);
+        setIsAvailable(!data.loaned);
       })
       .catch(error => {
         console.error("에러 발생:", error);
