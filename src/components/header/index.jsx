@@ -6,7 +6,13 @@ import { useNavigate } from 'react-router-dom'; // navigate 추가
 import { useCookies } from 'react-cookie';
 import api from '@/api/axios'; // api 호출을 위해 추가
 
-const categories = ['프론트', '백엔드', '웹'];
+const categories = [
+  { label: '컴퓨터공학/수학', value: 'cs/math' },
+  { label: '웹/앱', value: 'web/app' },
+  { label: '인프라', value: 'infra' },
+  { label: '인공지능', value: 'ai' },
+  { label: '기타', value: 'others' }
+];
 
 const Header = () => {
     const navigate = useNavigate(); // useNavigate 훅 사용

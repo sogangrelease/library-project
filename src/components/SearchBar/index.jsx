@@ -25,7 +25,7 @@ const SearchBar = ({ categories }) => {
             >
                 <option value=''>모든 카테고리</option>
                 {categories.map((category) => (
-                    <option key={category} value={category}>{String(category)}</option>
+                    <option key={category.value} value={category.value}>{String(category.label)}</option>
                 ))}
             </select>
             <input 
