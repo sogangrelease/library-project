@@ -56,7 +56,7 @@ function BookCreateModal({ open, onClose, onCreated }) {
       formData.append('book', new Blob([JSON.stringify(bookDto)], { type: 'application/json' }));
       formData.append('bookCover', bookCover);
 
-      await api.post('/book', formData, {
+      await api.post('/api/books', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
