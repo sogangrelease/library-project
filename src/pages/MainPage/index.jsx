@@ -6,113 +6,13 @@ import BookImage from '@/components/BookImage';
 import styles from './MainPage.module.css';
 import releaseLogo from '@/assets/release-black-small.webp';
 
-// const books = [
-//   { 
-//     id: 1, 
-//     title: 'Eloquent JavaScript', 
-//     publisher: 'No Starch Press', 
-//     year: '2018', 
-//     category: 'Programming', 
-//     coverUrl: 'https://covers.openlibrary.org/b/isbn/9781593279509-M.jpg',
-//     isAvailable: true 
-//   },
-//   { 
-//     id: 2, 
-//     title: 'Learning React', 
-//     publisher: 'O\'Reilly', 
-//     year: '2020', 
-//     category: 'Programming', 
-//     coverUrl: 'https://covers.openlibrary.org/b/isbn/9781492051243-M.jpg', 
-//     isAvailable: true 
-//   },
-//   { 
-//     id: 3, 
-//     title: 'Python Crash Course', 
-//     publisher: 'No Starch Press', 
-//     year: '2019', 
-//     category: 'Programming', 
-//     coverUrl: 'https://covers.openlibrary.org/b/isbn/9781593279288-M.jpg', 
-//     isAvailable: false 
-//   },
-//   { 
-//     id: 4, 
-//     title: 'The Web Application Hacker\'s Handbook', 
-//     publisher: 'Wiley', 
-//     year: '2011', 
-//     category: 'Security', 
-//     coverUrl: 'https://covers.openlibrary.org/b/isbn/9781118026472-M.jpg', 
-//     isAvailable: true 
-//   },
-//   { 
-//     id: 5, 
-//     title: 'C++ Primer', 
-//     publisher: 'Addison-Wesley', 
-//     year: '2012', 
-//     category: 'Programming', 
-//     coverUrl: 'https://covers.openlibrary.org/b/isbn/9780321714114-M.jpg', 
-//     isAvailable: false 
-//   },
-//   { 
-//     id: 6, 
-//     title: 'Artificial Intelligence: A Modern Approach', 
-//     publisher: 'Pearson', 
-//     year: '2020', 
-//     category: 'AI', 
-//     coverUrl: 'https://covers.openlibrary.org/b/isbn/9780134610993-M.jpg', 
-//     isAvailable: true 
-//   },
-//   { 
-//     id: 7, 
-//     title: 'Clean Code', 
-//     publisher: 'Prentice Hall', 
-//     year: '2008', 
-//     category: 'Software Engineering', 
-//     coverUrl: 'https://covers.openlibrary.org/b/isbn/9780132350884-M.jpg', 
-//     isAvailable: true 
-//   },
-//   { 
-//     id: 8, 
-//     title: 'Introduction to Algorithms (CLRS)', 
-//     publisher: 'MIT Press', 
-//     year: '2022', 
-//     category: 'Algorithm', 
-//     coverUrl: 'https://covers.openlibrary.org/b/isbn/9780262046305-M.jpg', 
-//     isAvailable: true 
-//   },
-//   { 
-//     id: 9, 
-//     title: 'The Phoenix Project', 
-//     publisher: 'IT Revolution Press', 
-//     year: '2013', 
-//     category: 'DevOps', 
-//     coverUrl: 'https://covers.openlibrary.org/b/isbn/9780988262591-M.jpg', 
-//     isAvailable: true 
-//   },
-//   { 
-//     id: 10, 
-//     title: 'Dune', 
-//     publisher: 'Chilton Books', 
-//     year: '1965', 
-//     category: 'Sci-Fi', 
-//     coverUrl: 'https://covers.openlibrary.org/b/isbn/9780441172719-M.jpg', 
-//     isAvailable: false 
-//   },
-//   { 
-//     id: 11, 
-//     title: 'Hacking: The Art of Exploitation', 
-//     publisher: 'No Starch Press', 
-//     year: '2008', 
-//     category: 'Security', 
-//     coverUrl: 'https://covers.openlibrary.org/b/isbn/9781593271442-M.jpg', 
-//     isAvailable: true 
-//   }
-// ];
+// LoanStatusSidebar와 LoanItem 컴포넌트는 변경 없이 유지
 
 const LoanStatusSidebar = () => {
-  const navigate = useNavigate();
-  const [myLoans, setMyLoans] = useState([]);
+    const navigate = useNavigate();
+    const [myLoans, setMyLoans] = useState([]);
 
-  useEffect(() => {
+    useEffect(() => {
         api.get('/my/borrow/list')
            .then(response => {
                console.log("대출 목록 조회 성공:", response.data);
@@ -124,9 +24,9 @@ const LoanStatusSidebar = () => {
            });
     }, []);
 
-  const navTo = (path) => {
-    navigate(path);
-  }
+    const navTo = (path) => {
+        navigate(path);
+    }
     return (
         <div className={styles.loanStatusContent}>
             <div className={styles.loanHeader}>
@@ -160,50 +60,46 @@ const LoanItem = ({ book }) => {
     );
 };
 
+// 카테고리별 도서 목록을 가져오는 컴포넌트 (API 호출 방식 GET으로 수정)
 const CategorySection = ({ category }) => {
-  const [books, setBooks] = useState([]);
-
-  useEffect(() => {
-    api.post(`/api/books/category/${category}`)
-      .then(function (response) {
-        setBooks(response.data)
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  }, [category]);
-
-  if (books.length === 0) return null;
-
-  return (
-    <BookSlider subject={category} books={books} />
-  );
-};
-
-const MainPage = () => {
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
-        api.get('/api/books')
+        // 서버의 GET /category 엔드포인트에 맞게 쿼리 파라미터로 요청
+        api.get(`/api/books/category?category=${category}`)
             .then(function (response) {
-                setBooks(response.data);
+                setBooks(response.data)
             })
             .catch(function (error) {
-                console.error('/api/books error');
-                console.error(error);
+                console.error(`카테고리 [${category}] 도서 목록 조회 실패:`, error);
+                setBooks([]);
             });
-    }, []);
+    }, [category]);
+
+    if (books.length === 0) return null; // 책이 없으면 섹션 숨김
+
+    return (
+        <BookSlider subject={category} books={books} />
+    );
+};
+
+// 메인 페이지 (5개 카테고리 섹션을 렌더링)
+const MainPage = () => {
+    // 요청하신 5가지 카테고리 순서 정의
+    const categories = ['CS/Math', 'Web/App', 'Infra', 'AI', 'Others'];
+
+    // 기존의 전체 도서 목록을 가져오는 useEffect 로직은 제거됨
 
     return (
         <div className={styles.mainPage}>
             <div className={styles.sliderGrid}>
                 <img src={releaseLogo} alt="Release logo" className={styles.releaseLogo} />
-                <BookSlider subject="subject1" books={books.slice(0,10)} />
-                <BookSlider subject="subject1" books={books.slice(10,20)} />
-                <BookSlider subject="subject1" books={books.slice(20,30)} />
-                <BookSlider subject="subject1" books={books.slice(30,40)} />
-                <BookSlider subject="subject1" books={books.slice(40,50)} />
-                <BookSlider subject="subject1" books={books.slice(50,60)} />
+                
+                {/* 5개의 카테고리 섹션을 순서대로 렌더링 */}
+                {categories.map((category) => (
+                    <CategorySection key={category} category={category} />
+                ))}
+
             </div>
             <aside className={styles.loanStatusSidebar}>
                 <LoanStatusSidebar />
