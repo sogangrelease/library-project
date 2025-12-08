@@ -4,30 +4,19 @@ import { Link } from 'react-router-dom';
 import releaseLogo from '@/assets/release-black-small.webp';
 import api from '@/api/axios.js';
 import MemberInfoDialog from '@/components/MemberInfoDialog';
+import MemberCreateModal from '@/components/MemberCreateModal';
+import BookCreateModal from '@/components/BookCreateModal';
 
-function ShowMemberList() {
+function ShowMemberList({ refetchKey }) {
     
     const [dataMembers, setDataMembers] = useState([
         {
-            "studentId": "Loading...",
-            "name": "로딩중...",
+            studentId: "Loading...",
+            name: "로딩중...",
         }
-    ]/*[
-        {
-            "studentId": "admin",
-            "name": "관리자",
-            "phoneNumber": "010-0000-0000",
-            "role": "ADMIN"
-        },
-        {
-            "studentId": "20250000",
-            "name": "이용자",
-            "phoneNumber": "010-0000-0000",
-            "role": "USER"
-        }
-    ]*/);
+    ]);
             
-    useEffect (() => {
+    const fetchMembers = () => {
         api.post('/member/list')
         .then (
             (response) => {
@@ -52,8 +41,32 @@ function ShowMemberList() {
                     }
                 ]);
             }
-        )
-    }, []);
+        );
+    }
+
+    useEffect(() => {
+    fetchMembers();
+  }, [refetchKey]);
+
+  const handleDeleteMember = (studentId) => {
+    if (window.confirm(`${studentId} 회원을 정말로 삭제하시겠습니까?`)) {
+      api
+        .delete(`/member/delete/${studentId}`)
+        .then(() => {
+          alert(`회원 [${studentId}]이(가) 성공적으로 삭제되었습니다.`);
+          fetchMembers();
+        })
+        .catch((error) => {
+          console.error(`회원 삭제 실패 (${studentId}):`, error);
+          const msgFromServer = error.response?.data;
+          if (error.response?.status === 400 && typeof msgFromServer === 'string') {
+            alert(msgFromServer);
+          } else {
+            alert(`회원 삭제에 실패했습니다: ${msgFromServer || error.message}`);
+          }
+        });
+    }
+  };
     
     const members = (
         dataMembers.map(member => <MemberInfoDialog memberInfo={member} key={member.studentId} />)
@@ -66,14 +79,14 @@ function ShowMemberList() {
     </ul>;
 }
 
-function ShowBookList() {
+function ShowBookList({ refetchKey }) {
     const [dataBooks, setDataBooks] = useState([
         {"id": 1, "coverUrl": "", "titleMain": 'JavaScript 기초', "category": "web", "language": "한국어", "description": "예시 설명", "index": "1.2.3.", "author": "작가", "isLoaned": false},
         {"id": 2, "titleMain": 'React 입문', "isLoaned": true},
         {"id": 3, "titleMain": '웹 개발 완전 정복', "isLoaned": true}
     ]);
 
-    useEffect (() => {
+    const fetchBooks = () => {
         api.post('/api/books')
         .then(
             (response) => {
@@ -90,8 +103,26 @@ function ShowBookList() {
                     {"id": 3, "titleMain": '웹 개발 완전 정복', "isLoaned": true}
                 ]);
             }
-        )
-    }, []);
+        );
+    }
+
+    useEffect(() => {
+      fetchBooks();
+    }, [refetchKey]);
+
+    const handleDeleteBook = (bookId, bookTitle) => {
+    if (window.confirm(`도서 [${bookTitle}]을(를) 정말로 삭제하시겠습니까?`)) {
+      api.delete(`/api/books/delete/${bookId}`)
+        .then(() => {
+          alert(`도서 [${bookTitle}]이(가) 성공적으로 삭제되었습니다.`);
+          fetchBooks();
+        })
+        .catch((error) => {
+          console.error(`도서 삭제 실패 (${bookId}):`, error);
+          alert(`도서 삭제에 실패했습니다: ${error.response?.data || error.message}`);
+        });
+      }
+    };
     
     const books = dataBooks.map(book =>
         <li key = {book.id} className={styles.bookItem}>
@@ -114,7 +145,20 @@ function ShowBookList() {
 }
 
 function AddBoard() {
-    
+    const [openMemberModal, setOpenMemberModal] = useState(false);
+    const [memberRefetchKey, setMemberRefetchKey] = useState(0);
+
+    const [openBookModal, setOpenBookModal] = useState(false);
+    const [bookRefetchKey, setBookRefetchKey] = useState(0);
+
+    const handleMemberCreated = () => {
+      setMemberRefetchKey((prev) => prev + 1);
+    };
+
+    const handleBookCreated = () => {
+      setBookRefetchKey((prev) => prev + 1);
+    };  
+
     return (
     <div className={styles.pageOutline}>
         <Link to="/" className={styles.logoButton}>
@@ -124,22 +168,34 @@ function AddBoard() {
             <div className={styles.box}>
                 <header className={styles.barHeader}>
                     <p className={styles.barHeaderTitle}>회원 관리</p>
-                    <button className={styles.barHeaderButton}>+</button>
+                    <button className={styles.barHeaderButton} onClick={() => setOpenMemberModal(true)}>+</button>
                 </header>
                 <div className={styles.content}>
-                    <ShowMemberList />
+                    <ShowMemberList refetchKey={memberRefetchKey} />
                 </div>
             </div>
             <div className={styles.box}>
                 <header className={styles.barHeader}>
                     <p className={styles.barHeaderTitle}>도서 관리</p>
-                    <button className={styles.barHeaderButton}>+</button>
+                    <button className={styles.barHeaderButton} onClick={() => setOpenBookModal(true)}>+</button>
                 </header>
                 <div className={styles.content}>
-                    <ShowBookList />
+                    <ShowBookList refetchKey={bookRefetchKey} />
                 </div>
             </div>
         </div>
+
+        <MemberCreateModal
+        open={openMemberModal}
+        onClose={() => setOpenMemberModal(false)}
+        onCreated={handleMemberCreated}
+      />
+
+      <BookCreateModal
+        open={openBookModal}
+        onClose={() => setOpenBookModal(false)}
+        onCreated={handleBookCreated}
+      />
     </div>
     );
 }
