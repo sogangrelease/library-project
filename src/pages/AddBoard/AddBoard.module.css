@@ -1,3 +1,5 @@
+/* AddBoard.module.css */
+
 .pageOutline {
     display: flex;
     flex-direction: column;
@@ -7,18 +9,20 @@
     display: flex;
     background-color: #ffffff;
     color: rgb(90, 90, 90);
+    /* 여백 조정 */
+    padding: 20px 0; 
 }
 
 .logoButton {
-  display: block; 
-  margin: 0px;
-  padding: 0px;
-  line-height: 0;
+    display: block; 
+    margin: 0px;
+    padding: 0px;
+    line-height: 0;
 }
 
 .releaseLogo {
     width: 40px;
-    position:  relative;
+    position: relative;
     left: 10px;
     bottom: 100%;
 }
@@ -27,10 +31,10 @@
     border: 1px solid #636363;
     display: flex;
     flex-direction: column;
-    width: 40vw;
+    /* width: 40vw; (삭제하고 flex: 1 사용) */
     margin: 0 10px;
     padding: 0;
-    flex: 1;
+    flex: 1; /* 두 박스가 동일 너비로 공간 차지 */
 }
 
 .barHeader {
@@ -42,6 +46,7 @@
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    align-items: center; /* 버튼과 제목 수직 중앙 정렬 */
 }
 
 .barHeaderTitle {
@@ -55,10 +60,13 @@
     font-size: 1em;
     margin: 2% 2%;
     color: #636363;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .content {
-    padding: 15%;
+    /* padding: 15%; (너무 넓어서 조정 필요) */
+    padding: 15px; 
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -66,30 +74,64 @@
 
 .bookList {
     padding: 0;
+    list-style: none; /* 리스트 점 제거 */
 }
 
-.bookItem {
+.memberList {
+    padding: 0;
+    list-style: none; /* 리스트 점 제거 */
+}
+
+/* 항목 기본 스타일 및 삭제 버튼과의 배치를 위해 flex 적용 */
+.bookItem, .memberItem {
     display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed #ddd; /* 항목 구분선 */
+    justify-content: space-between; /* 정보와 버튼 양 끝 배치 */
 }
 
 .bookimage {
     flex: 1;
 }
 
+.bookimage img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
 .bookinfo {
     flex: 7;
     margin-left: 5%;
-}
-
-.memberList {
-    padding: 0;
-}
-
-.memberItem {
-    display: flex;
+    flex-grow: 1; /* 남은 공간을 정보가 차지하도록 */
 }
 
 .memberInfo {
     flex: 7;
     margin-left: 5%;
+    flex-grow: 1; /* 남은 공간을 정보가 차지하도록 */
+}
+
+/* ⭐ 새로 추가된 삭제 버튼 스타일 */
+.deleteButton {
+    background-color: #ff4d4d; /* 붉은색 배경 */
+    color: white;
+    border: none;
+    border-radius: 50%; /* 원형 버튼 */
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1; /* 텍스트 수직 중앙 정렬 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* 공간이 부족해도 줄어들지 않도록 */
+    margin-left: 10px;
+}
+
+.deleteButton:hover {
+    background-color: #e60000;
 }
