@@ -27,7 +27,7 @@ function ShowMemberList() {
     ]*/);
             
     useEffect (() => {
-        api.post('/member/list')
+        api.get('/member/list')
         .then (
             (response) => {
                 setDataMembers(response.data);
@@ -81,7 +81,7 @@ function ShowBookList() {
     ]);
 
     useEffect (() => {
-        api.post('/api/books')
+        api.get('/api/books')
         .then(
             (response) => {
                 setDataBooks(response.data);

@@ -65,7 +65,6 @@ const Header = () => {
             </div>
             <div className={styles.rightSection}>
                 <MyPageButton />
-                {/* 관리자만 보이는 버튼 */}
                 {userRole === 'ADMIN' && (
                     <button 
                         onClick={() => navigate('/dashboard')}
