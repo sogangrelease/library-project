@@ -67,21 +67,11 @@ const Header = () => {
             </div>
             <div className={styles.rightSection}>
                 <MyPageButton />
-<<<<<<< HEAD
                 {/* 관리자만 보이는 버튼 */}
                 {userRole === 'ADMIN' && <AdminPageButton />}
 
                 {(location.pathname === '/dashboard' || location.pathname === '/DashBoard') && (
                     <AddBoardButton />
-=======
-                {userRole === 'ADMIN' && (
-                    <button 
-                        onClick={() => navigate('/dashboard')}
-                        className={styles.adminButton}
-                    >
-                        관리자 페이지
-                    </button>
->>>>>>> ccd7d3daa7af9328097d0482b8373878d1186c26
                 )}
                 {/* ✅ LogOutButton에 로그아웃 함수를 props로 전달 */}
                 <LogOutButton onLogout={handleLogout} /> 
