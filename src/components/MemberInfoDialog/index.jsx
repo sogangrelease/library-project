@@ -3,7 +3,7 @@ import styles from './MemberInfoDialog.module.css';
 import Dialog from '@/components/Dialog';
 import api from '@/api/axios.js';
 
-function MemberInfoDialog({ memberInfo = {name: '', studentId: '', phoneNumber: ''} }) {
+function MemberInfoDialog({ memberInfo = {name: '', studentId: '', phoneNumber: ''}, handleDeleteMember }) {
     const [loanedBooks, setLoanedBooks] = useState([])
     const [isOpen, setIsOpen] = useState(false);
     // const [changePhoneNumber, setChangePhoneNumber] = useState([]);
@@ -69,6 +69,7 @@ function MemberInfoDialog({ memberInfo = {name: '', studentId: '', phoneNumber: 
             <p>학번: {memberInfo.studentId}</p>
             {/*<p>대출 권수: {}</p> {/*TODO: MemberListDto에 대출 권수 추가 /* 아직 안하기로 했음 member 상세 페이지 만들어서 거기에 표시하기로*/}
         </div>
+        <button className={styles.deleteButton} onClick={(e) => { e.stopPropagation(); handleDeleteMember(memberInfo.studentId); }} disabled={memberInfo.studentId === 'Loading...'}>X</button>
         <div onClick={(e) => e.stopPropagation()}>
             <Dialog title='회원 정보' dialogRef={dialogRef} onClose={dialogClose}>
                 <input className={styles.input} type='text' placeholder='회원 이름' value={memberInfo.name} name='이름' disabled />

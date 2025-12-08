@@ -45,37 +45,34 @@ function ShowMemberList({ refetchKey }) {
     }
 
     useEffect(() => {
-    fetchMembers();
-  }, [refetchKey]);
+        fetchMembers();
+    }, [refetchKey]);
 
-  const handleDeleteMember = (studentId) => {
-    if (window.confirm(`${studentId} 회원을 정말로 삭제하시겠습니까?`)) {
-      api
-        .delete(`/member/delete/${studentId}`)
-        .then(() => {
-          alert(`회원 [${studentId}]이(가) 성공적으로 삭제되었습니다.`);
-          fetchMembers();
-        })
-        .catch((error) => {
-          console.error(`회원 삭제 실패 (${studentId}):`, error);
-          const msgFromServer = error.response?.data;
-          if (error.response?.status === 400 && typeof msgFromServer === 'string') {
-            alert(msgFromServer);
-          } else {
-            alert(`회원 삭제에 실패했습니다: ${msgFromServer || error.message}`);
-          }
-        });
-    }
-  };
+    const handleDeleteMember = (studentId) => {
+        if (window.confirm(`${studentId} 회원을 정말로 삭제하시겠습니까?`)) {
+            api.delete(`/member/delete/${studentId}`)
+            .then(() => {
+                alert(`회원 [${studentId}]이(가) 성공적으로 삭제되었습니다.`);
+                fetchMembers();
+            })
+            .catch((error) => {
+                console.error(`회원 삭제 실패 (${studentId}):`, error);
+                const msgFromServer = error.response?.data;
+                if (error.response?.status === 400 && typeof msgFromServer === 'string') {
+                    alert(msgFromServer);
+                } else {
+                    alert(`회원 삭제에 실패했습니다: ${msgFromServer || error.message}`);
+                }
+            });
+        }
+    };
     
     const members = (
-        dataMembers.map(member => <MemberInfoDialog memberInfo={member} key={member.studentId} />)
+        dataMembers.map(member => <MemberInfoDialog memberInfo={member} handleDeleteMember={handleDeleteMember} key={member.studentId} />)
     );
     
     return <ul className={styles.memberList}>
-        {
-            (members)
-        }
+        {members}
     </ul>;
 }
 
@@ -107,21 +104,21 @@ function ShowBookList({ refetchKey }) {
     }
 
     useEffect(() => {
-      fetchBooks();
+        fetchBooks();
     }, [refetchKey]);
 
     const handleDeleteBook = (bookId, bookTitle) => {
-    if (window.confirm(`도서 [${bookTitle}]을(를) 정말로 삭제하시겠습니까?`)) {
-      api.delete(`/api/books/delete/${bookId}`)
-        .then(() => {
-          alert(`도서 [${bookTitle}]이(가) 성공적으로 삭제되었습니다.`);
-          fetchBooks();
-        })
-        .catch((error) => {
-          console.error(`도서 삭제 실패 (${bookId}):`, error);
-          alert(`도서 삭제에 실패했습니다: ${error.response?.data || error.message}`);
-        });
-      }
+        if (window.confirm(`도서 [${bookTitle}]을(를) 정말로 삭제하시겠습니까?`)) {
+            api.delete(`/api/books/delete/${bookId}`)
+            .then(() => {
+                alert(`도서 [${bookTitle}]이(가) 성공적으로 삭제되었습니다.`);
+                fetchBooks();
+            })
+            .catch((error) => {
+                console.error(`도서 삭제 실패 (${bookId}):`, error);
+                alert(`도서 삭제에 실패했습니다: ${error.response?.data || error.message}`);
+            });
+        }
     };
     
     const books = dataBooks.map(book =>
@@ -134,13 +131,12 @@ function ShowBookList({ refetchKey }) {
                 <p>반납 예정일</p>
                 <p>{book.due}</p>
             </div>
+            <button className={styles.deleteButton} onClick={() => handleDeleteBook(book.id, book.titleMain)}>X</button>
         </li>
     );
     
     return <ul className={styles.bookList}>
-        {
-            (books)
-        }
+        {books}
     </ul>;
 }
 
@@ -186,16 +182,16 @@ function AddBoard() {
         </div>
 
         <MemberCreateModal
-        open={openMemberModal}
-        onClose={() => setOpenMemberModal(false)}
-        onCreated={handleMemberCreated}
-      />
+            open={openMemberModal}
+            onClose={() => setOpenMemberModal(false)}
+            onCreated={handleMemberCreated}
+        />
 
-      <BookCreateModal
-        open={openBookModal}
-        onClose={() => setOpenBookModal(false)}
-        onCreated={handleBookCreated}
-      />
+        <BookCreateModal
+            open={openBookModal}
+            onClose={() => setOpenBookModal(false)}
+            onCreated={handleBookCreated}
+        />
     </div>
     );
 }
