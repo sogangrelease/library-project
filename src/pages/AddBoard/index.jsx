@@ -3,6 +3,7 @@ import styles from './AddBoard.module.css';
 import { Link } from 'react-router-dom';
 import releaseLogo from '@/assets/release-black-small.webp';
 import api from '@/api/axios.js';
+import MemberInfoDialog from '@/components/MemberInfoDialog';
 
 function ShowMemberList() {
     
@@ -55,15 +56,7 @@ function ShowMemberList() {
     }, []);
     
     const members = (
-        dataMembers.map(member =>
-            <li key = {member.studentId} className={styles.memberItem}>
-                <div className={styles.memberInfo}>
-                    <p><b>{member.name}</b></p>
-                    <p>학번: {member.studentId}</p>
-                    {/*<p>대출 권수: {}</p> {/*TODO: MemberListDto에 대출 권수 추가 /* 아직 안하기로 했음 member 상세 페이지 만들어서 거기에 표시하기로*/}
-                </div>
-            </li>
-        )
+        dataMembers.map(member => <MemberInfoDialog memberInfo={member} key={member.studentId} />)
     );
     
     return <ul className={styles.memberList}>

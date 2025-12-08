@@ -1,0 +1,51 @@
+.dialog {
+    padding: 0;
+    border-width: 0;
+}
+
+.container {
+    display: flex;
+    background-color: #ffffff;
+    color: rgb(90, 90, 90);
+}
+
+.box {
+    border: 1px solid #636363;
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+}
+
+.barHeader {
+    text-align: left;
+    padding-left: 3.5%;
+    background-color: rgb(247, 210, 90);
+    border-bottom: 1px solid #636363;
+    margin: 0 0 0 0;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.barHeaderTitle {
+    margin: 2% 0;
+    color: rgb(50, 50, 50);
+}
+
+.barHeaderButton {
+    background-color: rgb(247, 210, 90);
+    border: 0px solid #636363;
+    font-size: 1em;
+    margin: 2% 2%;
+    color: #636363;
+}
+
+.content {
+    padding: 15%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
