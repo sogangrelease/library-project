@@ -1,3 +1,17 @@
+.memberItem {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed #dddddd;
+    justify-content: space-between;
+}
+
+.memberInfo {
+    flex: 7;
+    margin-left: 5%;
+    flex-grow: 1;
+}
+
 .input {
     font-size: 1em;
     padding-inline: initial;
@@ -26,4 +40,14 @@
     border-radius: 16px;
     border-width: 1px;
     padding: 1.2vh;
+}
+
+.deleteButton {
+    font-size: 1em;
+    background-color: rgb(253, 87, 87);
+    color: rgb(253, 253, 253);
+    border-radius: 16px;
+    border-width: 1px;
+    padding: 1.2vh;
+    margin-top: 5px;
 }

@@ -48,20 +48,20 @@ function ShowMemberList({ refetchKey }) {
         fetchMembers();
     }, [refetchKey]);
 
-    const handleDeleteMember = (studentId) => {
-        if (window.confirm(`${studentId} 회원을 정말로 삭제하시겠습니까?`)) {
-            api.delete(`/member/delete/${studentId}`)
+    const handleDeleteMember = (member) => {
+        if (window.confirm(`[${member.name} (${member.studentId})] 회원 계정을 정말로 삭제하시겠습니까?`)) {
+            api.delete(`/member/delete/${member.studentId}`)
             .then(() => {
-                alert(`회원 [${studentId}]이(가) 성공적으로 삭제되었습니다.`);
+                alert(`[${member.name} (${member.studentId})] 회원 계정이 성공적으로 삭제되었습니다.`);
                 fetchMembers();
             })
             .catch((error) => {
-                console.error(`회원 삭제 실패 (${studentId}):`, error);
+                console.error(`[${member.name} (${member.studentId})] 회원 계정 삭제 실패:`, error);
                 const msgFromServer = error.response?.data;
                 if (error.response?.status === 400 && typeof msgFromServer === 'string') {
                     alert(msgFromServer);
                 } else {
-                    alert(`회원 삭제에 실패했습니다: ${msgFromServer || error.message}`);
+                    alert(`회원 계정 삭제에 실패했습니다: ${msgFromServer || error.message}`);
                 }
             });
         }
