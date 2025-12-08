@@ -65,12 +65,20 @@ public class MemberController {
     // 2. 계정 생성 (관리자만 가능)
     @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody MemberCreateDto memberCreateDto) {
-        this.memberService.create(memberCreateDto.getStudentId(),
-                                  memberCreateDto.getPassword(),
-                                  memberCreateDto.getPhoneNumber(),
-                                  memberCreateDto.getName());
-        //성공 메시지를 포함한 200 OK 응답
-        return ResponseEntity.ok("Account created successfully");
+        try {
+            this.memberService.create(
+                    memberCreateDto.getStudentId(),
+                    memberCreateDto.getPassword(),
+                    memberCreateDto.getPhoneNumber(),
+                    memberCreateDto.getName()
+            );
+            return ResponseEntity.ok("Account created successfully");
+        } catch (IllegalArgumentException e) {
+            // 중복 학번 등 비즈니스 검증 실패
+            return ResponseEntity
+                    .badRequest()              // HTTP 400
+                    .body(e.getMessage());      // "이미 존재하는 학번입니다."
+        }
     }
 
     // 3. 비밀번호 변경
