@@ -19,17 +19,28 @@ function MemberCreateModal({ open, onClose, onCreated }) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await api.post('/member/create', form);
-      alert('계정이 생성되었습니다.');
-      onCreated();
-      onClose();
-    } catch (error) {
-      console.error('회원 생성 실패:', error);
-      alert(error.response?.data || error.message);
+  e.preventDefault();
+  try {
+    await api.post('/member/create', form);
+    alert('계정이 생성되었습니다.');
+    onCreated();
+    onClose();
+  } catch (error) {
+    console.error('회원 생성 실패:', error);
+
+    const status = error.response?.status;
+    const msgFromServer = error.response?.data;
+
+    // 중복 학번 등 비즈니스 오류: 컨트롤러에서 400 + "이미 존재하는 학번입니다."
+    if (status === 400 && typeof msgFromServer === 'string') {
+      alert(msgFromServer);
+    } else {
+      // 그 외(500, 네트워크 오류 등)
+      alert(msgFromServer || error.message || '회원 생성에 실패했습니다.');
     }
-  };
+  }
+};
+
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
