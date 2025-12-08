@@ -97,8 +97,9 @@
 
 .bookimage img {
     display: block;
-    max-width: 100%;
-    height: auto;
+    width: 80px;    /* 원하는 가로 크기 */
+    height: 120px;  /* 원하는 세로 크기 */
+    object-fit: cover; /* 비율 유지하면서 잘라내기 */
 }
 
 .bookinfo {
