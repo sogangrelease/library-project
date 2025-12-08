@@ -1,6 +1,7 @@
 package com.release.library.member;
 
 import com.release.library.DataNotFoundException;
+import com.release.library.borrow.BorrowRepository;
 import com.release.library.dto.MemberDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder; // ★ SecurityConfig에서 정의된 빈(Bean) 주입
-
+    private final BorrowRepository borrowRepository;
     //유저 찾아서 반환 (학번으로 찾음)
     public Member getMember(String studentId) {
         Optional<Member> member = this.memberRepository.findByStudentId(studentId);
@@ -94,6 +95,9 @@ public class MemberService {
     //멤버 삭제
     @Transactional
     public void deleteMemeber(Member member){
+        if (borrowRepository.existsByMember(member)) {
+            throw new IllegalStateException("해당 회원은 현재 대출 중인 도서가 있어 삭제할 수 없습니다.");
+        }
         memberRepository.delete(member);
     }
 }

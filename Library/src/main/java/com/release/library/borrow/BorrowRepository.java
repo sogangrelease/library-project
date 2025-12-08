@@ -11,4 +11,7 @@ public interface BorrowRepository extends JpaRepository<Borrow, Long> {
 
     //해당 멤버가 있는 대여 테이블 컬럼 가져오기
     List<Borrow> findByMember(Member member);
+
+    //멤버가 빌린 책이 있는지 boolean값 리턴
+    boolean existsByMember(Member member);
 }

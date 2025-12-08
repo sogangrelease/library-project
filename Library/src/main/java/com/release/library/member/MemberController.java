@@ -112,6 +112,8 @@ public class MemberController {
             this.memberService.deleteMemeber(member);
         }catch(DataNotFoundException e){
             return ResponseEntity.status(422).body(e.getMessage());
+        }catch (IllegalStateException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
         }
         return ResponseEntity.ok("계정이 삭제되었습니다.");
     }

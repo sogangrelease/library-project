@@ -70,7 +70,6 @@ public class BorrowController {
 
     //해당 유저의 대여 내역 조회
     //마이페이지에서 조회
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/my/borrow/list")
     public ResponseEntity<List<MyBorrowListDto>> getMyBorrowList(Principal principal){
         Member member = this.memberService.getMember(principal.getName());
