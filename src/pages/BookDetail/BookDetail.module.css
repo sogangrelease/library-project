@@ -12,6 +12,7 @@
   padding-top: 40px; 
   padding-bottom: 100px;
   position: relative;
+  overflow-y: auto; /* 전체 페이지 스크롤 추가 */
 }
 
 /* 메인 컨텐츠 박스 */
@@ -44,14 +45,8 @@
 .bookDetailsSection {
   display: flex;
   align-items: flex-start;
-  
-  /* 표지 끝(283px) ~ 목차 끝(358px) 사이 간격 = 75px */
-  /* 기본정보 칸의 왼쪽 끝이 정확히 358px(목차 오른쪽 선)에서 시작 */
   gap: 75px; 
-
   margin-bottom: 80px; 
-  
-  /* 표지 사진 가운데 = 목차 박스 가운데 일치 */
   padding-left: 75px; 
   height: 277px; 
 }
@@ -127,23 +122,25 @@
 /* 목차 박스 */
 .tocContainer {
   width: 358px;
-  min-height: 1346px;
+  max-height: 1346px; /* min-height → max-height */
   border: 1px solid #636363;
   padding: 30px;
   box-sizing: border-box;
   word-break: break-all;
   overflow-wrap: break-word;
+  overflow-y: auto; /* 스크롤 추가 */
 }
 
 /* 상세설명 박스 */
 .detailsContainer {
   width: 592px;
-  min-height: 1346px;
+  max-height: 1346px; /* min-height → max-height */
   border: 1px solid #636363;
   padding: 30px;
   box-sizing: border-box;
   word-break: break-all;
   overflow-wrap: break-word;
+  overflow-y: auto; /* 스크롤 추가 */
 }
 
 .sectionTitle {
@@ -172,4 +169,26 @@
   font-size: 15px;
   color: #333;
   line-height: 1.6;
+}
+
+/* 스크롤바 스타일링 */
+.tocContainer::-webkit-scrollbar,
+.detailsContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tocContainer::-webkit-scrollbar-track,
+.detailsContainer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.tocContainer::-webkit-scrollbar-thumb,
+.detailsContainer::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.tocContainer::-webkit-scrollbar-thumb:hover,
+.detailsContainer::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

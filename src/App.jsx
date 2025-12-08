@@ -6,14 +6,19 @@ import BookDetail from '@/pages/BookDetail';
 import DashBoard from '@/pages/DashBoard';
 import AddBoard from '@/pages/AddBoard';
 import Login from '@/pages/Login';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 
 
 const App = () => {
+  const location = useLocation();
+
+  // Login 페이지에서는 Header 숨기기
+  const hideHeader = location.pathname === '/login';
+
   return (
     <div className="app-container">
-      <Header />
+      {!hideHeader && <Header />}
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/search" element={<SearchPage />} />
