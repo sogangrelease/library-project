@@ -48,7 +48,7 @@ function BookDetail() {
           language: "한국어",
           coverImage: null,
           toc: ["1장. 서론", "2장. 본론", "3장. 결론"],
-          description: "백엔드 서버와 연결할 수 없어 임시 데이터를 보여주고 있습니다.\n\n서버를 켜면 실제 데이터가 나옵니다."
+          description: "백엔드 서버와 연결할 수 없어 임시 데이터를 보여주고 있습니다.\n\n서버를 켜면 실제 데이터가 나옵니다."  
         };
         
         console.log("설정할 더미 데이터:", dummyData);

@@ -1,6 +1,8 @@
 import SearchBar from '@/components/SearchBar';
 import MyPageButton from '@/components/MyPageButton';
 import LogOutButton from '@/components/LogOutButton';
+import AddBoardButton from '@/components/AddBoardButton';
+import AdminPageButton from '@/components/AdminPageButton';
 import styles from './Header.module.css';
 import { useNavigate } from 'react-router-dom'; // navigate 추가
 import { useCookies } from 'react-cookie';
@@ -8,11 +10,11 @@ import { useState, useEffect } from 'react';
 import api from '@/api/axios'; // api 호출을 위해 추가
 
 const categories = [
-  { label: '컴퓨터공학/수학', value: 'cs/math' },
-  { label: '웹/앱', value: 'web/app' },
-  { label: '인프라', value: 'infra' },
-  { label: '인공지능', value: 'ai' },
-  { label: '기타', value: 'others' }
+    { label: '컴퓨터공학/수학', value: 'cs/math' },
+    { label: '웹/앱', value: 'web/app' },
+    { label: '인프라', value: 'infra' },
+    { label: '인공지능', value: 'ai' },
+    { label: '기타', value: 'others' }
 ];
 
 const Header = () => {
@@ -66,13 +68,10 @@ const Header = () => {
             <div className={styles.rightSection}>
                 <MyPageButton />
                 {/* 관리자만 보이는 버튼 */}
-                {userRole === 'ADMIN' && (
-                    <button 
-                        onClick={() => navigate('/dashboard')}
-                        className={styles.adminButton}
-                    >
-                        관리자 페이지
-                    </button>
+                {userRole === 'ADMIN' && <AdminPageButton />}
+
+                {(location.pathname === '/dashboard' || location.pathname === '/DashBoard') && (
+                    <AddBoardButton />
                 )}
                 {/* ✅ LogOutButton에 로그아웃 함수를 props로 전달 */}
                 <LogOutButton onLogout={handleLogout} /> 
