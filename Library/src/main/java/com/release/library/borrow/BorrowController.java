@@ -5,6 +5,7 @@ import com.release.library.book.Book;
 import com.release.library.book.BookService;
 import com.release.library.dto.BookDto;
 import com.release.library.dto.BorrowListDto;
+import com.release.library.dto.MemberIdRequestDto;
 import com.release.library.dto.MyBorrowListDto;
 import com.release.library.member.Member;
 import com.release.library.member.MemberService;
@@ -74,7 +75,19 @@ public class BorrowController {
     public ResponseEntity<List<MyBorrowListDto>> getMyBorrowList(Principal principal){
         Member member = this.memberService.getMember(principal.getName());
         List<MyBorrowListDto> borrowList = this.borrowService.getMyBorrowList(member);
-        System.out.println("개인 대여 내역 조회 성공");
+        return ResponseEntity.ok(borrowList);
+    }
+
+    // 관리자를 위한 해당 유저 대여 내역 조회
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/member/borrow/list")
+    public ResponseEntity<List<MyBorrowListDto>> getMemberBorrowList(
+            @RequestBody MemberIdRequestDto requestDto) {
+
+        String studentId = requestDto.getStudentId();
+
+        Member member = this.memberService.getMember(studentId);
+        List<MyBorrowListDto> borrowList = this.borrowService.getMyBorrowList(member);
         return ResponseEntity.ok(borrowList);
     }
 }
