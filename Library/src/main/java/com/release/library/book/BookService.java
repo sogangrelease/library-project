@@ -188,17 +188,45 @@ public class BookService {
                 })
                 .collect(Collectors.toList());
     }
-    //책 삭제
     @Transactional
     public void deleteBook(Long id) {
         Book book = this.bookRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException("책을 찾을 수 없습니다.")); // 1. 책이 없으면 바로 예외 발생
+                .orElseThrow(() -> new DataNotFoundException("책을 찾을 수 없습니다."));
 
-        if(!book.isLoaned()) { // 2. 책이 있다면 대여 여부 확인
-            this.bookRepository.delete(book);
+        if (book.isLoaned()) { // 1. 대여 여부 확인 (먼저 체크)
+            throw new DataNotFoundException("대여중인 책입니다.");
         }
-        else{
-            throw new DataNotFoundException("대여중인 책입니다."); // 3. 대여 중이라면 예외 발생
+
+        // 2. 이미지 파일 삭제 로직 추가
+        String coverUrl = book.getCoverUrl(); // Book 엔티티에서 저장된 URL을 가져옴
+        if (coverUrl != null && !coverUrl.isEmpty()) {
+            try {
+                // URL에서 파일 이름 파싱 (예: http://localhost:8080/book-covers/uuid.jpg -> uuid.jpg)
+                // URL의 마지막 부분(파일명)을 추출합니다.
+                String fileName = coverUrl.substring(coverUrl.lastIndexOf('/') + 1);
+
+                // 파일 경로를 구성합니다.
+                String uploadDir = "C:/Library/book-covers/";
+                Path filePath = Paths.get(uploadDir, fileName);
+
+                // 파일이 존재하는지 확인하고 삭제합니다.
+                if (Files.exists(filePath)) {
+                    Files.delete(filePath);
+                    System.out.println("커버 이미지 파일이 성공적으로 삭제되었습니다: " + fileName);
+                } else {
+                    System.out.println("⚠커버 이미지 파일이 파일 시스템에 존재하지 않습니다: " + fileName);
+                }
+
+            } catch (IOException e) {
+                // 파일 삭제 중 I/O 예외가 발생하면 로깅하고 계속 진행하거나, RuntimeException을 던질 수 있습니다.
+                System.err.println(" 커버 이미지 파일 삭제 중 오류 발생: " + e.getMessage());
+                // 파일 삭제 실패가 데이터베이스 트랜잭션 실패로 이어지지 않게 하려면 (DB는 삭제),
+                // 여기서는 단순히 로깅하고 throw 하지 않습니다.
+                // 만약 파일 삭제 실패 시 DB 삭제도 막고 싶다면 throw new RuntimeException(e); 를 사용합니다.
+            }
         }
+
+        // 3. 데이터베이스에서 책 삭제
+        this.bookRepository.delete(book);
     }
 }
