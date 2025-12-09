@@ -4,6 +4,7 @@ import com.release.library.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -14,61 +15,86 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-@Configuration //@Configuration :스프링 환경설정 파일임을 의미하는 어노테이션 => 여기서는 스프링 시큐리티 설정을 위해서 사용
-@EnableWebSecurity //모든 요청 URL이 스프링 시큐리티 프레임워크의 통제를 받도록 하는 어노테이션
-@RequiredArgsConstructor
+import java.util.List;
+
+@Configuration
+@EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
-    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                // 1. 폼 로그인 비활성화 (React가 로그인 요청을 API로 직접 처리)
-                .formLogin(formLogin -> formLogin.disable())
+                // CORS 설정 활성화
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
-                // 2. CSRF 비활성화 (토큰 기반 인증에서는 불필요)
+                // CSRF 비활성화 (JWT 사용)
                 .csrf(csrf -> csrf.disable())
 
-                // 3. 세션을 사용하지 않음 (Stateless)
+                // 세션 사용 X (STATELESS)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
-                // 4. 요청 권한 설정
-                .authorizeHttpRequests(
-                        (authorizeHttpRequests) ->  authorizeHttpRequests
-                                // 로그인 API와 계정 생성 API는 인증 없이 접근 허용
-                                .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
-                                .requestMatchers("/book-covers/**").permitAll()
-                                .requestMatchers("/member/authenticate", "/member/create").permitAll()
-                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**").permitAll()
-                                .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
+                // 요청 권한 설정
+                .authorizeHttpRequests(auth -> auth
+                        // Preflight OPTIONS 전부 허용
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        // 정적 리소스, 공개 API 등
+                        .requestMatchers("/book-covers/**").permitAll()
+                        .requestMatchers("/member/authenticate", "/member/create").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**",
+                                "/swagger-resources/**", "/webjars/**").permitAll()
+
+                        // 나머지는 모두 인증 필요
+                        .anyRequest().authenticated()
                 )
-                // 5. JWT 필터를 Spring Security의 기본 필터 이전에 추가하여 토큰 검증
+
+                // JWT 필터 등록
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                //6. 로그아웃
+
+                // 로그아웃 설정 (원래 코드 유지)
                 .logout(logout -> logout
-                        .logoutUrl("/api/logout") // React 클라이언트가 요청할 엔드포인트 (POST 요청)
+                        .logoutUrl("/api/logout")
                         .logoutSuccessHandler((request, response, authentication) -> {
-                            // 로그아웃 성공 시 서버 세션/쿠키 등을 정리하고 클라이언트에 성공 응답 전송
-                            // JWT 기반에서는 주로 클라이언트의 토큰 삭제를 유도함
                             response.setStatus(org.springframework.http.HttpStatus.OK.value());
                             response.getWriter().write("{\"message\": \"Logged out successfully\"}");
                             response.flushBuffer();
                         })
-                        // JWT는 세션이 없지만, 혹시 모를 잔재를 위해 설정
                         .invalidateHttpSession(false)
-                        .deleteCookies("JSESSIONID") // 세션 기반 쿠키가 있다면 삭제
+                        .deleteCookies("JSESSIONID")
                         .permitAll()
-                )
-        ;
-
+                );
 
         return http.build();
+    }
+
+    // CORS 설정 Bean
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+
+        // React 개발 서버 Origin
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        // 모든 HTTP 메서드 허용 (OPTIONS 포함)
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        // 모든 헤더 허용 (Authorization 포함)
+        config.setAllowedHeaders(List.of("*"));
+        // 필요 시 true로 (쿠키/자격 증명 사용 안 하면 false로 둬도 됨)
+        config.setAllowCredentials(false);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
     @Bean
@@ -80,6 +106,4 @@ public class SecurityConfig {
     protected AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
-
 }
