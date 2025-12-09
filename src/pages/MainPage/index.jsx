@@ -49,12 +49,21 @@ const LoanStatusSidebar = () => {
 };
 
 const LoanItem = ({ book }) => {
+    
+    const date = new Date(book.returnAt);
+    
+    const formattedReturnDate = date.toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+    }).replace(/\s/g, ''); 
+
     return (
         <div className={styles.loanItem}>
             <BookImage src={book.coverUrl} alt={book.titleMain}/>
             <div className={styles.loanItemDetails}>
                 <p>반납예정일</p>
-                <p>{book.returnAt}</p>
+                <p>{formattedReturnDate}</p> 
             </div>
         </div>
     );
