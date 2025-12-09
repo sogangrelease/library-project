@@ -129,7 +129,7 @@ function ShowBookList({ refetchKey }) {
             <div className={styles.bookinfo}>
                 <p><b>{book.titleMain}</b></p>
                 <p>반납 예정일</p>
-                <p>{book.due}</p>
+                <p>{book.returnAt?.slice(0, 10)}</p>
             </div>
             <button className={styles.deleteButton} onClick={() => handleDeleteBook(book.id, book.titleMain)}>X</button>
         </li>

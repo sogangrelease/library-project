@@ -58,7 +58,7 @@ function MemberInfoDialog({ memberInfo = {name: '', studentId: '', phoneNumber: 
             <div className={styles.bookinfo}>
                 <p><b>{book.titleMain}</b></p>
                 <p>반납 예정일</p>
-                <p>{book.returnAt}</p>
+                <p>{book.returnAt?.slice(0, 10)}</p>
             </div>
         </li>
     );
