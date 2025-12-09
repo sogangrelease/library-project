@@ -1,16 +1,14 @@
-/* AddBoard.module.css */
-
 .pageOutline {
     display: flex;
     flex-direction: column;
+    padding: 20px 0;
 }
 
 .container {
     display: flex;
     background-color: #ffffff;
     color: rgb(90, 90, 90);
-    /* 여백 조정 */
-    padding: 20px 0; 
+    padding: 0; 
 }
 
 .logoButton {

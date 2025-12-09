@@ -26,7 +26,7 @@ function MemberInfoDialog({ memberInfo = {name: '', studentId: '', phoneNumber: 
         if (isOpen) {
             dialogRef.current?.showModal();
 
-            api.post('/member/borrow/list', { studentId: memberInfo.name })
+            api.post('/member/borrow/list', { studentId: memberInfo.studentId })
             .then(
                 (response) => {
                     setLoanedBooks(response.data);
