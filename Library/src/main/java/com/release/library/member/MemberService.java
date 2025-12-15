@@ -100,4 +100,19 @@ public class MemberService {
         }
         memberRepository.delete(member);
     }
+
+    public List<MemberDto> searchMember(String name){
+        Optional<Member> members = this.memberRepository.findByName(name);
+        return members.stream()
+                .map(member -> {
+                    MemberDto dto = new MemberDto();
+                    dto.setStudentId(member.getStudentId());
+                    dto.setName(member.getName());
+                    dto.setPhoneNumber(member.getPhoneNumber());
+                    dto.setRole(member.getRole());
+                    // 3. 변환된 DTO 객체를 명시적으로 반환
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
 }

@@ -134,4 +134,11 @@ public class MemberController {
         return ResponseEntity.ok(dto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
+    public ResponseEntity<List<MemberDto>> searchMember(@RequestParam String name){
+        List<MemberDto> memberList= this.memberService.searchMember(name);
+        return ResponseEntity.ok(memberList);
+    }
+
 }
