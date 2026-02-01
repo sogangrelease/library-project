@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom';
 
 const MyPageButton = () => {
     const navigate = useNavigate();
-    const navTo = (path) => {
-        navigate(path);
-    };
 
     return (
-        <button onClick={() => navTo('/mypage')}className={styles.myPageButton}>
-            My Page
+        <button 
+            className={styles.circleButton} 
+            onClick={() => navigate('/mypage')}
+            data-tooltip="My Page" // 말풍선에 뜰 텍스트
+        >
+            M
         </button>
     );
 };

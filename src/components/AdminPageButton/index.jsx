@@ -6,10 +6,11 @@ function AdminPageButton() {
 
     return (
         <button 
-            className={styles.adminPageButton}
+            className={styles.circleButton}
             onClick={() => navigate('/dashboard')}
+            data-tooltip="Admin Page"
         >
-            Admin Page
+            A
         </button>
     );
 }

@@ -65,13 +65,13 @@
 }
 
 .input:disabled {
-    color: rgb(247, 210, 90);
+    color: rgb(180, 130, 20);
     opacity: 1;
-    --webkit-text-fill-color: rgb(247, 210, 90);
+    --webkit-text-fill-color: rgb(180, 130, 20);
 }
 
 .input::placeholder {
-    color: rgb(247, 210, 90);
+    color: rgb(180, 130, 20);
 }
 
 .button {

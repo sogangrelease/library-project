@@ -6,10 +6,11 @@ function AddBoardButton() {
 
     return (
         <button 
-            className={styles.addBoardButton}
+            className={styles.circleButton} 
             onClick={() => navigate('/addboard')}
+            data-tooltip="Add Board"
         >
-            Add Board
+            A
         </button>
     );
 }
