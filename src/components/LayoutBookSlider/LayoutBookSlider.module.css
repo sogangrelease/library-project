@@ -1,0 +1,109 @@
+.bookSlider {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px; 
+    border: 1px solid #636363;
+    background-color: #fff;
+    margin: 0;
+}
+
+.sliderHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f7d15a;
+    border-bottom: 1px solid #636363;
+    padding: 9px 16px;
+}
+
+.sliderSubject {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.moreButton {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #555;
+    line-height: 1;
+}
+
+.sliderBody {
+    display: flex;
+    align-items: center;
+    padding: 20px 10px;
+    gap: 10px;
+}
+
+.sliderViewport {
+    overflow: hidden;
+    width: 100%;
+}
+
+.sliderContent {
+    display: flex;
+    transition: transform 0.4s ease-in-out; 
+    width: 100%;
+}
+
+.slideItem {
+    flex: 0 0 25%; 
+    max-width: 25%;
+    padding: 0; 
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+}
+
+.bookWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.bookWrapper img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: block;
+}
+
+.navButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.navButton:hover:not(:disabled) {
+    color: #333;
+    transform: scale(1.1);
+}
+
+.navButton:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.loading, .error {
+    padding: 40px;
+    text-align: center;
+    color: #666;
+    border: 1px solid #636363;
+    background-color: #fff;
+    margin: 20px auto;
+    max-width: 900px;
+}

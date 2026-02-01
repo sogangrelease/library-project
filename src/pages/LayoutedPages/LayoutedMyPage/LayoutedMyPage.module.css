@@ -1,0 +1,56 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 15%;
+}
+
+.input {
+    font-size: .9em;
+    padding-inline: initial;
+    text-align: start;
+    padding: 4%;
+    color:rgb(247, 210, 90);
+    background-color: transparent;
+    border-color: #636363;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+    margin: 2% 0;
+    opacity: 1;
+}
+
+.input:disabled {
+    color: rgb(247, 210, 90);
+    opacity: 1;
+    --webkit-text-fill-color: rgb(247, 210, 90);
+}
+
+.input::placeholder {
+    color: rgb(247, 210, 90);
+}
+
+.button {
+    font-size: .9em;
+    background-color: rgb(247, 210, 90);
+    color: rgb(36, 36, 36);
+    border-radius: 16px;
+    border-width: 1px;
+    padding: 1.2vh;
+}
+
+.bookList {
+    padding: 0;
+}
+
+.bookItem {
+    display: flex;
+}
+
+.bookimage {
+    flex: 1;
+}
+
+.bookinfo {
+    flex: 7;
+    margin-left: 5%;
+}
