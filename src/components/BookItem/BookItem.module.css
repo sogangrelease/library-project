@@ -7,7 +7,12 @@
   margin: 0;
   border: 0;
   background-color: transparent;
+  transition: transform 0.1s ease;
   cursor: pointer;
+}
+
+.bookItem:hover {
+  transform: scale(1.05);
 }
 
 .bookCover {
@@ -19,7 +24,9 @@
 .bookCover img {
   width: 100%;
   height: 100%;
+  border-radius: 5px;
   object-fit: cover;
+  box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.15);
   background-color: #e0e0e0;
 }
 

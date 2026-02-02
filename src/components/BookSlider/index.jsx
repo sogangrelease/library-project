@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './BookSlider.module.css';
 import BookImage from '@/components/BookImage';
+import BookItem from '@/components/BookItem';
 
 const BookSlider = ({ subject, books }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -37,7 +38,10 @@ const BookSlider = ({ subject, books }) => {
         <div className={styles.bookSlider}>
             <div className={styles.sliderHeader}>
                 <div className={styles.sliderSubject}>{subject}</div>
-                <button className={styles.moreButton} onClick={() => navTo(`/search?category=${currentSubject}&page=1`)}aria-label="More infomation">+</button>
+                <button className={styles.moreButton} onClick={() => navTo(`/search?category=${currentSubject}&page=1`)}aria-label="More infomation">
+                    +
+                    <span className={styles.tooltip}>카테고리 도서 더보기</span>
+                </button>
             </div>
 
             <div className={styles.sliderBody}>
@@ -46,9 +50,8 @@ const BookSlider = ({ subject, books }) => {
                     onClick={handlePrev} 
                     disabled={isPrevDisabled}
                 >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="12" cy="12" r="10" />
-                        <path d="M12 8l-4 4 4 4M16 12H8" />
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
                 </button>
 
@@ -58,14 +61,9 @@ const BookSlider = ({ subject, books }) => {
                         style={{ transform: `translateX(${translateX}%)` }}
                     >
                         {books.map((book) => (
-                            <button key={book.id} onClick={() => navTo(`/detail/${book.id}`)} className={styles.slideItem}>
-                                <div className={styles.bookWrapper}>
-                                    <BookImage 
-                                        src={book.coverUrl} 
-                                        alt={book.titleMain} 
-                                    />
-                                </div>
-                            </button>
+                            <div key={book.id} className={styles.slideItem}>
+                                <BookItem book={book} />
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -75,9 +73,8 @@ const BookSlider = ({ subject, books }) => {
                     onClick={handleNext}
                     disabled={isNextDisabled}
                 >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="12" cy="12" r="10" />
-                        <path d="M12 16l4-4-4-4M8 12h8" />
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
                 </button>
             </div>
