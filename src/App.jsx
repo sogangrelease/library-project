@@ -6,6 +6,9 @@ import BookDetail from '@/pages/BookDetail';
 import DashBoard from '@/pages/DashBoard';
 import AddBoard from '@/pages/AddBoard';
 import Login from '@/pages/Login';
+import LayoutedMainPage from '@/pages/LayoutedPages/LayoutedMainPage'
+import LayoutedMyPage from '@/pages/LayoutedPages/LayoutedMyPage'
+import LayoutedBookDetail from '@/pages/LayoutedPages/LayoutedBookDetail';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 
@@ -28,6 +31,9 @@ const App = () => {
         <Route path="/addboard" element={<AddBoard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/detail/:id" element={<BookDetail />} />
+        <Route path="/LayoutedMainPage" element={<LayoutedMainPage />} />
+        <Route path="/LayoutedMyPage" element={<LayoutedMyPage />} />
+        <Route path="/LayoutedBookDetail" element={<LayoutedBookDetail />} />
       </Routes>
     </div>
   );

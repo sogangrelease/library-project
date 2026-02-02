@@ -4,5 +4,5 @@
     flex-direction: column;
     flex-wrap: nowrap;
     max-width: 40vw;
-    min-width: 13vw;
+    min-width: 13em;
 }
