@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import LayoutBox from '@/components/LayoutBox';
 import styles from './LayoutBookSlider.module.css';
 import BookImage from '@/components/BookImage';
+import BookItem from '@/components/BookItem';
 import LayoutWidthConstraint from '@/components/LayoutWidthConstraint';
 
 const LayoutBookSlider = ({ subject, books }) => {
@@ -36,17 +37,21 @@ const LayoutBookSlider = ({ subject, books }) => {
     if (!books || books.length === 0) return null;
 
     return (
-        <LayoutBox title={subject} buttonOnClick={() => navTo(`/search?category=${currentSubject}&page=1`)} buttonLabel="주제 펴기" buttonChildren="+">
+        <LayoutBox title={subject} buttonOnClick={() => navTo(`/search?category=${currentSubject}&page=1`)} buttonLabel="주제 펴기" buttonChildren={
+            <>
+                <div>+</div>
+                <span className={styles.tooltip}>카테고리 도서 더보기</span>
+            </>
+        }>
             <LayoutWidthConstraint>
                 <div className={styles.sliderBody}>
                     <button 
-                        className={styles.navButton} 
-                        onClick={handlePrev} 
+                        className={styles.navButton}
+                        onClick={handlePrev}
                         disabled={isPrevDisabled}
                     >
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M12 8l-4 4 4 4M16 12H8" />
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
                         </svg>
                     </button>
 
@@ -56,26 +61,20 @@ const LayoutBookSlider = ({ subject, books }) => {
                             style={{ transform: `translateX(${translateX}%)` }}
                         >
                             {books.map((book) => (
-                                <button key={book.id} onClick={() => navTo(`/detail/${book.id}`)} className={styles.slideItem}>
-                                    <div className={styles.bookWrapper}>
-                                        <BookImage 
-                                            src={book.coverUrl} 
-                                            alt={book.titleMain} 
-                                        />
-                                    </div>
-                                </button>
+                                <div key={book.id} className={styles.slideItem}>
+                                    <BookItem book={book} />
+                                </div>
                             ))}
                         </div>
                     </div>
 
                     <button 
-                        className={styles.navButton} 
+                        className={styles.navButton}
                         onClick={handleNext}
                         disabled={isNextDisabled}
                     >
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M12 16l4-4-4-4M8 12h8" />
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </button>
                 </div>
