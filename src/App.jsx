@@ -9,6 +9,7 @@ import Login from '@/pages/Login';
 import LayoutedMainPage from '@/pages/LayoutedPages/LayoutedMainPage'
 import LayoutedMyPage from '@/pages/LayoutedPages/LayoutedMyPage'
 import LayoutedBookDetail from '@/pages/LayoutedPages/LayoutedBookDetail';
+import MobileMainPage from '@/pages/MobilePages/MobileMainPage'
 import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 
@@ -17,7 +18,7 @@ const App = () => {
   const location = useLocation();
 
   // Login 페이지에서는 Header 숨기기
-  const hideHeader = location.pathname === '/login';
+  const hideHeader = location.pathname === '/login' || location.pathname.startsWith('/Mobile');
 
   return (
     <div className="app-container">
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/LayoutedMainPage" element={<LayoutedMainPage />} />
         <Route path="/LayoutedMyPage" element={<LayoutedMyPage />} />
         <Route path="/LayoutedBookDetail" element={<LayoutedBookDetail />} />
+        <Route path="/MobileMainPage" element={<MobileMainPage />} />
       </Routes>
     </div>
   );

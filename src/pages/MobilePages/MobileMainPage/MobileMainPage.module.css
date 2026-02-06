@@ -1,0 +1,65 @@
+.mainPage {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+}
+
+.releaseLogo {
+    width: 40px;
+    position: absolute;
+    bottom: 100%;
+}
+
+.sliderGrid {
+    display: grid;
+    position: relative;
+    grid-template-columns: 1fr 1fr;
+    align-content: start;
+}
+
+.pageOutline {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-content: start;
+}
+
+.loanStatusContent {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #636363;
+}
+
+.loanHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px;
+    background-color: #f7d15a;
+    border-bottom: 1px solid #636363;
+}
+
+.loanHeader button {
+    font-size: 1.25em;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.loanItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 21px;
+    margin: 0;
+}
+
+.loanItemDetails {
+    text-align: center;
+}
+
+.loanItemDetails > p {
+    margin: 0;
+}
+
