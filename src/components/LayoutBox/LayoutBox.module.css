@@ -9,6 +9,7 @@
     padding: 0;
     flex: 1;
     border-radius: 10px;
+    background-color: #fafafa;
 }
 
 .barHeader {

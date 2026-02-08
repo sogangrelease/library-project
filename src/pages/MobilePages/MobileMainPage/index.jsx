@@ -117,9 +117,6 @@ const MobileMainPage = () => {
                     <CategorySection key={category} category={category} />
                 ))}
             </div>
-            <aside>
-                <LoanStatusSidebar />
-            </aside>
         </MobilePage>
         /*
         <div className={styles.mainPage}>
