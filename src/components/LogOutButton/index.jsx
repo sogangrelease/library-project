@@ -1,4 +1,5 @@
 import styles from './LogOutButton.module.css';
+import { FiLogOut } from "react-icons/fi";
 
 const LogOutButton = ({ onLogout }) => {
     return (
@@ -7,7 +8,7 @@ const LogOutButton = ({ onLogout }) => {
             onClick={onLogout} 
             data-tooltip="Log Out"
         >
-            L
+            <FiLogOut size={24} style={{ marginLeft: '4px' }} />
         </button>
     );
 };

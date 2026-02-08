@@ -1,5 +1,6 @@
 import styles from './AddBoardButton.module.css';
 import { useNavigate } from 'react-router-dom';
+import { FaPlus } from "react-icons/fa6";
 
 function AddBoardButton() {
     const navigate = useNavigate();
@@ -10,7 +11,7 @@ function AddBoardButton() {
             onClick={() => navigate('/addboard')}
             data-tooltip="Add Board"
         >
-            A
+            <FaPlus size={22} />
         </button>
     );
 }

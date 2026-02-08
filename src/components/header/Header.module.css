@@ -1,25 +1,76 @@
 .header {
     display: flex;
     align-items: center;
-    margin: 39px;
+    margin: 20px;
+    position: relative;
 }
 
 .leftSection {
-    flex: 1;
-    display: flex;
-    align-items: center;
+    flex: 0 0 auto;
 }
 
 .centerSection {
-    flex: 3;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .rightSection {
-    flex: 1;
+    flex: 0 0 auto;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    position: relative;
+}
+
+.desktopButtons {
+    display: flex;
+    align-items: center;
+}
+
+.hamburgerButton {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    color: #333;
+}
+
+.mobileMenuDropdown {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+    min-width: 80px;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .header {
+        margin: 10px;
+        flex-wrap: nowrap; 
+    }
+
+    .desktopButtons {
+        display: none;
+    }
+
+    .hamburgerButton {
+        display: block;
+        margin-left: 10px;
+    }
+
+    .centerSection {
+        width: 100%;
+    }
 }

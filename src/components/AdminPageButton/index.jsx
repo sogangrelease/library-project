@@ -1,5 +1,6 @@
 import styles from './AdminPageButton.module.css';
 import { useNavigate } from 'react-router-dom';
+import { MdAdminPanelSettings } from "react-icons/md";
 
 function AdminPageButton() {
     const navigate = useNavigate();
@@ -10,7 +11,7 @@ function AdminPageButton() {
             onClick={() => navigate('/dashboard')}
             data-tooltip="Admin Page"
         >
-            A
+            <MdAdminPanelSettings size={26} />
         </button>
     );
 }

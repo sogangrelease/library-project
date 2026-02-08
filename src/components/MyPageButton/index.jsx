@@ -1,5 +1,6 @@
 import styles from './MyPageButton.module.css';
 import { useNavigate } from 'react-router-dom';
+import { FaUser } from "react-icons/fa";
 
 const MyPageButton = () => {
     const navigate = useNavigate();
@@ -8,9 +9,9 @@ const MyPageButton = () => {
         <button 
             className={styles.circleButton} 
             onClick={() => navigate('/mypage')}
-            data-tooltip="My Page" // 말풍선에 뜰 텍스트
+            data-tooltip="My Page"
         >
-            M
+            <FaUser size={22} />
         </button>
     );
 };

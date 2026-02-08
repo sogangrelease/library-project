@@ -8,13 +8,19 @@ const SearchBar = ({ categories }) => {
     const [selectedCategory, setSelectedCategory] = useState('');
     const navigate = useNavigate();
 
-    const navTo = (path) => {
-        navigate(path);
-    }
-    
+    const handleSearch = () => {
+        navigate(`/search?keyword=${searchTerm}&category=${selectedCategory}&page=1`);
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
+    };
+
     const handleCategoryChange = (e) => {
         setSelectedCategory(e.target.value);
-    }
+    };
 
     return (
         <div className={styles.searchBar}>
@@ -33,9 +39,12 @@ const SearchBar = ({ categories }) => {
                 placeholder="Search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyPress={handleKeyPress}
                 className={styles.searchInput}
             />
-            <button onClick={() => navTo(`/search?keyword=${searchTerm}&category=${selectedCategory}&page=1`)}className={styles.searchButton}><IoSearch></IoSearch></button>
+            <button onClick={handleSearch} className={styles.searchButton}>
+                <IoSearch />
+            </button>
         </div>
     );
 }
