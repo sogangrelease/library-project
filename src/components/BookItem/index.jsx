@@ -10,7 +10,7 @@ const BookItem = ({ book }) => {
   }
 
   return (
-    <button onClick={() => navTo(`/detail/${book.id}`)}className={styles.bookItem}>
+    <button onClick={() => navTo(`/detail/${book.id}`)} className={styles.bookItem} title={book.titleMain}>
         <div className={styles.bookCover}>
             <img src={book.coverUrl || `https://placehold.co/200x300/e0e0e0/909090?text=${book.title}`} alt={`${book.title} cover`} />
         </div>
