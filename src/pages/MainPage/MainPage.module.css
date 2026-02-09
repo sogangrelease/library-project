@@ -1,4 +1,5 @@
 .mainPage {
+    margin-top: 60px;
     display: grid;
     grid-template-columns: 1fr 300px;
     padding: 24px;
@@ -55,3 +56,12 @@
     margin: 0;
 }
 
+@media (max-width: 768px) {
+    .mainPage {
+        grid-template-columns: 1fr; 
+    }
+
+    .sliderGrid {
+        grid-template-columns: 1fr; 
+    }
+}
