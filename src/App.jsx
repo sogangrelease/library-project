@@ -10,6 +10,7 @@ import LayoutedMainPage from '@/pages/LayoutedPages/LayoutedMainPage'
 import LayoutedMyPage from '@/pages/LayoutedPages/LayoutedMyPage'
 import LayoutedBookDetail from '@/pages/LayoutedPages/LayoutedBookDetail';
 import MobileMainPage from '@/pages/MobilePages/MobileMainPage'
+import MobileMyPage from '@/pages/MobilePages/MobileMyPage'
 import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/LayoutedMyPage" element={<LayoutedMyPage />} />
         <Route path="/LayoutedBookDetail" element={<LayoutedBookDetail />} />
         <Route path="/MobileMainPage" element={<MobileMainPage />} />
+        <Route path="/MobileMyPage" element={<MobileMyPage />} />
       </Routes>
     </div>
   );
