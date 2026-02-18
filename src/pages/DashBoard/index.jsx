@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import api from '@/api/axios';
 import styles from './DashBoard.module.css';
 import { IoArrowBackCircleOutline, IoArrowForwardCircleOutline, IoArrowDownCircleOutline } from "react-icons/io5";
-import releaseLogo from '../../assets/release-black-small.webp'; 
+import releaseLogo from '@/assets/release-black-small.webp'; 
+import BookImage from '@/components/BookImage';
 
 const BookSection = ({ title, headerStyle, books, onReturn }) => {
   const listRef = useRef(null);
@@ -47,17 +48,7 @@ const BookSection = ({ title, headerStyle, books, onReturn }) => {
         className={styles.bookItemContainer}
         onClick={() => handleBookClick(book)}
       >
-        {book.coverUrl ? (
-          <img 
-            src={book.coverUrl} 
-            alt={book.title} 
-            className={styles.bookPlaceholder} 
-            style={{ objectFit: 'cover' }}
-          />
-        ) : (
-          <div className={styles.bookPlaceholder} />
-        )}
-        
+        <BookImage src={book.coverUrl} alt={book.title} />        
         {/* 책 정보 표시 */}
         <div className={styles.bookInfo}>
           <p className={styles.bookTitle}>{book.title}</p>

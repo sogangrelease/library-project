@@ -123,7 +123,7 @@ function LayoutedMyPage() {
         <li key = {book.borrowId} className={styles.bookItem}>
             <div className={styles.bookimage}>
                 {/* book.coverUrl이 없거나 오류 발생 시 기본 이미지 처리가 필요할 수 있습니다. */}
-                <img src={book.coverUrl} alt={`Cover image of ${book.titleMain}`} height={180} />
+                <BookImage src={book.coverUrl} alt={`Cover image of ${book.titleMain}`} height={180} />
             </div>
             <div className={styles.bookinfo}>
                 <p><b>{book.titleMain}</b></p>

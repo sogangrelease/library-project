@@ -6,6 +6,7 @@ import api from '@/api/axios.js';
 import MemberInfoDialog from '@/components/MemberInfoDialog';
 import MemberCreateModal from '@/components/MemberCreateModal';
 import BookCreateModal from '@/components/BookCreateModal';
+import BookImage from '@/components/BookImage';
 
 function ShowMemberList({ refetchKey }) {
     
@@ -124,7 +125,7 @@ function ShowBookList({ refetchKey }) {
     const books = dataBooks.map(book =>
         <li key = {book.id} className={styles.bookItem}>
             <div className={styles.bookimage}>
-                <img src={book.coverUrl || "example_book.png"} alt="Cover image of book" height={180} />
+                <BookImage src={book.coverUrl} alt={book.titleMain} height={180} />
             </div>
             <div className={styles.bookinfo}>
                 <p><b>{book.titleMain}</b></p>
@@ -132,7 +133,7 @@ function ShowBookList({ refetchKey }) {
                 <p>{book.returnAt?.slice(0, 10)}</p>
             </div>
             <button className={styles.deleteButton} onClick={() => handleDeleteBook(book.id, book.titleMain)}>X</button>
-        </li>
+        </li> 
     );
     
     return <ul className={styles.bookList}>

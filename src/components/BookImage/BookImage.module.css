@@ -1,0 +1,19 @@
+.bookImage {
+  width: 100px;
+  height: 150px;
+  border-radius: 5px;
+  object-fit: cover;
+  background-color: #e0e0e0;
+  box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+  aspect-ratio: 2 / 3;
+}
+
+.bookImage img {
+  width: 100px !important;
+  height: 150px !important;
+  border-radius: 5px;
+  object-fit: cover;
+  background-color: #e0e0e0;
+  flex-shrink: 0;
+}

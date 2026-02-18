@@ -1,6 +1,7 @@
 import styles from './MyPage.module.css'; 
 import { useState, useEffect } from 'react'; 
 import api from '@/api/axios';
+import BookImage from '@/components/BookImage';
 import { Link, useNavigate } from 'react-router-dom'; // ✅ useNavigate 추가
 import { useCookies } from 'react-cookie';
 import releaseLogo from '@/assets/release-black-small.webp';
@@ -121,7 +122,7 @@ function MyPage() {
         <li key = {book.borrowId} className={styles.bookItem}>
             <div className={styles.bookimage}>
                 {/* book.coverUrl이 없거나 오류 발생 시 기본 이미지 처리가 필요할 수 있습니다. */}
-                <img src={book.coverUrl} alt={`Cover image of ${book.titleMain}`} height={180} />
+                <BookImage src={book.coverUrl} alt={`Cover image of ${book.titleMain}`} height={180} />
             </div>
             <div className={styles.bookinfo}>
                 <p><b>{book.titleMain}</b></p>
