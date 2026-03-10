@@ -25,7 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/member")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://library.aws.riverfog7.com"})
 public class MemberController {
     private final MemberService memberService;
     private final AuthenticationManager authenticationManager; // 주입

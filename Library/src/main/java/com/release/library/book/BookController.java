@@ -19,7 +19,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/books")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://library.aws.riverfog7.com"})
 public class BookController {
 
     private final BookService bookService;

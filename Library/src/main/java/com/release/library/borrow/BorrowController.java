@@ -21,7 +21,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://library.aws.riverfog7.com"})
 public class BorrowController {
     private final BorrowService borrowService;
     private final MemberService memberService;

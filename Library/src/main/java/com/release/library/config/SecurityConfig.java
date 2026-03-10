@@ -84,7 +84,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // React 개발 서버 Origin
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedOrigins(List.of("http://localhost:5173", "https://library.aws.riverfog7.com"));
         // 모든 HTTP 메서드 허용 (OPTIONS 포함)
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         // 모든 헤더 허용 (Authorization 포함)
