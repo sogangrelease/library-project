@@ -1,0 +1,51 @@
+services:
+  mariadb:
+    image: mariadb:11.2
+    container_name: library-mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: fajweofljaweoifeejwal
+      MYSQL_DATABASE: library_project
+      MYSQL_USER: library_user
+      MYSQL_PASSWORD: library_pass
+    ports:
+      - "13306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - library-network
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: library-backend
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_NAME: library_project
+      DB_USER: root
+      DB_PASSWORD: fajweofljaweoifeejwal
+      PORT: 1234
+    ports:
+      - "1234:1234"
+    networks:
+      - library-network
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+networks:
+  library-network:
+    driver: bridge
+
+volumes:
+  mariadb_data:
+    driver: local
