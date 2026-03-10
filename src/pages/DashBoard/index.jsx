@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '@/api/axios';
-import styles from './DashBoard.module.css';
+import styles from './Dashboard.module.css';
 import { IoArrowBackCircleOutline, IoArrowForwardCircleOutline, IoArrowDownCircleOutline } from "react-icons/io5";
 import releaseLogo from '@/assets/release-black-small.webp'; 
 import BookImage from '@/components/BookImage';
