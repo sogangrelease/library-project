@@ -97,7 +97,7 @@ function LayoutedBookDetail() {
         <section className={styles.bookDetailsSection}>
           {bookInfo.coverImage ? (
             <img
-              src={bookInfo.coverImage}
+              src={`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'}/${bookInfo.coverImage}`}
               alt={bookInfo.title}
               className={styles.bookCover}
             />
