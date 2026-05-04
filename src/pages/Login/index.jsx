@@ -50,8 +50,8 @@ function Login() {
           <img src={releaseLogo} alt="Release logo" className={styles.releaseLogo} />
           <h1 className={styles.name}>Release Library</h1>
         </div>
-        <input className={styles.input} type='text' value={id} onChange={() => setId(event.target.value)} placeholder='아이디' name='아이디' prefix='아이디' required/>
-        <input className={styles.input} type='password' value={pw} onChange={() => setPw(event.target.value)} placeholder='비밀번호' name='비밀번호' required />
+        <input className={styles.input} type='text' value={id} onChange={(e) => setId(e.target.value)} placeholder='아이디' name='아이디' prefix='아이디' required/>
+        <input className={styles.input} type='password' value={pw} onChange={(e) => setPw(e.target.value)} placeholder='비밀번호' name='비밀번호' required />
         <button className={styles.button} type='button' name='로그인' onClick={() => submit(id, pw)}>로그인</button>
       </div>
     </div>;

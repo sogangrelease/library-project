@@ -11,6 +11,7 @@ import LayoutedMyPage from '@/pages/LayoutedPages/LayoutedMyPage'
 import LayoutedBookDetail from '@/pages/LayoutedPages/LayoutedBookDetail';
 import MobileMainPage from '@/pages/MobilePages/MobileMainPage'
 import MobileMyPage from '@/pages/MobilePages/MobileMyPage'
+import ProtectedRoute from '@/components/ProtectedRoute';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 
@@ -27,17 +28,17 @@ const App = () => {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/search" element={<SearchPage />} />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage" element={<ProtectedRoute><MyPage /></ProtectedRoute>} />
         <Route path="/book/:id" element={<BookDetail />} />
-        <Route path="/dashboard" element={<DashBoard />} />
-        <Route path="/addboard" element={<AddBoard />} />
+        <Route path="/dashboard" element={<ProtectedRoute><DashBoard /></ProtectedRoute>} />
+        <Route path="/addboard" element={<ProtectedRoute><AddBoard /></ProtectedRoute>} />
         <Route path="/login" element={<Login />} />
         <Route path="/detail/:id" element={<BookDetail />} />
         <Route path="/LayoutedMainPage" element={<LayoutedMainPage />} />
-        <Route path="/LayoutedMyPage" element={<LayoutedMyPage />} />
+        <Route path="/LayoutedMyPage" element={<ProtectedRoute><LayoutedMyPage /></ProtectedRoute>} />
         <Route path="/LayoutedBookDetail" element={<LayoutedBookDetail />} />
         <Route path="/MobileMainPage" element={<MobileMainPage />} />
-        <Route path="/MobileMyPage" element={<MobileMyPage />} />
+        <Route path="/MobileMyPage" element={<ProtectedRoute><MobileMyPage /></ProtectedRoute>} />
       </Routes>
     </div>
   );
